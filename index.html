@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="クラシックの抑揚とジャズのアーティキュレーションを、頂点・アクセント選びと聴き比べで練習するドリル。">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>フレージング道場</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Music&display=swap">
+<style>
+/* Layout: one centered practice column — score sheet card on top, principle index below. */
+:root{
+  --bg:#EEF0F4; --panel:#FFFFFF; --ink:#1B2130; --muted:#5B6274; --line:#D6DAE3;
+  --accent:#3646A3; --accent-soft:#E2E5F6; --good:#24795A; --good-soft:#DFF1E8;
+  --warn:#A9562A; --warn-soft:#F7E7DD; --c2:#B0602A; --c3:#25817F;
+  --f-display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --f-music:"Noto Music","Bravura","Segoe UI Symbol","Apple Symbols",serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11141B; --panel:#1A1E28; --ink:#E5E8EF; --muted:#9AA1B3; --line:#2E3443;
+  --accent:#9AA6FF; --accent-soft:#272D4C; --good:#62C796; --good-soft:#1D3329;
+  --warn:#E89C6A; --warn-soft:#3A2A20; --c2:#E39A63; --c3:#5CC6C2; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#11141B; --panel:#1A1E28; --ink:#E5E8EF; --muted:#9AA1B3; --line:#2E3443;
+  --accent:#9AA6FF; --accent-soft:#272D4C; --good:#62C796; --good-soft:#1D3329;
+  --warn:#E89C6A; --warn-soft:#3A2A20; --c2:#E39A63; --c3:#5CC6C2; color-scheme:dark }
+
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header.top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+h1{font-family:var(--f-display);font-weight:800;font-size:1.9rem;margin:0;letter-spacing:.04em;text-wrap:balance}
+.sub{margin:0;color:var(--muted);font-size:.92rem}
+.score{margin-left:auto;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--panel)}
+.seg button{border:0;background:none;color:var(--muted);font:inherit;font-weight:700;padding:6px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--accent);color:var(--panel)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:.82rem;padding:4px 11px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:700}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.card-head{display:flex;align-items:center;gap:10px 12px;flex-wrap:wrap}
+.tag{font-family:var(--f-display);font-weight:800;font-size:1.15rem}
+.tag small{font-family:var(--f-body);font-weight:500;font-size:.78rem;letter-spacing:.08em;color:var(--accent);margin-right:8px}
+.count{margin-left:auto;color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+.pdesc{margin:-6px 0 0;color:var(--muted);font-size:.9rem}
+
+.scroller{overflow-x:auto;margin:0 -6px;padding:0 6px}
+.scroller svg{display:block;width:100%;min-width:520px;height:auto}
+.staff-line,.bar-line,.ledger{stroke:var(--ink);stroke-width:1}
+.staff-line{opacity:.55}
+.bar-line.end{stroke-width:3}
+.glyph{fill:var(--ink)}
+.chord{fill:var(--muted);font-family:var(--f-body);font-size:11px;font-weight:700}
+.note .head{fill:var(--ink);stroke:var(--ink);stroke-width:1.5}
+.note .head.hollow{fill:var(--panel)}
+.note .stem,.note .flag{stroke:var(--ink);stroke-width:1.3;fill:none}
+.note .dot,.note .acc{fill:var(--ink)}
+.note .hit{fill:transparent;cursor:pointer}
+.note .ring{fill:none;stroke:transparent;stroke-width:2}
+.pickable .note:hover .head{fill:var(--accent);stroke:var(--accent)}
+.pickable .note:hover .head.hollow{fill:var(--accent-soft)}
+.note.sounding .head{fill:var(--accent);stroke:var(--accent)}
+.note.sounding .head.hollow{fill:var(--accent-soft)}
+.note.chosen .head{fill:var(--warn);stroke:var(--warn)}
+.note.chosen .head.hollow{fill:var(--warn-soft)}
+.note.chosen.right .head{fill:var(--good);stroke:var(--good)}
+.note.chosen.right .head.hollow{fill:var(--good-soft)}
+.note.best .ring{stroke:var(--good)}
+.note.alt .ring{stroke:var(--good);stroke-dasharray:3 3}
+
+.curve-grid{stroke:var(--line);stroke-width:1}
+.curve-label{fill:var(--muted);font-size:10px;font-family:var(--f-body)}
+.curve-line{fill:none;stroke-width:2.2;stroke-linejoin:round}
+.curve-dot{stroke:var(--panel);stroke-width:1.5}
+
+.prompt{margin:0;font-size:.95rem}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font:inherit;font-weight:700;font-size:.9rem;border-radius:9px;padding:8px 14px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.btn.ghost{border-color:transparent;color:var(--muted)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn .tri{width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.opt{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:0}
+.opt .lbl{font-family:var(--f-display);font-weight:800;font-size:1.4rem;line-height:1;display:flex;align-items:center;gap:8px}
+.opt .sw{width:18px;height:4px;border-radius:2px;display:none}
+.answered .opt .sw{display:inline-block}
+.opt.picked{border-color:var(--warn)}
+.opt.model{border-color:var(--good);background:var(--good-soft)}
+.opt .what{font-size:.82rem;color:var(--muted);min-height:1.2em}
+
+.feedback{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px}
+.verdict{font-family:var(--f-display);font-weight:800;font-size:1.15rem;margin:0}
+.verdict.good{color:var(--good)} .verdict.mid{color:var(--accent)} .verdict.bad{color:var(--warn)}
+.feedback p{margin:0;max-width:65ch}
+.feedback .hint{color:var(--muted)}
+.vlist{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.vlist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;padding:8px 10px;border-radius:9px;background:var(--bg)}
+.vlist .k{font-family:var(--f-display);font-weight:800}
+.vlist b{font-weight:700}
+.nav{display:flex;gap:6px}
+.nav .btn{padding:6px 12px;font-size:.85rem}
+.nav .btn.next{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+.principles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px;padding:4px 2px}
+.principles h2{grid-column:1/-1;font-family:var(--f-display);font-size:1.05rem;margin:0}
+.pr{display:grid;grid-template-columns:2em minmax(0,1fr);gap:4px;font-size:.88rem}
+.pr .n{font-family:var(--f-display);font-weight:800;color:var(--accent);font-size:1.1rem;line-height:1.5}
+.pr b{display:block}
+.pr span{color:var(--muted)}
+.note-foot{font-size:.82rem;color:var(--muted);margin:0;max-width:70ch}
+@media (max-width:620px){
+  .opts{grid-template-columns:minmax(0,1fr)}
+  .opt{flex-direction:row;flex-wrap:wrap;align-items:center}
+  .opt .what{flex-basis:100%}
+  .principles{grid-template-columns:minmax(0,1fr)}
+  .card{padding:16px 14px}
+  .score{margin-left:0;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+svg[hidden]{display:none}
+.seg.style button[aria-selected="true"]{background:var(--ink);color:var(--panel)}
+.toggle{margin-left:auto}
+.beam{fill:var(--ink)}
+.rest{fill:var(--ink);stroke:var(--ink)}
+.rest-q{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.tie{fill:none;stroke:var(--ink);stroke-width:1.4}
+.mark{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.mark.light{opacity:.4}
+.mark.user{stroke:var(--accent)}
+.paren{fill:var(--ink);font-size:15px;font-family:Georgia,serif}
+.paren.user{fill:var(--accent)}
+.sdot{fill:var(--ink)}
+.note.sel-a .head,.note.sel-g .head{fill:var(--accent);stroke:var(--accent)}
+.note.sel-g .head{opacity:.55}
+.note.missed .ring{stroke:var(--good)}
+.note.extra .head{fill:var(--warn);stroke:var(--warn)}
+.note.hit .head{fill:var(--good);stroke:var(--good)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--muted)}
+.legend b{color:var(--ink);font-family:Georgia,serif;font-weight:700;margin-right:3px}
+.tally{display:flex;flex-wrap:wrap;gap:8px}
+.tally span{font-size:.85rem;padding:3px 10px;border-radius:999px;background:var(--bg);font-variant-numeric:tabular-nums}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>フレージング道場</h1>
+    <p class="sub" id="sub">解釈編｜旋律のどこに重みを置くか</p>
+    <p class="score" id="score"></p>
+  </header>
+
+  <div class="bar">
+    <div class="seg style" role="tablist" aria-label="スタイル">
+      <button id="style-c" role="tab" aria-selected="true" data-style="c">クラシック</button>
+      <button id="style-j" role="tab" aria-selected="false" data-style="j">ジャズ</button>
+    </div>
+    <div class="seg" role="tablist" aria-label="問題の形式">
+      <button id="mode-peak" role="tab" aria-selected="true" data-mode="peak">山はどこ？</button>
+      <button id="mode-cmp" role="tab" aria-selected="false" data-mode="cmp">聴き比べ</button>
+    </div>
+    <button class="chip toggle" id="rhythm" aria-pressed="true" hidden>リズム隊あり</button>
+  </div>
+  <div class="chips" id="filters" aria-label="原則で絞り込む"></div>
+
+  <main class="card" id="card">
+    <div class="card-head">
+      <span class="tag" id="tag"></span>
+      <span class="count" id="count"></span>
+      <div class="nav">
+        <button class="btn" id="prev">← 前へ</button>
+        <button class="btn next" id="next">次へ →</button>
+      </div>
+    </div>
+    <p class="pdesc" id="pdesc"></p>
+    <div class="scroller">
+      <svg id="staff" aria-label="楽譜"></svg>
+      <svg id="curve" aria-label="強弱の曲線" hidden></svg>
+    </div>
+    <p class="prompt" id="prompt"></p>
+    <div id="controls"></div>
+    <section class="feedback" id="feedback" hidden></section>
+  </main>
+
+  <section class="principles" id="principles"><h2 id="pr-title"></h2></section>
+  <p class="note-foot" id="foot"></p>
+</div>
+
+<script>
+/* ================= data ================= */
+const PRS = {
+ c:{
+  1:{name:'弓なり形と終止', desc:'フレーズは中ほどで高まり、終わりで収まる。'},
+  2:{name:'跳躍と最高音', desc:'大きな跳躍の到達点や、強拍に来る最高音に重心が来やすい。短い飾りの音は別。'},
+  3:{name:'倚音と解決', desc:'和音とぶつかる強拍の音（倚音）に重みを置き、解決音で力を抜く。'},
+  4:{name:'和声の緊張', desc:'同じ高さの音でも、下の和音の緊張が強いほど重くなる。'},
+  5:{name:'弱起', desc:'弱起の音は次の拍頭へ流れ込む。強く弾くと拍がずれて聞こえる。'},
+  6:{name:'反復音', desc:'同じ音を並べたままにしない。少しずつ次の音へ向かわせる。'}
+ },
+ j:{
+  1:{name:'裏拍のアクセント', desc:'8分音符のラインでは、裏拍の音に軽くアクセントを置き、表拍は軽く流す。'},
+  2:{name:'線の頂点', desc:'上行して折り返す一番上の音にアクセントを置く。拍の表か裏かには関係しない。'},
+  3:{name:'先取り', desc:'拍頭を8分音符ひとつ早く食って入る音にアクセントを置き、タイで伸ばす。'},
+  4:{name:'ゴーストノート', desc:'谷になった低い表拍の音を、ほとんど聞こえないくらいに弱く弾く。'},
+  5:{name:'短い終わり', desc:'フレーズの最後の音は長く伸ばさず、短く切ってアクセントを付ける。'}
+ }
+};
+const TEXT = {
+ c:{sub:'解釈編｜旋律のどこに重みを置くか', modeA:'山はどこ？', prTitle:'6つの原則',
+    foot:'模範の抑揚は「筋の通った読み方の一例」です。点線の丸は別解として成り立つ音を示します。違う答えを選んだときは、その理由を自分の言葉で説明できるかを考えてみてください。'},
+ j:{sub:'ジャズ編｜スウィングの8分音符をどう弾き分けるか', modeA:'アクセントはどこ？', prTitle:'5つの原則（スウィング）',
+    foot:'ジャズのアーティキュレーションは奏者やスタイルで大きく変わります。ここで扱うのはスウィングやビバップの8分音符ラインの基本的な型です。薄い「>」は、付けても付けなくてもよい軽い持ち上げを表し、採点には含めません。'}
+};
+
+// classical note: [name, beats, flag]  flag: a=倚音, r=解決音, p=弱起
+const CLASSICAL = [
+ {id:'1-1',pr:1,ts:[4,4],bpm:84,pickup:0,
+  bars:[[['C4',1],['D4',1],['E4',1],['F4',1]],[['G4',2],['A4',1],['G4',1]],[['F4',1],['E4',1],['D4',2]],[['C4',4]]],
+  peak:5, alt:{4:'G4は小節頭の長い音で重みがあります。ここから山が始まり、A4で頂点に届くと考えると流れが続きます。'},
+  why:'A4はフレーズの最高音で、全体の中ほどにあります。順次上行してきた勢いがここで頂点に達し、後半は下行して主音C4に収まります。',
+  dist:[{t:'flat'},{t:'end'}]},
+ {id:'1-2',pr:1,ts:[3,4],bpm:96,pickup:0,
+  bars:[[['E4',1],['G4',1],['C5',1]],[['E5',2],['D5',1]],[['C5',1],['B4',1],['A4',1]],[['G4',3]]],
+  peak:3, alt:{},
+  why:'E5は最高音で、しかも2小節目の1拍目（強拍）に来ます。分散和音で駆け上がった到達点です。そこから順次下行してG4で半終止します。G4は主音ではないので、収めつつも閉じ切らない程度に。',
+  dist:[{t:'peakAt',at:2,why:'C5は上行の途中です。ここを山にすると、E5に着いたときにはもう下り坂になり、到達点が生きません。'},{t:'flat'}]},
+ {id:'2-1',pr:2,ts:[4,4],bpm:80,pickup:0,
+  bars:[[['C4',1],['E4',1],['D4',1],['C4',1]],[['A4',2],['G4',1],['F4',1]],[['E4',1],['F4',1],['E4',1],['D4',1]],[['C4',4]]],
+  peak:4, alt:{},
+  why:'C4からA4へ6度の跳躍があります。跳躍は旋律の中で最もエネルギーを使う動きで、着地した音が自然に山になります。小節頭の長い音で、最高音でもあります。',
+  dist:[{t:'peakAt',at:1,why:'E4は冒頭の小さな動きです。ここに山を置くと、後の大きな跳躍が弱く聞こえます。'},{t:'flat'}]},
+ {id:'2-2',pr:2,ts:[4,4],bpm:76,pickup:0,
+  bars:[[['E4',2],['C5',2]],[['B4',1],['C5',.5],['D5',.5],['C5',1],['A4',1]],[['G4',1],['F4',1],['E4',1],['D4',1]],[['C4',4]]],
+  peak:1, alt:{},
+  why:'E4からC5への6度跳躍が、このフレーズの骨格です。最高音はD5ですが、これは8分音符の弱拍に置かれた刺繍音（飾りの音）で、軽く通過します。最高音でも、短い飾りの音は山になりにくいという例です。',
+  dist:[{t:'peakAt',at:4,why:'8分音符のD5を山にすると、飾りの音だけが突出して、旋律の骨格（E4→C5の跳躍）がぼやけます。'},{t:'end'}]},
+ {id:'3-1',pr:3,ts:[4,4],bpm:72,pickup:0,key:'C',
+  bars:[[['E4',1],['G4',1],['C5',1],['E5',1]],[['C5',2,'a'],['B4',2,'r']],[['C5',4]]],
+  chords:[[0,4,'I',['C3','G3','C4']],[4,4,'V',['G2','D3','B3']],[8,4,'I',['C3','G3','E4']]],
+  peak:4, alt:{3:'E5は最高音です。ここを頂点とし、2小節目の倚音は「重さ」で示す（音量は少し下げても、解決音よりは強く）という読み方も成り立ちます。'},
+  why:'2小節目頭のC5は、V（ソ・シ・レ）の上で鳴る和音外音（倚音）です。シとぶつかって緊張が生まれ、次のB4で解決します。最高音のE5より、この不協和の瞬間の方が重く、解決音B4では力を抜きます。',
+  dist:[{t:'resLoud'},{t:'flat'}]},
+ {id:'3-2',pr:3,ts:[3,4],bpm:80,pickup:0,key:'a',
+  bars:[[['A4',1],['E5',1],['A5',1]],[['F5',2,'a'],['E5',1,'r']],[['C5',2],['B4',1]],[['A4',3]]],
+  chords:[[0,3,'I',['A2','E3','C4']],[3,3,'V',['E2','B2','G#3']],[6,6,'I',['A2','E3','C4']]],
+  peak:3, alt:{2:'A5は最高音で、跳躍の到達点でもあります。ここを頂点とし、F5は和声的な重みで支えるという読み方もあります。'},
+  why:'F5はV（ミ・ソ♯・シ）の上の倚音で、ミと半音でぶつかる強い不協和です。しかも小節頭の長い音です。直前のA5は最高音ですが、主和音の分散和音なので響きは安定しています。緊張の頂点はF5で、E5へ解決して力が抜けます。',
+  dist:[{t:'resLoud'},{t:'end'}]},
+ {id:'4-1',pr:4,ts:[4,4],bpm:66,pickup:0,key:'C',
+  bars:[[['E4',2],['G4',2]],[['A4',2],['C5',2]],[['C5',2],['A4',2]],[['B4',4]]],
+  chords:[[0,4,'I',['C3','G3','C4']],[4,4,'IV',['F2','C3','A3']],[8,4,'V⁷/V',['D2','A2','F#3']],[12,4,'V',['G2','D3','G3']]],
+  peak:4, alt:{3:'直前のC5も最高音です。ここから大きくしておき、次の和音の変化で頂点に届く、とつなげる弾き方も自然です。'},
+  why:'3小節目頭のC5は直前と同じ音ですが、下の和音がドッペルドミナント（V⁷/V：レ・ファ♯・ラ・ド）に変わります。C5は第7音になり、ファ♯との間に増4度の緊張が生まれます。同じ高さの音でも、和声で重さが変わる例です。',
+  dist:[{t:'flat'},{t:'end'}]},
+ {id:'4-2',pr:4,ts:[4,4],bpm:63,pickup:0,key:'C',
+  bars:[[['C5',2],['C5',2]],[['C5',2],['C5',2]],[['B4',4]],[['C5',4]]],
+  chords:[[0,2,'I',['C3','G3','E4']],[2,2,'IV',['F2','A3','C4']],[4,2,'II⁷',['D2','A3','F4']],[6,2,'V⁷/V',['D2','A3','F#4']],[8,4,'V',['G2','D3','G3']],[12,4,'I',['C3','G3','E4']]],
+  peak:3, alt:{2:'II⁷の上のC5も第7音で緊張があります。ここから山が始まり、次の和音でさらに高まると考えるとよいでしょう。'},
+  why:'旋律はずっとC5ですが、下の和音が I → IV → II⁷ → V⁷/V と動き、だんだん緊張が高まります。ファ♯が加わる V⁷/V の瞬間が頂点です。そこからV（B4）へ、さらにIへ解決します。',
+  dist:[{t:'flat'},{t:'peakAt',at:0,why:'1小節目のC5は主和音の上で、最も安定した響きです。ここを山にすると、和声の緊張の高まりと逆行します。'}]},
+ {id:'5-1',pr:5,ts:[4,4],bpm:88,pickup:1,
+  bars:[[['G4',1,'p']],[['C5',1],['D5',1],['E5',1],['C5',1]],[['F5',2],['E5',1],['D5',1]],[['C5',3]]],
+  peak:5, alt:{},
+  why:'F5は最高音で、2小節目の強拍に来ます。冒頭のG4は弱起（アウフタクト）で、次の小節頭C5に向かって流れ込む音です。弱起は強く弾かず、拍頭へ向けて軽く入ります。',
+  dist:[{t:'pickupAccent'},{t:'end'}]},
+ {id:'5-2',pr:5,ts:[3,4],bpm:92,pickup:1,
+  bars:[[['E4',.5,'p'],['F4',.5,'p']],[['G4',2],['E5',1]],[['D5',1],['C5',1],['B4',1]],[['C5',2]]],
+  peak:3, alt:{4:'D5は小節頭（強拍）です。E5を弱拍の「助走」とみて、D5を拍節上の頂点とする読み方もあります。'},
+  why:'E5は6度の跳躍で到達する最高音です。3拍目の弱拍ですが、それ自体が次の小節へ向かう小さな弱起になっていて、ここで張ったエネルギーをD5以下でほどいていきます。冒頭の8分音符2つも弱起なので軽く入ります。',
+  dist:[{t:'pickupAccent'},{t:'flat'}]},
+ {id:'6-1',pr:6,ts:[4,4],bpm:92,pickup:0,
+  bars:[[['E4',1],['E4',1],['E4',1],['F4',1]],[['G4',1],['G4',1],['G4',1],['A4',1]],[['B4',1],['C5',1],['D5',2]],[['C5',4]]],
+  peak:10, alt:{},
+  why:'同じ音を並べたままだと、旋律が止まって聞こえます。ここではE→G→Bと反復の塊が順に上がり、D5で頂点に達します。反復音は1つずつ少しずつ大きくし、次の音へ向かう方向を与えます。',
+  dist:[{t:'flat'},{t:'peakAt',at:0,why:'冒頭の反復音を強く始めると、上行していく先の伸びしろがなくなります。'}]},
+ {id:'6-2',pr:6,ts:[4,4],bpm:84,pickup:0,
+  bars:[[['A4',1],['A4',1],['A4',1],['G4',1]],[['F4',1],['F4',1],['F4',1],['E4',1]],[['D4',2],['E4',1],['D4',1]],[['C4',4]]],
+  peak:0, alt:{1:'冒頭のA4の塊全体を山と考えれば、どの音を頂点としても筋は通ります。そこから下りていきます。',2:'冒頭のA4の塊全体を山と考えれば、どの音を頂点としても筋は通ります。G4への寄りかかりを重く見る読み方です。'},
+  why:'下降型のフレーズで、頂点は冒頭にあります。A→F→Dと反復の塊が3度ずつ下がり、全体としては力を抜いていきます。ただし各塊の中の反復音は平らにせず、少しずつ次の音へ寄りかかるようにすると、下降に推進力が残ります。',
+  dist:[{t:'end'},{t:'flat'}]}
+];
+
+// jazz note: [name|'r', beats, flags]  A=アクセント, o=軽い持ち上げ（任意）, g=ゴースト, s=短く, t=タイ始点, c=タイの続き
+const JAZZ = [
+ {id:'J1-1',pr:1,bpm:132,chords:[[0,4,'Dm7'],[4,4,'G7']],
+  bars:[[['F4',.5],['A4',.5,'A'],['G4',.5],['F4',.5,'A'],['E4',.5],['F4',.5,'A'],['G4',.5],['A4',.5,'A']],
+        [['G4',.5],['F4',.5,'A'],['E4',.5],['D4',.5,'A'],['E4',1,'As'],['r',1]]],
+  why:'はっきりした頂点のない、狭い音域を行き来する8分音符のラインです。こういうラインでは裏拍の音に軽くアクセントを置き、表拍の音は軽く流します。「ドゥ・バ・ドゥ・バ」と口で言うと「バ」に当たる音です。強くしすぎず、ハネを感じさせる程度で十分です。最後のE4は短く切ってアクセントを付けます。',
+  dist:[{t:'classical'},{t:'flat'}]},
+ {id:'J1-2',pr:1,bpm:144,chords:[[0,4,'C6'],[4,4,'Am7']],
+  bars:[[['r',.5],['E4',.5,'A'],['G4',.5],['A4',.5,'A'],['G4',.5],['E4',.5,'A'],['D4',.5],['E4',.5,'A']],
+        [['G4',.5],['E4',.5,'A'],['D4',.5],['C4',.5,'As'],['r',2]]],
+  why:'休符のあと、裏拍から始まるラインです。最初のE4から裏拍ごとに軽いアクセントが続きます。表拍の音（G4、D4など）を軽くすると、ラインがはねて前へ進みます。最後のC4は裏拍で短く切ります。',
+  dist:[{t:'classical'},{t:'straight'}]},
+ {id:'J2-1',pr:2,bpm:138,chords:[[0,4,'Fmaj7'],[4,2,'Gm7'],[6,2,'C7']],
+  bars:[[['C4',.5],['D4',.5,'o'],['E4',.5],['F4',.5,'o'],['A4',.5],['C5',.5,'o'],['E5',.5,'A'],['D5',.5]],
+        [['C5',.5],['A4',.5,'o'],['Bb4',.5],['G4',.5,'o'],['E4',1,'As'],['r',1]]],
+  why:'上行して折り返す線の一番上の音、E5にアクセントを置きます。E5は表拍ですが、線の頂点は拍の表か裏かに関係なく強くなります。そこまでの裏拍は軽く持ち上げる程度にとどめ、頂点を目立たせます。',
+  dist:[{t:'noPeak'},{t:'classical'}]},
+ {id:'J2-2',pr:2,bpm:150,chords:[[0,4,'Dm7'],[4,4,'G7']],
+  bars:[[['A4',.5],['C5',.5,'o'],['E5',.5],['F5',.5,'A'],['E5',.5],['D5',.5,'o'],['C5',.5],['A4',.5,'o']],
+        [['B4',.5],['G4',.5,'o'],['F4',.5],['E4',.5,'o'],['D4',1,'As'],['r',1]]],
+  why:'頂点のF5は2拍目の裏拍にあります。裏拍のアクセントと線の頂点が重なるので、このラインで一番強い音になります。そこから下りていく部分は裏拍を軽く持ち上げる程度にし、最後のD4を短く切ります。',
+  dist:[{t:'noPeak'},{t:'flat'}]},
+ {id:'J3-1',pr:3,bpm:140,chords:[[0,4,'C6'],[4,4,'Dm7']],
+  bars:[[['E4',.5],['G4',.5,'o'],['A4',.5],['C5',.5,'o'],['r',1],['r',.5],['D5',.5,'At']],
+        [['D5',1,'c'],['C5',.5],['A4',.5,'o'],['F4',1,'As'],['r',1]]],
+  why:'4拍目の裏拍のD5は、次の小節の頭を8分音符ひとつ分先取りした音です。タイで小節線を越えて伸ばし、小節の頭では弾き直しません。本来の拍頭より前に飛び込む分だけ勢いがあるので、アクセントを付けて弾きます。',
+  dist:[{t:'classical'},{t:'flat'}]},
+ {id:'J3-2',pr:3,bpm:132,chords:[[0,2,'Em7'],[2,2,'A7'],[4,4,'Dm7']],
+  bars:[[['E4',.5],['G4',.5,'o'],['B4',.5],['D5',.5,'At'],['D5',1,'c'],['C#5',.5],['A4',.5,'o']],
+        [['C5',.5],['A4',.5,'o'],['F4',.5],['E4',.5,'o'],['D4',1,'As'],['r',1]]],
+  why:'2拍目の裏拍のD5は、3拍目の頭を先取りした音です。小節の途中でも、拍頭を食って入る音にはアクセントが来ます。タイの先の3拍目では弾き直さず、伸ばしたまま和音がA7に変わるのを聴きます。',
+  dist:[{t:'noPeak'},{t:'classical'}]},
+ {id:'J4-1',pr:4,bpm:144,chords:[[0,4,'Dm7'],[4,4,'G7']],
+  bars:[[['D5',.5],['A4',.5,'o'],['F4',.5,'g'],['A4',.5,'o'],['D5',.5],['F5',.5,'A'],['E5',.5],['D5',.5,'o']],
+        [['B4',.5],['A4',.5,'o'],['F4',.5,'g'],['A4',.5,'o'],['G4',1,'As'],['r',1]]],
+  why:'2拍目のF4のように、ラインが谷に落ちた低い表拍の音は、ほとんど聞こえないくらいに弱く弾きます（ゴーストノート）。音を抜くことで、前後の裏拍と頂点のF5が浮かび上がります。',
+  dist:[{t:'noGhost'},{t:'classical'}]},
+ {id:'J4-2',pr:4,bpm:152,chords:[[0,4,'Cmaj7'],[4,4,'Am7']],
+  bars:[[['G4',.5,'g'],['C5',.5,'o'],['A4',.5,'g'],['D5',.5,'o'],['B4',.5,'g'],['E5',.5,'o'],['C5',.5,'g'],['G5',.5,'A']],
+        [['E5',.5],['C5',.5,'o'],['A4',.5],['G4',.5,'o'],['E4',1,'As'],['r',1]]],
+  why:'低い音と高い音が交互に上がっていくラインです。表拍の低い音をゴーストノートにして、裏拍の高い音だけが聞こえるように弾くと、上の音だけで旋律が浮かびます。たどり着いた頂点のG5にアクセントを置きます。',
+  dist:[{t:'noGhost'},{t:'classical'}]},
+ {id:'J5-1',pr:5,bpm:140,chords:[[0,4,'Cmaj7'],[4,4,'C6']],
+  bars:[[['G4',.5],['A4',.5,'o'],['B4',.5],['D5',.5,'o'],['E5',.5,'A'],['D5',.5,'o'],['B4',.5],['G4',.5,'o']],
+        [['A4',.5],['G4',.5,'As'],['r',1],['r',2]]],
+  why:'フレーズの最後を「ドゥ・ダッ」と終える型です。A4は柔らかく、最後のG4は裏拍で短く切ってアクセントを付けます。クラシックのように最後の音を長く伸ばして収めると、ジャズらしい歯切れが失われます。途中の頂点E5にもアクセントを置きます。',
+  dist:[{t:'longEnd'},{t:'classical'}]},
+ {id:'J5-2',pr:5,bpm:148,chords:[[0,4,'Dm7'],[4,4,'G7']],
+  bars:[[['F4',.5],['A4',.5,'o'],['C5',.5],['E5',.5,'A'],['D5',.5],['C5',.5,'o'],['A4',.5],['F4',.5,'o']],
+        [['B4',.5],['A4',.5,'o'],['G4',.5],['F4',.5,'o'],['E4',1],['r',.5],['C5',.5,'As']]],
+  why:'最後のC5は4拍目の裏拍に置かれ、次の小節（Cの和音）を先取りしながら短く切って終わります。直前の8分休符でいったん息を止め、「バッ」と弾くと決まります。2拍目裏の頂点E5にもアクセントを置きます。',
+  dist:[{t:'longEnd'},{t:'flat'}]}
+];
+
+const DISTS = {
+ c:{
+  flat:{name:'平坦',text:'すべての音を同じ強さで弾いています。どこへ向かうかが聞こえず、音が並んでいるだけになります。'},
+  end:{name:'終止に山',text:'最後の音に向かって大きくしています。終止で収まらないので、フレーズが閉じずに放り出されたように聞こえます。'},
+  resLoud:{name:'解決音を強調',text:'倚音より解決音の方を強くしています。緊張から解決への順序が逆になり、ぶつかりの意味が消えます。'},
+  pickupAccent:{name:'弱起を強調',text:'弱起の音を強く弾き、次の拍頭を弱めています。拍がずれて、弱起が小節頭のように聞こえます。'},
+  peakAt:{name:'山の位置違い',text:''}
+ },
+ j:{
+  classical:{name:'表拍アクセント',text:'クラシック風に表拍を重くし、最後の音を長く伸ばしています。スウィングのリズムに乗っていても、アクセントが表拍に来るとハネが重く引きずって聞こえます。'},
+  flat:{name:'平坦',text:'すべての音を同じ強さでつなげて弾いています。ハネてはいますが、どこが聴かせどころかがわかりません。'},
+  straight:{name:'イーブン',text:'アクセントの位置は模範と同じですが、8分音符を均等に弾いていて（ハネていない）、裏拍のアクセントが前のめりに聞こえます。'},
+  noPeak:{name:'要のアクセントなし',text:'裏拍の軽い持ち上げはありますが、このラインの要になる音（頂点や先取りの音）にアクセントがありません。聴かせどころがぼやけます。'},
+  noGhost:{name:'ゴーストなし',text:'谷の低い音をほかと同じ強さで弾いています。上の音の流れに低い音が割り込み、旋律の輪郭が見えにくくなります。'},
+  longEnd:{name:'伸ばす終わり',text:'最後の音を長く伸ばし、弱めて収めています。クラシックの終止の作法で、ジャズの歯切れのよい終わり方になりません。'}
+ }
+};
+
+/* ================= parsing ================= */
+const LET={C:0,D:1,E:2,F:3,G:4,A:5,B:6}, SEMI={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+function parse(name){
+  const m=/^([A-G])([#b]?)(\d)$/.exec(name);
+  const acc=m[2]==='#'?1:m[2]==='b'?-1:0, oct=+m[3];
+  return {name,letter:m[1],acc,oct,midi:12*(oct+1)+SEMI[m[1]]+acc,step:LET[m[1]]+7*oct};
+}
+function prep(ph,style){
+  ph.style=style; if(!ph.ts) ph.ts=[4,4]; if(ph.pickup==null) ph.pickup=0;
+  let on=0; ph.items=[]; ph.notes=[];
+  ph.bars.forEach((bar,bi)=>{ let pos=0; bar.forEach(([n,d,f])=>{
+    const base={on,dur:d,bar:bi,pos,flag:f||''};
+    if(n==='r'){ ph.items.push(Object.assign(base,{rest:true})); }
+    else { const o=Object.assign(parse(n),base,{idx:ph.notes.length}); ph.notes.push(o); ph.items.push(o); }
+    on+=d; pos+=d; }); });
+  ph.total=on;
+}
+CLASSICAL.forEach(p=>prep(p,'c')); JAZZ.forEach(p=>prep(p,'j'));
+const SETS={c:CLASSICAL,j:JAZZ};
+
+/* ================= classical dynamics ================= */
+function shape(ph,peakIdx){
+  const N=ph.notes, tp=N[peakIdx].on, te=N[N.length-1].on, num=ph.ts[0];
+  const v=N.map(n=>{
+    let x;
+    if(n.on<=tp){ const f=tp<=0?1:n.on/tp; x=.40+.60*(.5-.5*Math.cos(Math.PI*f)); }
+    else { const f=(n.on-tp)/(te-tp); x=1-.66*(.5-.5*Math.cos(Math.PI*f)); }
+    const pos=((n.on-ph.pickup)%num+num)%num;
+    if(pos===0&&!n.flag) x+=.03;
+    return x;
+  });
+  let run=0;
+  N.forEach((n,i)=>{ if(i>0&&n.midi===N[i-1].midi){ run++; v[i]+=.045*run; } else run=0; });
+  N.forEach((n,i)=>{ if(n.flag==='a') v[i]+=.10; });
+  N.forEach((n,i)=>{ if(n.flag==='r') v[i]=v[i-1]-.30; });
+  N.forEach((n,i)=>{ if(n.flag==='p') v[i]=Math.min(v[i],.40); });
+  return v.map(x=>Math.max(.16,Math.min(1,x)));
+}
+function versionC(ph,d){
+  const N=ph.notes, model=shape(ph,ph.peak);
+  if(!d) return model;
+  if(d.t==='flat') return N.map(()=>.62);
+  if(d.t==='end') return shape(ph,N.length-1);
+  if(d.t==='peakAt') return shape(ph,d.at);
+  if(d.t==='resLoud'){ const v=model.slice(); N.forEach((n,i)=>{ if(n.flag==='r'){ v[i]=Math.min(1,model[i-1]+.08); v[i-1]=model[i-1]-.22; } }); return v; }
+  if(d.t==='pickupAccent'){ const v=model.slice(); let first=-1; N.forEach((n,i)=>{ if(n.flag==='p') v[i]=.98; else if(first<0) first=i; }); if(first>=0) v[first]*=.62; return v; }
+  return model;
+}
+
+/* ================= jazz articulation ================= */
+const isOff=n=>Math.abs((n.on%1)-.5)<1e-6;
+const swingR=bpm=>Math.max(.53,Math.min(.68,.68-(bpm-110)*.0012));
+function jart(ph,d){
+  const N=ph.notes, L=N.length-1, t=d&&d.t;
+  const v=[], len=[];
+  N.forEach((n,i)=>{
+    const f=n.flag; let a=.56;
+    if(n.dur===.5&&!isOff(n)) a=.5;
+    if(f.includes('o')) a=.74;
+    if(f.includes('A')) a=.97;
+    if(f.includes('g')) a=.2;
+    v[i]=a; len[i]=f.includes('s')?'short':.92;
+  });
+  if(t==='classical'){ N.forEach((n,i)=>{ v[i]=isOff(n)?.46:(n.pos%2===0?.84:.72); len[i]=.96; }); v[L]=.5; len[L]='long'; }
+  if(t==='flat'){ N.forEach((n,i)=>{ v[i]=.62; len[i]=.92; }); }
+  if(t==='longEnd'){ v[L]=.48; len[L]='long'; }
+  if(t==='noGhost'){ N.forEach((n,i)=>{ if(n.flag.includes('g')) v[i]=.56; }); }
+  if(t==='noPeak'){ N.forEach((n,i)=>{ if(i<L&&n.flag.includes('A')) v[i]=isOff(n)?.7:.56; }); }
+  N.forEach((n,i)=>{ if(n.flag.includes('c')) v[i]=v[i-1]; });
+  return {v,len,r:t==='straight'?.5:swingR(ph.bpm)};
+}
+function artFromSel(ph,sel){
+  const a=jart(ph,{t:'flat'});
+  ph.notes.forEach((n,i)=>{ if(sel[i]==='A') a.v[i]=.97; if(sel[i]==='g') a.v[i]=.2; if(n.flag.includes('c')) a.v[i]=a.v[i-1]; });
+  return a;
+}
+function version(ph,d){ return ph.style==='j'?jart(ph,d).v:versionC(ph,d); }
+
+/* ================= audio ================= */
+let ctx=null, master=null, bus=null, timers=[], noiseBuf=null;
+function ensureCtx(){
+  if(!ctx){
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-12; comp.ratio.value=2.5;
+    master=ctx.createGain(); master.gain.value=.55; master.connect(comp); comp.connect(ctx.destination);
+    noiseBuf=ctx.createBuffer(1,ctx.sampleRate*.6,ctx.sampleRate);
+    const ch=noiseBuf.getChannelData(0); for(let i=0;i<ch.length;i++) ch[i]=Math.random()*2-1;
+  }
+  if(ctx.state==='suspended') ctx.resume();
+}
+const PARTIALS=[1,.55,.32,.2,.13,.08,.05];
+function piano(dest,midi,t0,dur,v,scale=1){
+  const f0=440*Math.pow(2,(midi-69)/12);
+  const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=600+6800*Math.pow(v,1.6); lp.Q.value=.4;
+  const out=ctx.createGain(); out.gain.value=Math.pow(10,(-27+27*v)/20)*.22*scale;
+  lp.connect(out); out.connect(dest);
+  const tau=Math.max(.45,2.4-(midi-48)*.035), tEnd=t0+dur;
+  PARTIALS.forEach((a,k)=>{
+    const n=k+1, f=n*f0*Math.sqrt(1+.0004*n*n); if(f>12000) return;
+    const o=ctx.createOscillator(); o.frequency.value=f;
+    const g=ctx.createGain(); g.gain.setValueAtTime(0,t0);
+    g.gain.linearRampToValueAtTime(a,t0+.004);
+    g.gain.setTargetAtTime(0,t0+.004,tau/(1+.6*k));
+    g.gain.setTargetAtTime(0,tEnd,.05);
+    o.connect(g); g.connect(lp); o.start(t0); o.stop(tEnd+.6);
+  });
+}
+function bass(dest,midi,t0,dur){
+  const f=440*Math.pow(2,(midi-69)/12);
+  const o=ctx.createOscillator(); o.type='triangle'; o.frequency.value=f;
+  const o2=ctx.createOscillator(); o2.frequency.value=f;
+  const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=700;
+  const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(.32,t0+.012);
+  g.gain.setTargetAtTime(.14,t0+.012,.12); g.gain.setTargetAtTime(0,t0+dur,.04);
+  o.connect(lp); o2.connect(lp); lp.connect(g); g.connect(dest);
+  [o,o2].forEach(x=>{ x.start(t0); x.stop(t0+dur+.3); });
+}
+function cymbal(dest,t0,v,hat){
+  const s=ctx.createBufferSource(); s.buffer=noiseBuf;
+  const hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=hat?7500:5200;
+  const bp=ctx.createBiquadFilter(); bp.type='peaking'; bp.frequency.value=hat?9000:6800; bp.gain.value=8; bp.Q.value=2;
+  const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(v,t0+.002);
+  g.gain.setTargetAtTime(0,t0+.002,hat?.025:.16);
+  s.connect(hp); hp.connect(bp); bp.connect(g); g.connect(dest); s.start(t0); s.stop(t0+.6);
+}
+function stopAll(){
+  if(bus){ const b=bus; try{ b.gain.setTargetAtTime(0,ctx.currentTime,.03); }catch(e){} setTimeout(()=>{ try{b.disconnect();}catch(e){} },400); bus=null; }
+  timers.forEach(clearTimeout); timers=[];
+  document.querySelectorAll('.note.sounding').forEach(e=>e.classList.remove('sounding'));
+}
+function highlight(i,ms){
+  timers.push(setTimeout(()=>{ document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')); const el=document.getElementById('n'+i); if(el) el.classList.add('sounding'); },ms));
+}
+function beatToSecC(ph,b){
+  const spb=60/ph.bpm, T=ph.total, start=T-2.5; let s=0; const step=.02;
+  for(let x=0;x<b-1e-9;x+=step){ const mid=Math.min(x+step/2,b); const r=1+.24*Math.max(0,Math.min(1,(mid-start)/2.5)); s+=Math.min(step,b-x)*spb*r; }
+  return s;
+}
+function playC(ph,dyn){
+  ensureCtx(); stopAll(); bus=ctx.createGain(); bus.connect(master);
+  const t=ctx.currentTime+.08;
+  ph.notes.forEach((n,i)=>{
+    const s=beatToSecC(ph,n.on), e=beatToSecC(ph,n.on+n.dur), last=i===ph.notes.length-1;
+    piano(bus,n.midi,t+s,(e-s)*.97+(last?.6:0),dyn[i]); highlight(i,(s+.08)*1000);
+  });
+  (ph.chords||[]).forEach(([b,d,,notes])=>{
+    const s=beatToSecC(ph,b), e=beatToSecC(ph,b+d), last=b+d>=ph.total;
+    notes.forEach(nm=>piano(bus,parse(nm).midi,t+s,(e-s)*.98+(last?.6:0),.34,.75));
+  });
+  timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(beatToSecC(ph,ph.total)+.5)*1000));
+}
+const QUAL={maj7:[0,4,7,11],m7:[0,3,7,10],'7':[0,4,7,10],'6':[0,4,7,9],m7b5:[0,3,6,10]};
+function chordInfo(sym){
+  const m=/^([A-G][#b]?)(maj7|m7b5|m7|7|6)$/.exec(sym);
+  const root=parse(m[1]+'4').midi%12, iv=QUAL[m[2]];
+  return {root,iv};
+}
+function inRange(pc,lo){ let x=lo+((pc-lo)%12+12)%12; return x; }
+function playJ(ph,art){
+  ensureCtx(); stopAll(); bus=ctx.createGain(); bus.connect(master);
+  const spb=60/ph.bpm, r=art.r;
+  const T=b=>{ const k=Math.floor(b+1e-9), f=b-k; return (k+(f<=.5?f/.5*r:r+(f-.5)/.5*(1-r)))*spb; };
+  const t=ctx.currentTime+.08, N=ph.notes;
+  N.forEach((n,i)=>{
+    if(n.flag.includes('c')) return;
+    let durB=n.dur; if(n.flag.includes('t')&&N[i+1]) durB+=N[i+1].dur;
+    const s=T(n.on), e=T(n.on+durB);
+    let len=art.len[i];
+    const d = len==='short' ? Math.min(.3*spb,(e-s)*.6) : len==='long' ? (e-s)+spb*1.4 : (e-s)*len;
+    piano(bus,n.midi,t+s,d,art.v[i]); highlight(i,(s+.08)*1000);
+  });
+  if(S.rhythm){
+    const bars=Math.ceil(ph.total/4), beats=bars*4;
+    for(let k=0;k<beats;k++){
+      cymbal(bus,t+T(k),.05,false);
+      if(k%2===1){ cymbal(bus,t+T(k+.5),.032,false); cymbal(bus,t+T(k),.03,true); }
+    }
+    ph.chords.forEach(([b,d,sym],ci)=>{
+      const c=chordInfo(sym), rootM=inRange(c.root,36);
+      const next=ph.chords[ci+1]; const nRoot=next?inRange(chordInfo(next[2]).root,36):null;
+      const pattern=[0,c.iv[1],c.iv[2],c.iv[1]];
+      for(let j=0;j<d;j++){
+        let m=rootM+pattern[j%4];
+        if(j===d-1&&d>1&&nRoot!=null) m = nRoot+(nRoot>rootM+pattern[(j-1)%4]?-1:1);
+        bass(bus,m,t+T(b+j),T(b+j+1)-T(b+j)-.02);
+      }
+      const voicing=[c.iv[1],c.iv[3],14].map(x=>inRange((c.root+x)%12,52));
+      const hits=d>=4?[0,1.5]:[0];
+      hits.forEach(h=>voicing.forEach(m=>piano(bus,m,t+T(b+h),spb*.45,.32,.55)));
+    });
+  }
+  timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(T(ph.total)+.4)*1000));
+}
+function play(ph,d){ if(ph.style==='j') playJ(ph,jart(ph,d)); else playC(ph,versionC(ph,d)); }
+function playPlain(ph){ if(ph.style==='j') playJ(ph,jart(ph,{t:'flat'})); else playC(ph,ph.notes.map(()=>.6)); }
+
+/* ================= staff ================= */
+const SVGNS='http://www.w3.org/2000/svg';
+const GAP=10, TOP=40, BOT=TOP+4*GAP;
+const yOf=step=>BOT-(step-30)*GAP/2;
+let layout=null;
+function el(tag,attrs,parent,text){ const e=document.createElementNS(SVGNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(text!=null) e.textContent=text; if(parent) parent.appendChild(e); return e; }
+const pretty=s=>s.replace(/b(?=\d|m|7|$)/g,'♭').replace('#','♯');
+
+function drawStaff(ph){
+  const svg=document.getElementById('staff'); svg.innerHTML='';
+  const xs=[], itemX=[], spans=[]; let x=72; const accMem={}; const bars=[];
+  ph.items.forEach((it,k)=>{
+    if(k>0&&it.bar!==ph.items[k-1].bar){ bars.push(x+2); x+=18; }
+    let showAcc=false;
+    if(!it.rest){ const key=it.bar+':'+it.letter+it.oct; const prev=accMem[key]??0; showAcc=it.acc!==prev&&!it.flag.includes('c'); accMem[key]=it.acc; if(showAcc) x+=10; }
+    const w=24+15*it.dur;
+    itemX.push(x);
+    if(!it.rest){ xs[it.idx]=x; spans[it.idx]=[x-(showAcc?20:12),x+w-12]; it.showAcc=showAcc; }
+    x+=w;
+  });
+  const W=x+14, H=128;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  for(let k=0;k<5;k++) el('line',{x1:6,x2:W-4,y1:TOP+k*GAP,y2:TOP+k*GAP,class:'staff-line'},svg);
+  el('text',{x:8,y:BOT-GAP,class:'glyph','font-family':'Noto Music, Bravura, Segoe UI Symbol, Apple Symbols, serif','font-size':44},svg,'\u{1D11E}');
+  el('text',{x:44,y:TOP+GAP*2-2,class:'glyph','font-size':21,'font-weight':800,'font-family':'Georgia, serif','text-anchor':'middle'},svg,String(ph.ts[0]));
+  el('text',{x:44,y:BOT-2,class:'glyph','font-size':21,'font-weight':800,'font-family':'Georgia, serif','text-anchor':'middle'},svg,String(ph.ts[1]));
+  bars.forEach(bx=>el('line',{x1:bx,x2:bx,y1:TOP,y2:BOT,class:'bar-line'},svg));
+  el('line',{x1:W-9,x2:W-9,y1:TOP,y2:BOT,class:'bar-line'},svg);
+  el('line',{x1:W-5,x2:W-5,y1:TOP,y2:BOT,class:'bar-line end'},svg);
+
+  // rests
+  ph.items.forEach((it,k)=>{ if(!it.rest) return; const rx=itemX[k];
+    if(it.dur===.5){ el('circle',{cx:rx-2,cy:TOP+15,r:2.8,class:'rest'},svg); el('path',{d:`M${rx+3} ${TOP+13} Q${rx} ${TOP+18} ${rx-3} ${TOP+16} M${rx+3} ${TOP+13} L${rx-2} ${TOP+31}`,class:'rest-q','stroke-width':1.6},svg); }
+    else if(it.dur===1){ el('path',{d:`M${rx-3} ${TOP+7} L${rx+3} ${TOP+15} L${rx-2} ${TOP+21} L${rx+3} ${TOP+28} Q${rx-5} ${TOP+25} ${rx-1} ${TOP+33}`,class:'rest-q'},svg); }
+    else if(it.dur===2){ el('rect',{x:rx-6,y:TOP+2*GAP-5,width:12,height:5,class:'rest'},svg); }
+    else { el('rect',{x:rx-6,y:TOP+GAP,width:12,height:5,class:'rest'},svg); }
+  });
+
+  // beam groups
+  const N=ph.notes, info=[];
+  const groups=[]; let g=[];
+  const gkey=n=>ph.ts[0]===4?Math.floor(n.pos/2+1e-9):Math.floor(n.pos+1e-9);
+  ph.items.forEach(it=>{
+    if(!it.rest&&it.dur===.5&&g.length&&N[g[g.length-1]].bar===it.bar&&gkey(N[g[g.length-1]])===gkey(it)&&N[g[g.length-1]].idx===it.idx-1&&ph.items.indexOf(N[g[g.length-1]])===ph.items.indexOf(it)-1) g.push(it.idx);
+    else { if(g.length) groups.push(g); g=(!it.rest&&it.dur===.5)?[it.idx]:[]; }
+  });
+  if(g.length) groups.push(g);
+  const inBeam={};
+  groups.filter(gr=>gr.length>1).forEach(gr=>{
+    const avg=gr.reduce((s,i)=>s+N[i].step,0)/gr.length, up=avg<34;
+    const sx=gr.map(i=>xs[i]+(up?5:-5)), ny=gr.map(i=>yOf(N[i].step));
+    let y1=ny[0]+(up?-32:32), y2=ny[ny.length-1]+(up?-32:32);
+    let slope=Math.max(-8,Math.min(8,y2-y1)); y2=y1+slope;
+    const by=j=>y1+(y2-y1)*(sx[j]-sx[0])/(sx[sx.length-1]-sx[0]);
+    let shift=0; gr.forEach((i,j)=>{ const need=up?(ny[j]-26)-by(j):by(j)-(ny[j]+26); if(need<shift) shift=need; });
+    const B=j=>by(j)+(up?shift:-shift);
+    gr.forEach((i,j)=>inBeam[i]={up,tip:B(j),sx:sx[j]});
+    const th=up?4.5:-4.5;
+    el('polygon',{points:`${sx[0]},${B(0)} ${sx[sx.length-1]},${B(gr.length-1)} ${sx[sx.length-1]},${B(gr.length-1)+th} ${sx[0]},${B(0)+th}`,class:'beam'},svg);
+  });
+
+  N.forEach((n,i)=>{
+    const x=xs[i], y=yOf(n.step);
+    const gN=el('g',{class:'note',id:'n'+i,'data-i':i},svg);
+    for(let s=28;s>=n.step;s-=2) el('line',{x1:x-9,x2:x+9,y1:yOf(s),y2:yOf(s),class:'ledger'},gN);
+    for(let s=40;s<=n.step;s+=2) el('line',{x1:x-9,x2:x+9,y1:yOf(s),y2:yOf(s),class:'ledger'},gN);
+    if(n.showAcc) el('text',{x:x-13,y:y+5,class:'acc','font-size':15,'text-anchor':'middle','font-family':'Noto Music, Segoe UI Symbol, serif'},gN,n.acc>0?'♯':n.acc<0?'♭':'♮');
+    el('circle',{cx:x,cy:y,r:10.5,class:'ring'},gN);
+    el('ellipse',{cx:x,cy:y,rx:5.6,ry:4.1,transform:`rotate(-20 ${x} ${y})`,class:'head'+(n.dur>=2?' hollow':'')},gN);
+    let up=n.step<34, tip=null;
+    if(inBeam[i]){ up=inBeam[i].up; tip=inBeam[i].tip; el('line',{x1:inBeam[i].sx,x2:inBeam[i].sx,y1:y,y2:tip,class:'stem'},gN); }
+    else if(n.dur<4){
+      const sx=up?x+5:x-5; tip=up?y-34:y+34;
+      el('line',{x1:sx,x2:sx,y1:y,y2:tip,class:'stem'},gN);
+      if(n.dur===.5) el('path',{d:up?`M${sx} ${tip} c1 7 9 9 7 18`:`M${sx} ${tip} c1 -7 9 -9 7 -18`,class:'flag'},gN);
+    }
+    if([3,1.5].includes(n.dur)){ const dy=(n.step%2===0)?-5:0; el('circle',{cx:x+10,cy:y+dy,r:1.8,class:'dot'},gN); }
+    el('rect',{x:spans[i][0],y:4,width:spans[i][1]-spans[i][0],height:104,class:'hit'},gN);
+    info[i]={x,y,up,tip};
+  });
+  // ties
+  N.forEach((n,i)=>{ if(n.flag.includes('t')&&N[i+1]){ const a=info[i],b=info[i+1]; const below=a.up; const yy=a.y+(below?7:-7), c=below?9:-9;
+    el('path',{d:`M${a.x+4} ${yy} Q${(a.x+b.x)/2} ${yy+c} ${b.x-4} ${yy}`,class:'tie'},svg); } });
+  // chord labels
+  (ph.chords||[]).forEach((ch,ci)=>{
+    const b=ch[0]; const k=ph.items.findIndex(it=>it.on>=b-1e-9); const cx=itemX[k];
+    const lab=ph.style==='j'?pretty(ch[2]):((ci===0&&ph.key?ph.key+': ':'')+ch[2]);
+    el('text',{x:cx-(ph.style==='c'&&ci===0&&ph.key?10:4),y:120,class:'chord'},svg,lab);
+  });
+  el('g',{id:'marks'},svg);
+  layout={W,xs,info};
+}
+function drawMarks(ph,marks,user){
+  const g=document.getElementById('marks'); g.innerHTML='';
+  ph.notes.forEach((n,i)=>{
+    const m=marks[i]; if(!m) return;
+    const {x,y,up,tip}=layout.info[i];
+    const topY=Math.min(TOP-10,(up&&tip!=null?tip:y-6)-10);
+    const cls='mark'+(user?' user':'');
+    if(m.includes('A')||m.includes('o')) el('path',{d:`M${x-6} ${topY-4} L${x+5} ${topY} L${x-6} ${topY+4}`,class:cls+(m.includes('o')&&!m.includes('A')?' light':'')},g);
+    if(m.includes('s')) el('circle',{cx:x,cy:topY+9,r:1.9,class:'sdot'},g);
+    if(m.includes('g')){ const pc='paren'+(user?' user':''); el('text',{x:x-12,y:y+5,class:pc,'text-anchor':'middle'},g,'('); el('text',{x:x+12,y:y+5,class:pc,'text-anchor':'middle'},g,')'); }
+  });
+}
+function modelMarks(ph){ return ph.notes.map(n=>n.flag.includes('c')?'':n.flag.replace(/[tc]/g,'')); }
+
+function drawCurves(ph,series){
+  const svg=document.getElementById('curve'); svg.innerHTML=''; svg.hidden=false;
+  const {W,xs}=layout, H=84, yv=v=>66-v*54;
+  const idx=ph.notes.map((n,i)=>i).filter(i=>!ph.notes[i].flag.includes('c'));
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  [[1,'強'],[.5,''],[0,'弱']].forEach(([v,l])=>{ el('line',{x1:30,x2:W-6,y1:yv(v),y2:yv(v),class:'curve-grid'},svg); if(l) el('text',{x:10,y:yv(v)+4,class:'curve-label'},svg,l); });
+  const lastX=xs[idx[idx.length-1]];
+  const ly=series.map((s,k)=>({k,y:yv(s.v[idx[idx.length-1]])+4})).sort((a,b)=>a.y-b.y);
+  for(let j=1;j<ly.length;j++) if(ly[j].y-ly[j-1].y<11) ly[j].y=ly[j-1].y+11;
+  const labelY={}; ly.forEach(o=>labelY[o.k]=o.y);
+  series.forEach((s,k)=>{
+    const pts=idx.map(i=>`${xs[i]},${yv(s.v[i]).toFixed(1)}`).join(' ');
+    el('polyline',{points:pts,class:'curve-line',stroke:s.color,'stroke-dasharray':s.dash||''},svg);
+    idx.forEach(i=>el('circle',{cx:xs[i],cy:yv(s.v[i]),r:3.4,fill:s.color,class:'curve-dot'},svg));
+    if(s.label) el('text',{x:lastX+8,y:labelY[k],class:'curve-label',fill:s.color,'font-weight':700},svg,s.label);
+  });
+}
+
+/* ================= state & UI ================= */
+const S={style:'c',mode:'peak',filter:0,list:[],pos:0,answered:false,rhythm:true,order:null,sel:[],
+  score:{'c-peak':[0,0],'c-cmp':[0,0],'j-peak':[0,0],'j-cmp':[0,0]}};
+const $=id=>document.getElementById(id);
+const set=()=>SETS[S.style];
+const cur=()=>set()[S.list[S.pos]];
+const PR=()=>PRS[S.style];
+function noteLabel(ph,i){ return `${i+1}番目の音（${ph.notes[i].name.replace('#','♯').replace(/b(\d)/,'♭$1')}）`; }
+
+function buildStatic(){
+  const box=$('filters'); box.innerHTML='';
+  const mk=(v,label)=>{ const b=document.createElement('button'); b.className='chip'; b.id='f'+S.style+v; b.textContent=label; b.setAttribute('aria-pressed',S.filter===v); b.onclick=()=>{ S.filter=v; refreshList(); S.pos=0; buildStatic(); load(); }; box.appendChild(b); };
+  mk(0,'すべて'); Object.entries(PR()).forEach(([k,p])=>mk(+k,k+' '+p.name));
+  const pr=$('principles'); pr.querySelectorAll('.pr').forEach(e=>e.remove());
+  Object.entries(PR()).forEach(([k,p])=>{ const d=document.createElement('div'); d.className='pr'; d.innerHTML=`<span class="n">${k}</span><div><b>${p.name}</b><span>${p.desc}</span></div>`; pr.appendChild(d); });
+  const T=TEXT[S.style];
+  $('sub').textContent=T.sub; $('pr-title').textContent=T.prTitle; $('foot').textContent=T.foot; $('mode-peak').textContent=T.modeA;
+  $('rhythm').hidden=S.style!=='j';
+  document.querySelectorAll('[data-style]').forEach(x=>x.setAttribute('aria-selected',x.dataset.style===S.style));
+  document.querySelectorAll('[data-mode]').forEach(x=>x.setAttribute('aria-selected',x.dataset.mode===S.mode));
+  updScore();
+}
+function refreshList(){ S.list=set().map((p,i)=>i).filter(i=>!S.filter||set()[i].pr===S.filter); }
+function updScore(){ const a=S.score[S.style+'-peak'],b=S.score[S.style+'-cmp']; $('score').textContent=`${S.style==='j'?'アクセント':'山'} ${a[0]}/${a[1]}　聴き比べ ${b[0]}/${b[1]}`; }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function colorFor(k){ return ['var(--accent)','var(--c2)','var(--c3)'][k]; }
+function btn(label,fn,cls,tri){ const b=document.createElement('button'); b.className='btn '+(cls||''); b.innerHTML=(tri?'<span class="tri"></span>':'')+label; b.onclick=fn; return b; }
+
+function load(){
+  stopAll(); S.answered=false;
+  const ph=cur();
+  $('tag').innerHTML=`<small>原則${ph.pr}</small>${PR()[ph.pr].name}`;
+  $('count').textContent=`${ph.id}　${S.pos+1} / ${S.list.length}`;
+  $('pdesc').textContent=PR()[ph.pr].desc;
+  drawStaff(ph);
+  $('curve').hidden=true; $('curve').innerHTML=''; $('feedback').hidden=true; $('feedback').innerHTML='';
+  $('prev').disabled=S.pos===0;
+  $('next').textContent=S.pos===S.list.length-1?'最初に戻る ↺':'次へ →';
+  const c=$('controls'); c.innerHTML=''; c.className='';
+  $('staff').onclick=null; $('staff').classList.remove('pickable');
+  if(S.mode==='peak'&&ph.style==='c'){
+    $('staff').classList.add('pickable');
+    $('prompt').textContent='このフレーズの頂点（いちばん重みを置きたい音）をタップしてください。先に旋律だけを聴いて確かめてもかまいません。';
+    c.className='controls';
+    c.appendChild(btn('抑揚なしで聴く',()=>playPlain(ph),'',true));
+    $('staff').onclick=e=>{ const g=e.target.closest('.note'); if(g&&!S.answered) answerPeak(+g.dataset.i); };
+  } else if(S.mode==='peak'){
+    S.sel=ph.notes.map(()=>'');
+    $('staff').classList.add('pickable');
+    $('prompt').innerHTML='アクセントを置く音を<b>すべて</b>選んでください。1回タップでアクセント（&gt;）、2回でゴーストノート（ ）、3回で取り消しです。';
+    c.className='controls';
+    c.appendChild(btn('抑揚なしで聴く',()=>playPlain(ph),'',true));
+    c.appendChild(btn('選んだ通りに聴く',()=>playJ(ph,artFromSel(ph,S.sel)),'',true));
+    c.appendChild(btn('答え合わせ',()=>answerAcc(),'primary'));
+    c.appendChild(btn('クリア',()=>{ S.sel=ph.notes.map(()=>''); paintSel(ph); },'ghost'));
+    $('staff').onclick=e=>{ const g=e.target.closest('.note'); if(!g||S.answered) return; let i=+g.dataset.i; if(ph.notes[i].flag.includes('c')) i--; S.sel[i]=S.sel[i]===''?'A':S.sel[i]==='A'?'g':''; paintSel(ph); };
+  } else {
+    $('prompt').textContent=ph.style==='j'
+      ?'同じラインを3通りのアーティキュレーションで弾きます。聴き比べて、いちばんスウィングらしいと思うものを選んでください。'
+      :'同じフレーズを3通りの抑揚で弾きます。聴き比べて、いちばん筋が通っていると思うものを選んでください。';
+    S.order=shuffle([null,...ph.dist]);
+    c.className='opts';
+    S.order.forEach((d,k)=>{
+      const o=document.createElement('div'); o.className='opt'; o.id='opt'+k;
+      o.innerHTML=`<span class="lbl"><span class="sw" style="background:${colorFor(k)}"></span>${'ABC'[k]}</span>`;
+      o.appendChild(btn('聴く',()=>play(ph,d),'',true));
+      const pick=btn('これを選ぶ',()=>answerCmp(k),'primary'); pick.classList.add('pick'); o.appendChild(pick);
+      const w=document.createElement('span'); w.className='what'; o.appendChild(w);
+      c.appendChild(o);
+    });
+  }
+}
+function paintSel(ph){
+  ph.notes.forEach((n,i)=>{ const g=$('n'+i); g.classList.toggle('sel-a',S.sel[i]==='A'); g.classList.toggle('sel-g',S.sel[i]==='g'); });
+  drawMarks(ph,S.sel,true);
+}
+
+function hintFor(ph,i){
+  const n=ph.notes[i];
+  if(i===ph.notes.length-1) return '最後の音は終止です。ここに山を置くと、フレーズが閉じません。';
+  if(n.flag==='p') return '弱起の音です。次の拍頭へ向かう音なので、軽く入ります。';
+  if(n.flag==='r') return '解決音です。直前の不協和がほどける所なので、力を抜く場所です。';
+  if(i===0) return 'フレーズの始まりです。ここから山に向かって動き出します。';
+  if(n.dur<1) return '弱拍の短い音です。通過していく音で、重心にはなりにくいでしょう。';
+  return '旋律の途中の音です。前後の流れの中では、山へ向かう途中か、山から下りる途中にあります。';
+}
+function answerPeak(i){
+  const ph=cur(); S.answered=true;
+  const isBest=i===ph.peak, isAlt=i in ph.alt, sc=S.score['c-peak'];
+  sc[1]++; if(isBest||isAlt) sc[0]++; updScore();
+  document.querySelectorAll('.note').forEach(g=>{ const k=+g.dataset.i; if(k===ph.peak) g.classList.add('best'); if(k in ph.alt) g.classList.add('alt'); });
+  const g=$('n'+i); g.classList.add('chosen'); if(isBest||isAlt) g.classList.add('right');
+  $('staff').classList.remove('pickable');
+  const model=versionC(ph,null);
+  drawCurves(ph,[{v:model,color:'var(--good)',label:'模範'}]);
+  const fb=$('feedback'); fb.hidden=false;
+  let html='';
+  if(isBest) html+=`<p class="verdict good">そこが頂点です</p><p>${ph.why}</p>`;
+  else if(isAlt) html+=`<p class="verdict mid">それも一つの読み方です</p><p>${ph.alt[i]}</p><p class="hint">模範では${noteLabel(ph,ph.peak)}を頂点としています。${ph.why}</p>`;
+  else html+=`<p class="verdict bad">別の音を頂点と考えます</p><p class="hint">${noteLabel(ph,i)}：${hintFor(ph,i)}</p><p>模範では${noteLabel(ph,ph.peak)}を頂点としています。${ph.why}</p>`;
+  fb.innerHTML=html;
+  const row=document.createElement('div'); row.className='controls';
+  row.appendChild(btn('模範の抑揚で聴く',()=>playC(ph,model),'primary',true));
+  row.appendChild(btn('抑揚なしで聴く',()=>playPlain(ph),'',true));
+  fb.appendChild(row);
+}
+
+function whyJ(ph,i,kind){
+  const n=ph.notes[i], N=ph.notes, maxM=Math.max(...N.map(x=>x.midi));
+  if(kind==='missA'){
+    if(i===N.length-1) return 'フレーズの最後の音です。短く切ってアクセントを付けます。';
+    if(n.flag.includes('t')) return '拍頭を先取りした音です。食って入る勢いにアクセントを付けます。';
+    if(n.midi===maxM) return '線の頂点です。';
+    if(isOff(n)) return '裏拍の音です。';
+    return 'アクセントを置く音です。';
+  }
+  if(kind==='missG') return '谷に落ちた低い表拍の音で、ゴーストノートにします。';
+  if(kind==='extraA'){ if(n.flag.includes('g')) return 'ゴーストノートにする音です。アクセントとは逆に、ほとんど聞こえないくらいに弱くします。'; return isOff(n)?'裏拍ですが、ここは強く打つほどの音ではありません。':'表拍の音です。軽く流します。'; }
+  if(kind==='extraG') return n.flag.includes('A')?'アクセントを置く音です。':'ゴーストにするほど弱くしない音です。';
+  return '';
+}
+function answerAcc(){
+  const ph=cur(); S.answered=true; $('staff').classList.remove('pickable');
+  const N=ph.notes, res={hitA:0,hitG:0,M:0,G:0,list:[]};
+  N.forEach((n,i)=>{
+    if(n.flag.includes('c')) return;
+    const f=n.flag, s=S.sel[i], wantA=f.includes('A'), wantG=f.includes('g'), opt=f.includes('o');
+    if(wantA) res.M++; if(wantG) res.G++;
+    const g=$('n'+i); g.classList.remove('sel-a','sel-g');
+    if(wantA&&s==='A'){ res.hitA++; g.classList.add('hit'); }
+    else if(wantG&&s==='g'){ res.hitG++; g.classList.add('hit'); }
+    else {
+      if(wantA){ g.classList.add('missed'); res.list.push([i,'missA']); }
+      if(wantG){ g.classList.add('missed'); res.list.push([i,'missG']); }
+      if(s==='A'&&!wantA&&!opt){ g.classList.add('extra'); res.list.push([i,'extraA']); }
+      else if(s==='A'&&opt){ g.classList.add('hit'); }
+      if(s==='g'&&!wantG){ g.classList.add('extra'); res.list.push([i,'extraG']); }
+    }
+  });
+  const extras=res.list.filter(x=>x[1].startsWith('extra')).length;
+  const perfect=res.hitA===res.M&&res.hitG===res.G&&extras===0;
+  const sc=S.score['j-peak']; sc[1]++; if(perfect) sc[0]++; updScore();
+  drawMarks(ph,modelMarks(ph),false);
+  drawCurves(ph,[{v:jart(ph,null).v,color:'var(--good)',label:'模範'}]);
+  const fb=$('feedback'); fb.hidden=false;
+  const near=!perfect&&res.list.length<=2;
+  let html=`<p class="verdict ${perfect?'good':near?'mid':'bad'}">${perfect?'すべて合っています':near?'あと少しです':'模範と見比べてみましょう'}</p>`;
+  html+=`<div class="tally"><span>アクセント ${res.hitA}/${res.M}</span>${res.G?`<span>ゴースト ${res.hitG}/${res.G}</span>`:''}<span>余分 ${extras}</span></div>`;
+  html+=`<p>${ph.why}</p>`;
+  if(res.list.length){ html+='<ul class="vlist">'; res.list.forEach(([i,k])=>{ const lab={missA:'見落とし',missG:'見落とし（ゴースト）',extraA:'余分',extraG:'余分（ゴースト）'}[k]; html+=`<li><span class="k" style="color:var(--${k.startsWith('miss')?'good':'warn'})">${i+1}</span><span><b>${lab}</b>　${noteLabel(ph,i)}：${whyJ(ph,i,k)}</span><span></span></li>`; }); html+='</ul>'; }
+  html+='<div class="legend"><span><b>&gt;</b>アクセント</span><span><b style="opacity:.45">&gt;</b>軽い持ち上げ（任意）</span><span><b>( )</b>ゴーストノート</span><span><b>・</b>短く切る</span><span>緑の丸：見落とした音</span></div>';
+  fb.innerHTML=html;
+  const row=document.createElement('div'); row.className='controls';
+  row.appendChild(btn('模範で聴く',()=>play(ph,null),'primary',true));
+  row.appendChild(btn('選んだ通りに聴く',()=>playJ(ph,artFromSel(ph,S.sel)),'',true));
+  fb.appendChild(row);
+}
+
+function answerCmp(k){
+  if(S.answered) return;
+  const ph=cur(); S.answered=true;
+  const D=DISTS[ph.style];
+  const mi=S.order.indexOf(null), ok=k===mi, sc=S.score[ph.style+'-cmp'];
+  sc[1]++; if(ok) sc[0]++; updScore();
+  $('controls').classList.add('answered');
+  S.order.forEach((d,j)=>{
+    const o=$('opt'+j); o.querySelector('.pick').disabled=true;
+    if(j===mi) o.classList.add('model'); else if(j===k) o.classList.add('picked');
+    o.querySelector('.what').textContent=d?D[d.t].name:'模範';
+  });
+  if(ph.style==='j') drawMarks(ph,modelMarks(ph),false);
+  drawCurves(ph,S.order.map((d,j)=>({v:version(ph,d),color:colorFor(j),label:'ABC'[j],dash:d?'5 4':''})));
+  const fb=$('feedback'); fb.hidden=false;
+  let html=ok?`<p class="verdict good">${'ABC'[k]}が模範です</p>`:`<p class="verdict bad">模範は${'ABC'[mi]}です</p>`;
+  html+=`<p>${ph.why}</p><ul class="vlist">`;
+  S.order.forEach((d,j)=>{ if(d) html+=`<li><span class="k" style="color:${colorFor(j)}">${'ABC'[j]}</span><span><b>${D[d.t].name}</b>　${d.t==='peakAt'?d.why:D[d.t].text}</span><span></span></li>`; });
+  html+='</ul>';
+  fb.innerHTML=html;
+  const js=S.order.map((d,jj)=>d?jj:-1).filter(x=>x>=0);
+  fb.querySelectorAll('.vlist li').forEach((li,n)=>{ const j=js[n]; li.lastChild.appendChild(btn('聴く',()=>play(ph,S.order[j]),'',true)); });
+  const row=document.createElement('div'); row.className='controls';
+  row.appendChild(btn(`模範（${'ABC'[mi]}）をもう一度聴く`,()=>play(ph,null),'primary',true));
+  fb.appendChild(row);
+}
+
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{ S.mode=b.dataset.mode; buildStatic(); load(); });
+document.querySelectorAll('[data-style]').forEach(b=>b.onclick=()=>{
+  if(S.style===b.dataset.style) return;
+  S.style=b.dataset.style; S.filter=0; S.pos=0; refreshList(); buildStatic(); load();
+  try{ localStorage.setItem('yokuyo-style',S.style); }catch(e){}
+});
+$('rhythm').onclick=()=>{ S.rhythm=!S.rhythm; $('rhythm').setAttribute('aria-pressed',S.rhythm); $('rhythm').textContent=S.rhythm?'リズム隊あり':'リズム隊なし'; };
+$('prev').onclick=()=>{ if(S.pos>0){ S.pos--; load(); } };
+$('next').onclick=()=>{ S.pos=(S.pos+1)%S.list.length; load(); };
+
+try{ const st=localStorage.getItem('yokuyo-style'); if(st==='j'||st==='c') S.style=st; }catch(e){}
+refreshList(); buildStatic(); load();
+</script>
+
+</body>
+</html>
