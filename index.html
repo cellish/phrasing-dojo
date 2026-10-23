@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="クラシックの抑揚とジャズのアーティキュレーションを、頂点・アクセント選びと聴き比べで練習するドリル。">
+<meta name="description" content="クラシックの抑揚とジャズのアーティキュレーションを練習するドリル / A drill for classical phrasing and jazz articulation.">
 <style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 <title>フレージング道場</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,6 +127,8 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 svg[hidden]{display:none}
+.seg.lang{padding:2px}
+.seg.lang button{padding:4px 11px;font-size:.8rem}
 .seg.style button[aria-selected="true"]{background:var(--ink);color:var(--panel)}
 .toggle{margin-left:auto}
 .beam{fill:var(--ink)}
@@ -154,9 +156,13 @@ svg[hidden]{display:none}
 <body>
 <div class="wrap">
   <header class="top">
-    <h1>フレージング道場</h1>
+    <h1 id="h1">フレージング道場</h1>
     <p class="sub" id="sub">解釈編｜旋律のどこに重みを置くか</p>
     <p class="score" id="score"></p>
+    <div class="seg lang" role="tablist" aria-label="Language">
+      <button id="lang-ja" role="tab" aria-selected="true" data-lang="ja" lang="ja">日本語</button>
+      <button id="lang-en" role="tab" aria-selected="false" data-lang="en" lang="en">EN</button>
+    </div>
   </header>
 
   <div class="bar">
@@ -220,6 +226,135 @@ const TEXT = {
  j:{sub:'ジャズ編｜スウィングの8分音符をどう弾き分けるか', modeA:'アクセントはどこ？', prTitle:'5つの原則（スウィング）',
     foot:'ジャズのアーティキュレーションは奏者やスタイルで大きく変わります。ここで扱うのはスウィングやビバップの8分音符ラインの基本的な型です。薄い「>」は、付けても付けなくてもよい軽い持ち上げを表し、採点には含めません。'}
 };
+
+/* ================= i18n ================= */
+let LANG='ja';
+const PRS_EN = {
+ c:{
+  1:{name:'Arch and cadence', desc:'A phrase swells toward the middle and settles at the end.'},
+  2:{name:'Leaps and high notes', desc:'The landing note of a big leap, or a high note on a strong beat, tends to carry the weight. Short ornaments are the exception.'},
+  3:{name:'Appoggiatura and resolution', desc:'Lean on the dissonant note on the strong beat (the appoggiatura) and relax on its resolution.'},
+  4:{name:'Harmonic tension', desc:'The same pitch weighs more when the harmony underneath is more tense.'},
+  5:{name:'Upbeats', desc:'An upbeat flows into the next downbeat. Played strongly, it makes the meter sound shifted.'},
+  6:{name:'Repeated notes', desc:"Don't leave repeated notes flat. Let each one lean toward the next."}
+ },
+ j:{
+  1:{name:'Offbeat accents', desc:'In a line of eighth notes, give the offbeats a light accent and let the downbeats pass lightly.'},
+  2:{name:'Top of the line', desc:'Accent the highest note where the line turns around, whether it falls on or off the beat.'},
+  3:{name:'Anticipation', desc:'Accent a note that arrives an eighth early, ahead of the beat, and tie it over.'},
+  4:{name:'Ghost notes', desc:'Play a low downbeat note at the bottom of a dip so softly it is barely heard.'},
+  5:{name:'Short endings', desc:"Don't hold the last note of a phrase. Cut it short and accent it."}
+ }
+};
+const TEXT_EN = {
+ c:{sub:'Interpretation | Where does the melody lean?', modeA:'Find the peak', prTitle:'Six principles',
+    foot:'The model shaping is one well-reasoned reading, not the only answer. A dashed circle marks another note that also works as the peak. When your answer differs, ask yourself whether you can explain your reasons in your own words.'},
+ j:{sub:'Jazz | Shaping swing eighth notes', modeA:'Find the accents', prTitle:'Five principles (swing)',
+    foot:'Jazz articulation varies a lot between players and styles. This covers the basic patterns of swing and bebop eighth-note lines. A faint ">" marks an optional light lift on an offbeat and is not scored.'}
+};
+const DISTS_EN = {
+ c:{
+  flat:{name:'Flat',text:'Every note is played at the same level. The line never seems to be going anywhere; the notes are just lined up.'},
+  end:{name:'Peak at the cadence',text:'It grows toward the final note. The cadence never settles, so the phrase sounds thrown away instead of closed.'},
+  resLoud:{name:'Loud resolution',text:'The resolution is louder than the appoggiatura. Tension and release come in the wrong order, and the clash loses its meaning.'},
+  pickupAccent:{name:'Heavy upbeat',text:'The upbeat is played strongly and the next downbeat weakly. The meter shifts, and the upbeat sounds like a downbeat.'},
+  peakAt:{name:'Peak in the wrong place',text:''}
+ },
+ j:{
+  classical:{name:'Downbeat accents',text:'Classical style: the downbeats are heavy and the last note is held long. Even over a swing groove, downbeat accents make the line drag.'},
+  flat:{name:'Flat',text:'Every note is connected at the same level. It swings, but nothing stands out.'},
+  straight:{name:'Even eighths',text:'The accents are where the model has them, but the eighths are even (not swung), so the offbeat accents sound rushed.'},
+  noPeak:{name:'Key accents missing',text:'The offbeats get a light lift, but the notes that matter most (the top of the line or the anticipation) get no accent. The highlight of the line gets lost.'},
+  noGhost:{name:'No ghost notes',text:'The low notes in the dips are as loud as everything else. They cut into the upper line and blur the shape of the melody.'},
+  longEnd:{name:'Long ending',text:'The last note is held and faded out. That is the classical way to end, and it loses the crisp jazz cutoff.'}
+ }
+};
+const EN = {
+ '1-1':{why:'A4 is the highest note and sits in the middle of the phrase. The stepwise climb reaches its top here, and the second half descends to settle on the tonic C4.',
+   alt:{4:'G4 is a long note at the start of the bar and has weight of its own. Hearing the peak begin here and reach its summit on A4 keeps the line flowing.'}},
+ '1-2':{why:'E5 is the highest note and lands on beat 1 of bar 2, the strong beat. It is the goal of the arpeggio climb. From there the line steps down to a half cadence on G4. G4 is not the tonic, so settle without closing completely.',
+   dw:{2:'C5 is still on the way up. Peaking here means the line is already falling by the time it reaches E5, and the arrival loses its point.'}},
+ '2-1':{why:'There is a leap of a sixth from C4 to A4. A leap is the most energetic move in a melody, and the note it lands on naturally becomes the peak. It is also a long note at the start of the bar and the highest note.',
+   dw:{1:'E4 is a small opening gesture. A peak here weakens the big leap that follows.'}},
+ '2-2':{why:'The leap of a sixth from E4 to C5 is the backbone of this phrase. The highest note is D5, but it is an eighth-note neighbor tone (an ornament) on a weak beat and passes lightly. Even the highest note rarely becomes the peak when it is a short ornament.',
+   dw:{4:'Making the eighth-note D5 the peak lets an ornament stick out and blurs the backbone of the melody (the E4 → C5 leap).'}},
+ '3-1':{why:'C5 at the start of bar 2 is a non-chord tone (an appoggiatura) over V (G–B–D). It clashes with B and creates tension, then resolves to B4. This moment of dissonance weighs more than the high E5, and the resolution B4 relaxes.',
+   alt:{3:'E5 is the highest note. You can also make it the peak and show the appoggiatura in bar 2 through weight instead (a little softer, but still stronger than its resolution).'}},
+ '3-2':{why:'F5 is an appoggiatura over V (E–G♯–B), a strong half-step clash with E. It is also a long note at the start of the bar. A5 just before it is the highest note, but as part of a tonic arpeggio it sounds stable. The peak of tension is F5, which relaxes as it resolves to E5.',
+   alt:{2:'A5 is the highest note and the landing point of a leap. You can also make it the peak and let F5 be carried by its harmonic weight.'}},
+ '4-1':{why:'C5 at the start of bar 3 is the same pitch as before, but the harmony changes to the secondary dominant (V⁷/V: D–F♯–A–C). C5 becomes the seventh and forms a tritone with F♯. The same pitch changes weight with the harmony.',
+   alt:{3:'The C5 just before it is also the highest note. Growing from there and reaching the summit with the change of harmony is also natural.'}},
+ '4-2':{why:'The melody stays on C5, but the harmony moves I → IV → II⁷ → V⁷/V, and the tension builds step by step. The peak is the V⁷/V, where F♯ enters. From there it resolves to V (B4) and then to I.',
+   alt:{2:'Over II⁷, C5 is also a seventh and carries tension. Think of the peak starting here and growing further with the next chord.'},
+   dw:{0:'The C5 in bar 1 sits over the tonic chord, the most stable sound. A peak here runs against the rising harmonic tension.'}},
+ '5-1':{why:'F5 is the highest note and falls on the strong beat of bar 2. The opening G4 is an upbeat (anacrusis) that flows into C5 at the start of the next bar. Don\'t play the upbeat strongly; come in lightly toward the downbeat.'},
+ '5-2':{why:'E5 is the highest note, reached by a leap of a sixth. It falls on beat 3, a weak beat, but acts as a small upbeat into the next bar; the energy built here unwinds from D5 onward. The two opening eighth notes are an upbeat too, so come in lightly.',
+   alt:{4:'D5 is at the start of the bar (a strong beat). You can also hear E5 as a run-up on the weak beat and treat D5 as the metrical peak.'}},
+ '6-1':{why:'Repeated notes left flat make a melody sound stuck. Here groups of repeated notes rise E → G → B and peak on D5. Let each repeated note grow a little to give it direction toward the next.',
+   dw:{0:'Starting the repeated notes strongly leaves no room to grow as the line climbs.'}},
+ '6-2':{why:'This phrase descends, so the peak comes at the start. Groups of repeated notes step down by thirds, A → F → D, relaxing overall. Still, don\'t flatten the repeated notes within each group; leaning a little into the next note keeps the descent moving.',
+   alt:{1:'If you treat the whole group of A4s as the peak, any of them works as the summit. The line descends from there.',2:'If you treat the whole group of A4s as the peak, any of them works as the summit. This reading leans into G4.'}},
+ 'J1-1':{why:'A line of eighth notes moving within a narrow range, with no clear peak. In a line like this, give the offbeats a light accent and let the downbeats pass lightly. Say "doo-BAH doo-BAH": the accents fall on "BAH". Don\'t overdo it; just enough to feel the swing. Cut the last E4 short and accent it.'},
+ 'J1-2':{why:'A line that starts on an offbeat after a rest. From the first E4, light accents continue on every offbeat. Keeping the downbeats (G4, D4 and so on) light makes the line bounce forward. Cut the last C4 short on the offbeat.'},
+ 'J2-1':{why:'Accent E5, the top note where the rising line turns around. E5 is on the beat, but the top of a line is strong whether it falls on or off the beat. Keep the offbeats before it to a light lift so the top stands out.'},
+ 'J2-2':{why:'The top note F5 falls on the offbeat of beat 2. Here the offbeat accent and the top of the line coincide, so it is the strongest note in the line. On the way down, keep the offbeats to a light lift and cut the final D4 short.'},
+ 'J3-1':{why:'D5 on the offbeat of beat 4 anticipates the next downbeat by an eighth note. Tie it across the barline and don\'t re-strike it on the downbeat. Jumping in ahead of the beat gives it momentum, so play it with an accent.'},
+ 'J3-2':{why:'D5 on the offbeat of beat 2 anticipates beat 3. Even in the middle of a bar, a note that jumps ahead of the beat takes an accent. Don\'t re-strike it on beat 3; hold it and listen to the harmony change to A7 underneath.'},
+ 'J4-1':{why:'A low downbeat note where the line dips, like F4 on beat 2, is played so softly it is barely heard (a ghost note). Dropping it out lets the surrounding offbeats and the top F5 stand out.'},
+ 'J4-2':{why:'Low and high notes alternate as the line climbs. Ghost the low downbeat notes so only the high offbeat notes are heard, and the melody emerges from the top notes alone. Accent G5, the top it arrives at.'},
+ 'J5-1':{why:'This phrase ends with "doo-DAT". Play A4 softly and cut the last G4 short on the offbeat with an accent. Holding the last note and fading it, as in classical music, loses the jazz crispness. Accent the top E5 along the way too.'},
+ 'J5-2':{why:'The last C5 falls on the offbeat of beat 4, anticipating the next bar (the C chord), and ends short. Hold your breath on the eighth rest just before it, then hit it: "BAP". Accent the top E5 on the offbeat of beat 2 too.'}
+};
+const UI = {
+ ja:{title:'フレージング道場', classical:'クラシック', jazz:'ジャズ', compare:'聴き比べ', all:'すべて', principle:n=>'原則'+n,
+  prev:'← 前へ', next:'次へ →', restart:'最初に戻る ↺', rhythmOn:'リズム隊あり', rhythmOff:'リズム隊なし',
+  score:(st,a,b)=>`${st==='j'?'アクセント':'山'} ${a[0]}/${a[1]}　聴き比べ ${b[0]}/${b[1]}`,
+  promptPeak:'このフレーズの頂点（いちばん重みを置きたい音）をタップしてください。先に旋律だけを聴いて確かめてもかまいません。',
+  promptAcc:'アクセントを置く音を<b>すべて</b>選んでください。1回タップでアクセント（&gt;）、2回でゴーストノート（ ）、3回で取り消しです。',
+  promptCmpJ:'同じラインを3通りのアーティキュレーションで弾きます。聴き比べて、いちばんスウィングらしいと思うものを選んでください。',
+  promptCmpC:'同じフレーズを3通りの抑揚で弾きます。聴き比べて、いちばん筋が通っていると思うものを選んでください。',
+  plain:'抑揚なしで聴く', mine:'選んだ通りに聴く', check:'答え合わせ', clear:'クリア', listen:'聴く', choose:'これを選ぶ',
+  model:'模範', playModel:'模範の抑揚で聴く', playModelJ:'模範で聴く', again:L=>`模範（${L}）をもう一度聴く`,
+  noteLabel:(i,nm)=>`${i+1}番目の音（${nm}）`,
+  vBest:'そこが頂点です', vAlt:'それも一つの読み方です', vBad:'別の音を頂点と考えます', modelIs:lab=>`模範では${lab}を頂点としています。`,
+  vAll:'すべて合っています', vNear:'あと少しです', vFar:'模範と見比べてみましょう',
+  tA:(a,b)=>`アクセント ${a}/${b}`, tG:(a,b)=>`ゴースト ${a}/${b}`, tX:n=>`余分 ${n}`,
+  kinds:{missA:'見落とし',missG:'見落とし（ゴースト）',extraA:'余分',extraG:'余分（ゴースト）'},
+  legend:['アクセント','軽い持ち上げ（任意）','ゴーストノート','短く切る','緑の丸：見落とした音'],
+  cmpOk:L=>`${L}が模範です`, cmpBad:L=>`模範は${L}です`,
+  hint:{last:'最後の音は終止です。ここに山を置くと、フレーズが閉じません。',p:'弱起の音です。次の拍頭へ向かう音なので、軽く入ります。',r:'解決音です。直前の不協和がほどける所なので、力を抜く場所です。',first:'フレーズの始まりです。ここから山に向かって動き出します。',short:'弱拍の短い音です。通過していく音で、重心にはなりにくいでしょう。',mid:'旋律の途中の音です。前後の流れの中では、山へ向かう途中か、山から下りる途中にあります。'},
+  wj:{last:'フレーズの最後の音です。短く切ってアクセントを付けます。',tie:'拍頭を先取りした音です。食って入る勢いにアクセントを付けます。',top:'線の頂点です。',off:'裏拍の音です。',acc:'アクセントを置く音です。',missG:'谷に落ちた低い表拍の音で、ゴーストノートにします。',xG:'ゴーストノートにする音です。アクセントとは逆に、ほとんど聞こえないくらいに弱くします。',xOff:'裏拍ですが、ここは強く打つほどの音ではありません。',xOn:'表拍の音です。軽く流します。',gA:'アクセントを置く音です。',gNo:'ゴーストにするほど弱くしない音です。'},
+  aria:{style:'スタイル',mode:'問題の形式',filters:'原則で絞り込む',staff:'楽譜',curve:'強弱の曲線'}
+ },
+ en:{title:'Phrasing Dojo', classical:'Classical', jazz:'Jazz', compare:'Compare', all:'All', principle:n=>'Principle '+n,
+  prev:'← Prev', next:'Next →', restart:'Back to start ↺', rhythmOn:'Rhythm section on', rhythmOff:'Rhythm section off',
+  score:(st,a,b)=>`${st==='j'?'Accents':'Peaks'} ${a[0]}/${a[1]}　Compare ${b[0]}/${b[1]}`,
+  promptPeak:'Tap the peak of this phrase, the note you would lean on most. You can listen to the plain melody first.',
+  promptAcc:'Select <b>every</b> note you would accent. Tap once for an accent (&gt;), twice for a ghost note ( ), and a third time to clear.',
+  promptCmpJ:'You will hear the same line with three different articulations. Pick the one that swings best.',
+  promptCmpC:'You will hear the same phrase shaped three ways. Pick the one that makes the most musical sense.',
+  plain:'Play without shaping', mine:'Play my marks', check:'Check', clear:'Clear', listen:'Listen', choose:'Choose this',
+  model:'Model', playModel:'Play the model', playModelJ:'Play the model', again:L=>`Play the model (${L}) again`,
+  noteLabel:(i,nm)=>`note ${i+1} (${nm})`,
+  vBest:'That is the peak', vAlt:'That is another valid reading', vBad:'The model puts the peak elsewhere', modelIs:lab=>`The model treats ${lab} as the peak.`,
+  vAll:'All correct', vNear:'Almost there', vFar:'Compare your marks with the model',
+  tA:(a,b)=>`Accents ${a}/${b}`, tG:(a,b)=>`Ghosts ${a}/${b}`, tX:n=>`Extra ${n}`,
+  kinds:{missA:'Missed',missG:'Missed (ghost)',extraA:'Extra',extraG:'Extra (ghost)'},
+  legend:['accent','light lift (optional)','ghost note','short','Green circle: missed note'],
+  cmpOk:L=>`${L} is the model`, cmpBad:L=>`The model is ${L}`,
+  hint:{last:'The last note is the cadence. A peak here leaves the phrase unfinished.',p:'This is an upbeat. It leads into the next downbeat, so it comes in lightly.',r:'This is a resolution. The dissonance before it releases here, so it is a place to relax.',first:'This is where the phrase begins. It starts moving toward the peak from here.',short:'A short note on a weak beat. It passes by and rarely carries the weight.',mid:'A note in the middle of the melody. In context it is either on the way up to the peak or on the way down.'},
+  wj:{last:'The last note of the phrase. Cut it short and accent it.',tie:'It anticipates the beat. Accent the push of arriving early.',top:'The top of the line.',off:'An offbeat note.',acc:'A note that takes an accent.',missG:'A low downbeat note at the bottom of a dip; play it as a ghost note.',xG:'This one is a ghost note: the opposite of an accent, played so softly it is barely heard.',xOff:'An offbeat, but not one that needs a strong hit here.',xOn:'A downbeat. Let it pass lightly.',gA:'This note takes an accent.',gNo:'Not soft enough to be a ghost note.'},
+  aria:{style:'Style',mode:'Exercise type',filters:'Filter by principle',staff:'Score',curve:'Dynamics curve'}
+ }
+};
+const U=()=>UI[LANG];
+const EN_MODE=()=>LANG==='en';
+const prsAll=()=>EN_MODE()?PRS_EN:PRS;
+const textAll=()=>EN_MODE()?TEXT_EN:TEXT;
+const distsAll=()=>EN_MODE()?DISTS_EN:DISTS;
+const whyOf=ph=>EN_MODE()?EN[ph.id].why:ph.why;
+const altOf=(ph,i)=>EN_MODE()?EN[ph.id].alt[i]:ph.alt[i];
+const dwOf=(ph,d)=>EN_MODE()?EN[ph.id].dw[d.at]:d.why;
 
 // classical note: [name, beats, flag]  flag: a=倚音, r=解決音, p=弱起
 const CLASSICAL = [
@@ -687,24 +822,29 @@ const S={style:'c',mode:'peak',filter:0,list:[],pos:0,answered:false,rhythm:true
 const $=id=>document.getElementById(id);
 const set=()=>SETS[S.style];
 const cur=()=>set()[S.list[S.pos]];
-const PR=()=>PRS[S.style];
-function noteLabel(ph,i){ return `${i+1}番目の音（${ph.notes[i].name.replace('#','♯').replace(/b(\d)/,'♭$1')}）`; }
+const PR=()=>prsAll()[S.style];
+function noteLabel(ph,i){ return U().noteLabel(i,ph.notes[i].name.replace('#','♯').replace(/b(\d)/,'♭$1')); }
 
 function buildStatic(){
   const box=$('filters'); box.innerHTML='';
   const mk=(v,label)=>{ const b=document.createElement('button'); b.className='chip'; b.id='f'+S.style+v; b.textContent=label; b.setAttribute('aria-pressed',S.filter===v); b.onclick=()=>{ S.filter=v; refreshList(); S.pos=0; buildStatic(); load(); }; box.appendChild(b); };
-  mk(0,'すべて'); Object.entries(PR()).forEach(([k,p])=>mk(+k,k+' '+p.name));
+  mk(0,U().all); Object.entries(PR()).forEach(([k,p])=>mk(+k,k+' '+p.name));
   const pr=$('principles'); pr.querySelectorAll('.pr').forEach(e=>e.remove());
   Object.entries(PR()).forEach(([k,p])=>{ const d=document.createElement('div'); d.className='pr'; d.innerHTML=`<span class="n">${k}</span><div><b>${p.name}</b><span>${p.desc}</span></div>`; pr.appendChild(d); });
-  const T=TEXT[S.style];
+  const T=textAll()[S.style];
   $('sub').textContent=T.sub; $('pr-title').textContent=T.prTitle; $('foot').textContent=T.foot; $('mode-peak').textContent=T.modeA;
-  $('rhythm').hidden=S.style!=='j';
+  $('rhythm').hidden=S.style!=='j'; $('rhythm').textContent=S.rhythm?U().rhythmOn:U().rhythmOff;
+  const u=U(); $('h1').textContent=u.title; document.title=u.title; document.documentElement.lang=LANG;
+  $('style-c').textContent=u.classical; $('style-j').textContent=u.jazz; $('mode-cmp').textContent=u.compare;
+  document.querySelector('.seg.style').setAttribute('aria-label',u.aria.style); document.querySelectorAll('.bar .seg')[1].setAttribute('aria-label',u.aria.mode);
+  $('filters').setAttribute('aria-label',u.aria.filters); $('staff').setAttribute('aria-label',u.aria.staff); $('curve').setAttribute('aria-label',u.aria.curve);
+  document.querySelectorAll('[data-lang]').forEach(x=>x.setAttribute('aria-selected',x.dataset.lang===LANG));
   document.querySelectorAll('[data-style]').forEach(x=>x.setAttribute('aria-selected',x.dataset.style===S.style));
   document.querySelectorAll('[data-mode]').forEach(x=>x.setAttribute('aria-selected',x.dataset.mode===S.mode));
   updScore();
 }
 function refreshList(){ S.list=set().map((p,i)=>i).filter(i=>!S.filter||set()[i].pr===S.filter); }
-function updScore(){ const a=S.score[S.style+'-peak'],b=S.score[S.style+'-cmp']; $('score').textContent=`${S.style==='j'?'アクセント':'山'} ${a[0]}/${a[1]}　聴き比べ ${b[0]}/${b[1]}`; }
+function updScore(){ const a=S.score[S.style+'-peak'],b=S.score[S.style+'-cmp']; $('score').textContent=U().score(S.style,a,b); }
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function colorFor(k){ return ['var(--accent)','var(--c2)','var(--c3)'][k]; }
 function btn(label,fn,cls,tri){ const b=document.createElement('button'); b.className='btn '+(cls||''); b.innerHTML=(tri?'<span class="tri"></span>':'')+label; b.onclick=fn; return b; }
@@ -712,42 +852,40 @@ function btn(label,fn,cls,tri){ const b=document.createElement('button'); b.clas
 function load(){
   stopAll(); S.answered=false;
   const ph=cur();
-  $('tag').innerHTML=`<small>原則${ph.pr}</small>${PR()[ph.pr].name}`;
+  $('tag').innerHTML=`<small>${U().principle(ph.pr)}</small>${PR()[ph.pr].name}`;
   $('count').textContent=`${ph.id}　${S.pos+1} / ${S.list.length}`;
   $('pdesc').textContent=PR()[ph.pr].desc;
   drawStaff(ph);
   $('curve').hidden=true; $('curve').innerHTML=''; $('feedback').hidden=true; $('feedback').innerHTML='';
   $('prev').disabled=S.pos===0;
-  $('next').textContent=S.pos===S.list.length-1?'最初に戻る ↺':'次へ →';
+  $('next').textContent=S.pos===S.list.length-1?U().restart:U().next; $('prev').textContent=U().prev;
   const c=$('controls'); c.innerHTML=''; c.className='';
   $('staff').onclick=null; $('staff').classList.remove('pickable');
   if(S.mode==='peak'&&ph.style==='c'){
     $('staff').classList.add('pickable');
-    $('prompt').textContent='このフレーズの頂点（いちばん重みを置きたい音）をタップしてください。先に旋律だけを聴いて確かめてもかまいません。';
+    $('prompt').textContent=U().promptPeak;
     c.className='controls';
-    c.appendChild(btn('抑揚なしで聴く',()=>playPlain(ph),'',true));
+    c.appendChild(btn(U().plain,()=>playPlain(ph),'',true));
     $('staff').onclick=e=>{ const g=e.target.closest('.note'); if(g&&!S.answered) answerPeak(+g.dataset.i); };
   } else if(S.mode==='peak'){
     S.sel=ph.notes.map(()=>'');
     $('staff').classList.add('pickable');
-    $('prompt').innerHTML='アクセントを置く音を<b>すべて</b>選んでください。1回タップでアクセント（&gt;）、2回でゴーストノート（ ）、3回で取り消しです。';
+    $('prompt').innerHTML=U().promptAcc;
     c.className='controls';
-    c.appendChild(btn('抑揚なしで聴く',()=>playPlain(ph),'',true));
-    c.appendChild(btn('選んだ通りに聴く',()=>playJ(ph,artFromSel(ph,S.sel)),'',true));
-    c.appendChild(btn('答え合わせ',()=>answerAcc(),'primary'));
-    c.appendChild(btn('クリア',()=>{ S.sel=ph.notes.map(()=>''); paintSel(ph); },'ghost'));
+    c.appendChild(btn(U().plain,()=>playPlain(ph),'',true));
+    c.appendChild(btn(U().mine,()=>playJ(ph,artFromSel(ph,S.sel)),'',true));
+    c.appendChild(btn(U().check,()=>answerAcc(),'primary'));
+    c.appendChild(btn(U().clear,()=>{ S.sel=ph.notes.map(()=>''); paintSel(ph); },'ghost'));
     $('staff').onclick=e=>{ const g=e.target.closest('.note'); if(!g||S.answered) return; let i=+g.dataset.i; if(ph.notes[i].flag.includes('c')) i--; S.sel[i]=S.sel[i]===''?'A':S.sel[i]==='A'?'g':''; paintSel(ph); };
   } else {
-    $('prompt').textContent=ph.style==='j'
-      ?'同じラインを3通りのアーティキュレーションで弾きます。聴き比べて、いちばんスウィングらしいと思うものを選んでください。'
-      :'同じフレーズを3通りの抑揚で弾きます。聴き比べて、いちばん筋が通っていると思うものを選んでください。';
+    $('prompt').textContent=ph.style==='j'?U().promptCmpJ:U().promptCmpC;
     S.order=shuffle([null,...ph.dist]);
     c.className='opts';
     S.order.forEach((d,k)=>{
       const o=document.createElement('div'); o.className='opt'; o.id='opt'+k;
       o.innerHTML=`<span class="lbl"><span class="sw" style="background:${colorFor(k)}"></span>${'ABC'[k]}</span>`;
-      o.appendChild(btn('聴く',()=>play(ph,d),'',true));
-      const pick=btn('これを選ぶ',()=>answerCmp(k),'primary'); pick.classList.add('pick'); o.appendChild(pick);
+      o.appendChild(btn(U().listen,()=>play(ph,d),'',true));
+      const pick=btn(U().choose,()=>answerCmp(k),'primary'); pick.classList.add('pick'); o.appendChild(pick);
       const w=document.createElement('span'); w.className='what'; o.appendChild(w);
       c.appendChild(o);
     });
@@ -760,12 +898,13 @@ function paintSel(ph){
 
 function hintFor(ph,i){
   const n=ph.notes[i];
-  if(i===ph.notes.length-1) return '最後の音は終止です。ここに山を置くと、フレーズが閉じません。';
-  if(n.flag==='p') return '弱起の音です。次の拍頭へ向かう音なので、軽く入ります。';
-  if(n.flag==='r') return '解決音です。直前の不協和がほどける所なので、力を抜く場所です。';
-  if(i===0) return 'フレーズの始まりです。ここから山に向かって動き出します。';
-  if(n.dur<1) return '弱拍の短い音です。通過していく音で、重心にはなりにくいでしょう。';
-  return '旋律の途中の音です。前後の流れの中では、山へ向かう途中か、山から下りる途中にあります。';
+  const H=U().hint;
+  if(i===ph.notes.length-1) return H.last;
+  if(n.flag==='p') return H.p;
+  if(n.flag==='r') return H.r;
+  if(i===0) return H.first;
+  if(n.dur<1) return H.short;
+  return H.mid;
 }
 function answerPeak(i){
   const ph=cur(); S.answered=true;
@@ -775,31 +914,33 @@ function answerPeak(i){
   const g=$('n'+i); g.classList.add('chosen'); if(isBest||isAlt) g.classList.add('right');
   $('staff').classList.remove('pickable');
   const model=versionC(ph,null);
-  drawCurves(ph,[{v:model,color:'var(--good)',label:'模範'}]);
+  drawCurves(ph,[{v:model,color:'var(--good)',label:U().model}]);
   const fb=$('feedback'); fb.hidden=false;
   let html='';
-  if(isBest) html+=`<p class="verdict good">そこが頂点です</p><p>${ph.why}</p>`;
-  else if(isAlt) html+=`<p class="verdict mid">それも一つの読み方です</p><p>${ph.alt[i]}</p><p class="hint">模範では${noteLabel(ph,ph.peak)}を頂点としています。${ph.why}</p>`;
-  else html+=`<p class="verdict bad">別の音を頂点と考えます</p><p class="hint">${noteLabel(ph,i)}：${hintFor(ph,i)}</p><p>模範では${noteLabel(ph,ph.peak)}を頂点としています。${ph.why}</p>`;
+  const u=U(), sep=LANG==='en'?': ':'：', sp=LANG==='en'?' ':'';
+  if(isBest) html+=`<p class="verdict good">${u.vBest}</p><p>${whyOf(ph)}</p>`;
+  else if(isAlt) html+=`<p class="verdict mid">${u.vAlt}</p><p>${altOf(ph,i)}</p><p class="hint">${u.modelIs(noteLabel(ph,ph.peak))}${sp}${whyOf(ph)}</p>`;
+  else html+=`<p class="verdict bad">${u.vBad}</p><p class="hint">${cap(noteLabel(ph,i))}${sep}${hintFor(ph,i)}</p><p>${u.modelIs(noteLabel(ph,ph.peak))}${sp}${whyOf(ph)}</p>`;
   fb.innerHTML=html;
   const row=document.createElement('div'); row.className='controls';
-  row.appendChild(btn('模範の抑揚で聴く',()=>playC(ph,model),'primary',true));
-  row.appendChild(btn('抑揚なしで聴く',()=>playPlain(ph),'',true));
+  row.appendChild(btn(U().playModel,()=>playC(ph,model),'primary',true));
+  row.appendChild(btn(U().plain,()=>playPlain(ph),'',true));
   fb.appendChild(row);
 }
 
 function whyJ(ph,i,kind){
   const n=ph.notes[i], N=ph.notes, maxM=Math.max(...N.map(x=>x.midi));
+  const W=U().wj;
   if(kind==='missA'){
-    if(i===N.length-1) return 'フレーズの最後の音です。短く切ってアクセントを付けます。';
-    if(n.flag.includes('t')) return '拍頭を先取りした音です。食って入る勢いにアクセントを付けます。';
-    if(n.midi===maxM) return '線の頂点です。';
-    if(isOff(n)) return '裏拍の音です。';
-    return 'アクセントを置く音です。';
+    if(i===N.length-1) return W.last;
+    if(n.flag.includes('t')) return W.tie;
+    if(n.midi===maxM) return W.top;
+    if(isOff(n)) return W.off;
+    return W.acc;
   }
-  if(kind==='missG') return '谷に落ちた低い表拍の音で、ゴーストノートにします。';
-  if(kind==='extraA'){ if(n.flag.includes('g')) return 'ゴーストノートにする音です。アクセントとは逆に、ほとんど聞こえないくらいに弱くします。'; return isOff(n)?'裏拍ですが、ここは強く打つほどの音ではありません。':'表拍の音です。軽く流します。'; }
-  if(kind==='extraG') return n.flag.includes('A')?'アクセントを置く音です。':'ゴーストにするほど弱くしない音です。';
+  if(kind==='missG') return W.missG;
+  if(kind==='extraA'){ if(n.flag.includes('g')) return W.xG; return isOff(n)?W.xOff:W.xOn; }
+  if(kind==='extraG') return n.flag.includes('A')?W.gA:W.gNo;
   return '';
 }
 function answerAcc(){
@@ -824,45 +965,46 @@ function answerAcc(){
   const perfect=res.hitA===res.M&&res.hitG===res.G&&extras===0;
   const sc=S.score['j-peak']; sc[1]++; if(perfect) sc[0]++; updScore();
   drawMarks(ph,modelMarks(ph),false);
-  drawCurves(ph,[{v:jart(ph,null).v,color:'var(--good)',label:'模範'}]);
+  drawCurves(ph,[{v:jart(ph,null).v,color:'var(--good)',label:U().model}]);
   const fb=$('feedback'); fb.hidden=false;
   const near=!perfect&&res.list.length<=2;
-  let html=`<p class="verdict ${perfect?'good':near?'mid':'bad'}">${perfect?'すべて合っています':near?'あと少しです':'模範と見比べてみましょう'}</p>`;
-  html+=`<div class="tally"><span>アクセント ${res.hitA}/${res.M}</span>${res.G?`<span>ゴースト ${res.hitG}/${res.G}</span>`:''}<span>余分 ${extras}</span></div>`;
-  html+=`<p>${ph.why}</p>`;
-  if(res.list.length){ html+='<ul class="vlist">'; res.list.forEach(([i,k])=>{ const lab={missA:'見落とし',missG:'見落とし（ゴースト）',extraA:'余分',extraG:'余分（ゴースト）'}[k]; html+=`<li><span class="k" style="color:var(--${k.startsWith('miss')?'good':'warn'})">${i+1}</span><span><b>${lab}</b>　${noteLabel(ph,i)}：${whyJ(ph,i,k)}</span><span></span></li>`; }); html+='</ul>'; }
-  html+='<div class="legend"><span><b>&gt;</b>アクセント</span><span><b style="opacity:.45">&gt;</b>軽い持ち上げ（任意）</span><span><b>( )</b>ゴーストノート</span><span><b>・</b>短く切る</span><span>緑の丸：見落とした音</span></div>';
+  const u=U(), sep=LANG==='en'?': ':'：', lg=u.legend;
+  let html=`<p class="verdict ${perfect?'good':near?'mid':'bad'}">${perfect?u.vAll:near?u.vNear:u.vFar}</p>`;
+  html+=`<div class="tally"><span>${u.tA(res.hitA,res.M)}</span>${res.G?`<span>${u.tG(res.hitG,res.G)}</span>`:''}<span>${u.tX(extras)}</span></div>`;
+  html+=`<p>${whyOf(ph)}</p>`;
+  if(res.list.length){ html+='<ul class="vlist">'; res.list.forEach(([i,k])=>{ const lab=u.kinds[k]; html+=`<li><span class="k" style="color:var(--${k.startsWith('miss')?'good':'warn'})">${i+1}</span><span><b>${lab}</b>　${cap(noteLabel(ph,i))}${sep}${whyJ(ph,i,k)}</span><span></span></li>`; }); html+='</ul>'; }
+  html+=`<div class="legend"><span><b>&gt;</b>${lg[0]}</span><span><b style="opacity:.45">&gt;</b>${lg[1]}</span><span><b>( )</b>${lg[2]}</span><span><b>・</b>${lg[3]}</span><span>${lg[4]}</span></div>`;
   fb.innerHTML=html;
   const row=document.createElement('div'); row.className='controls';
-  row.appendChild(btn('模範で聴く',()=>play(ph,null),'primary',true));
-  row.appendChild(btn('選んだ通りに聴く',()=>playJ(ph,artFromSel(ph,S.sel)),'',true));
+  row.appendChild(btn(U().playModelJ,()=>play(ph,null),'primary',true));
+  row.appendChild(btn(U().mine,()=>playJ(ph,artFromSel(ph,S.sel)),'',true));
   fb.appendChild(row);
 }
 
 function answerCmp(k){
   if(S.answered) return;
   const ph=cur(); S.answered=true;
-  const D=DISTS[ph.style];
+  const D=distsAll()[ph.style];
   const mi=S.order.indexOf(null), ok=k===mi, sc=S.score[ph.style+'-cmp'];
   sc[1]++; if(ok) sc[0]++; updScore();
   $('controls').classList.add('answered');
   S.order.forEach((d,j)=>{
     const o=$('opt'+j); o.querySelector('.pick').disabled=true;
     if(j===mi) o.classList.add('model'); else if(j===k) o.classList.add('picked');
-    o.querySelector('.what').textContent=d?D[d.t].name:'模範';
+    o.querySelector('.what').textContent=d?D[d.t].name:U().model;
   });
   if(ph.style==='j') drawMarks(ph,modelMarks(ph),false);
   drawCurves(ph,S.order.map((d,j)=>({v:version(ph,d),color:colorFor(j),label:'ABC'[j],dash:d?'5 4':''})));
   const fb=$('feedback'); fb.hidden=false;
-  let html=ok?`<p class="verdict good">${'ABC'[k]}が模範です</p>`:`<p class="verdict bad">模範は${'ABC'[mi]}です</p>`;
-  html+=`<p>${ph.why}</p><ul class="vlist">`;
-  S.order.forEach((d,j)=>{ if(d) html+=`<li><span class="k" style="color:${colorFor(j)}">${'ABC'[j]}</span><span><b>${D[d.t].name}</b>　${d.t==='peakAt'?d.why:D[d.t].text}</span><span></span></li>`; });
+  let html=ok?`<p class="verdict good">${U().cmpOk('ABC'[k])}</p>`:`<p class="verdict bad">${U().cmpBad('ABC'[mi])}</p>`;
+  html+=`<p>${whyOf(ph)}</p><ul class="vlist">`;
+  S.order.forEach((d,j)=>{ if(d) html+=`<li><span class="k" style="color:${colorFor(j)}">${'ABC'[j]}</span><span><b>${D[d.t].name}</b>　${d.t==='peakAt'?dwOf(ph,d):D[d.t].text}</span><span></span></li>`; });
   html+='</ul>';
   fb.innerHTML=html;
   const js=S.order.map((d,jj)=>d?jj:-1).filter(x=>x>=0);
-  fb.querySelectorAll('.vlist li').forEach((li,n)=>{ const j=js[n]; li.lastChild.appendChild(btn('聴く',()=>play(ph,S.order[j]),'',true)); });
+  fb.querySelectorAll('.vlist li').forEach((li,n)=>{ const j=js[n]; li.lastChild.appendChild(btn(U().listen,()=>play(ph,S.order[j]),'',true)); });
   const row=document.createElement('div'); row.className='controls';
-  row.appendChild(btn(`模範（${'ABC'[mi]}）をもう一度聴く`,()=>play(ph,null),'primary',true));
+  row.appendChild(btn(U().again('ABC'[mi]),()=>play(ph,null),'primary',true));
   fb.appendChild(row);
 }
 
@@ -872,11 +1014,22 @@ document.querySelectorAll('[data-style]').forEach(b=>b.onclick=()=>{
   S.style=b.dataset.style; S.filter=0; S.pos=0; refreshList(); buildStatic(); load();
   try{ localStorage.setItem('yokuyo-style',S.style); }catch(e){}
 });
-$('rhythm').onclick=()=>{ S.rhythm=!S.rhythm; $('rhythm').setAttribute('aria-pressed',S.rhythm); $('rhythm').textContent=S.rhythm?'リズム隊あり':'リズム隊なし'; };
+$('rhythm').onclick=()=>{ S.rhythm=!S.rhythm; $('rhythm').setAttribute('aria-pressed',S.rhythm); $('rhythm').textContent=S.rhythm?U().rhythmOn:U().rhythmOff; };
 $('prev').onclick=()=>{ if(S.pos>0){ S.pos--; load(); } };
 $('next').onclick=()=>{ S.pos=(S.pos+1)%S.list.length; load(); };
 
 try{ const st=localStorage.getItem('yokuyo-style'); if(st==='j'||st==='c') S.style=st; }catch(e){}
+const cap=s=>LANG==='en'?s.charAt(0).toUpperCase()+s.slice(1):s;
+(function(){
+  let l=null; try{ l=localStorage.getItem('phrasing-lang'); }catch(e){}
+  if(l!=='ja'&&l!=='en'){ const langs=(navigator.languages&&navigator.languages.length)?navigator.languages:[navigator.language||'ja']; l=/^ja\b/i.test(langs[0]||'')?'ja':'en'; }
+  LANG=l;
+})();
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{
+  if(LANG===b.dataset.lang) return; LANG=b.dataset.lang;
+  try{ localStorage.setItem('phrasing-lang',LANG); }catch(e){}
+  buildStatic(); load();
+});
 refreshList(); buildStatic(); load();
 </script>
 

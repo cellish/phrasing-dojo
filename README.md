@@ -6,3 +6,9 @@
 - **ジャズ編**：スウィングの8分音符ラインで、アクセントとゴーストノートを置く音を選ぶ「アクセントはどこ？」と「聴き比べ」。5つの原則（裏拍のアクセント、線の頂点、先取り、ゴーストノート、短い終わり）。
 
 音はブラウザ内で合成したピアノで、ジャズ編ではライドシンバル、ウォーキングベース、コードのバッキングを重ねられます。
+
+画面の言語は日本語と英語を切り替えられます（最初はブラウザの言語設定に従います）。
+
+## English
+
+A browser drill for interpreting melodic phrasing. The classical edition asks you to find the peak of a phrase and compare three shaped versions; the jazz edition asks you to mark accents and ghost notes in swing eighth-note lines. The interface switches between Japanese and English and follows the browser language by default.
