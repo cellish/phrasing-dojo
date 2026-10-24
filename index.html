@@ -130,7 +130,9 @@ svg[hidden]{display:none}
 .seg.lang{padding:2px}
 .seg.lang button{padding:4px 11px;font-size:.8rem}
 .seg.style button[aria-selected="true"]{background:var(--ink);color:var(--panel)}
-.toggle{margin-left:auto}
+header.top .sub{flex:1 1 180px;min-width:0}
+.prefs{margin-left:auto;display:flex;flex-wrap:wrap;gap:6px}
+.bar .score{margin:0 0 0 auto}
 .beam{fill:var(--ink)}
 .rest{fill:var(--ink);stroke:var(--ink)}
 .rest-q{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
@@ -158,7 +160,7 @@ svg[hidden]{display:none}
   <header class="top">
     <h1 id="h1">フレージング道場</h1>
     <p class="sub" id="sub">解釈編｜旋律のどこに重みを置くか</p>
-    <p class="score" id="score"></p>
+    <div class="prefs">
     <div class="seg lang" role="tablist" aria-label="Language">
       <button id="lang-ja" role="tab" aria-selected="true" data-lang="ja" lang="ja">日本語</button>
       <button id="lang-en" role="tab" aria-selected="false" data-lang="en" lang="en">EN</button>
@@ -167,6 +169,7 @@ svg[hidden]{display:none}
       <button id="theme-auto" role="tab" aria-selected="true" data-theme-opt="auto">自動</button>
       <button id="theme-light" role="tab" aria-selected="false" data-theme-opt="light">ライト</button>
       <button id="theme-dark" role="tab" aria-selected="false" data-theme-opt="dark">ダーク</button>
+    </div>
     </div>
   </header>
 
@@ -179,6 +182,7 @@ svg[hidden]{display:none}
       <button id="mode-peak" role="tab" aria-selected="true" data-mode="peak">山はどこ？</button>
       <button id="mode-cmp" role="tab" aria-selected="false" data-mode="cmp">聴き比べ</button>
     </div>
+    <p class="score" id="score"></p>
     <button class="chip toggle" id="rhythm" aria-pressed="true" hidden>リズム隊あり</button>
   </div>
   <div class="chips" id="filters" aria-label="原則で絞り込む"></div>
