@@ -163,6 +163,11 @@ svg[hidden]{display:none}
       <button id="lang-ja" role="tab" aria-selected="true" data-lang="ja" lang="ja">日本語</button>
       <button id="lang-en" role="tab" aria-selected="false" data-lang="en" lang="en">EN</button>
     </div>
+    <div class="seg lang" id="theme-seg" role="tablist" aria-label="テーマ">
+      <button id="theme-auto" role="tab" aria-selected="true" data-theme-opt="auto">自動</button>
+      <button id="theme-light" role="tab" aria-selected="false" data-theme-opt="light">ライト</button>
+      <button id="theme-dark" role="tab" aria-selected="false" data-theme-opt="dark">ダーク</button>
+    </div>
   </header>
 
   <div class="bar">
@@ -324,6 +329,7 @@ const UI = {
   cmpOk:L=>`${L}が模範です`, cmpBad:L=>`模範は${L}です`,
   hint:{last:'最後の音は終止です。ここに山を置くと、フレーズが閉じません。',p:'弱起の音です。次の拍頭へ向かう音なので、軽く入ります。',r:'解決音です。直前の不協和がほどける所なので、力を抜く場所です。',first:'フレーズの始まりです。ここから山に向かって動き出します。',short:'弱拍の短い音です。通過していく音で、重心にはなりにくいでしょう。',mid:'旋律の途中の音です。前後の流れの中では、山へ向かう途中か、山から下りる途中にあります。'},
   wj:{last:'フレーズの最後の音です。短く切ってアクセントを付けます。',tie:'拍頭を先取りした音です。食って入る勢いにアクセントを付けます。',top:'線の頂点です。',off:'裏拍の音です。',acc:'アクセントを置く音です。',missG:'谷に落ちた低い表拍の音で、ゴーストノートにします。',xG:'ゴーストノートにする音です。アクセントとは逆に、ほとんど聞こえないくらいに弱くします。',xOff:'裏拍ですが、ここは強く打つほどの音ではありません。',xOn:'表拍の音です。軽く流します。',gA:'アクセントを置く音です。',gNo:'ゴーストにするほど弱くしない音です。'},
+  theme:{auto:'自動',light:'ライト',dark:'ダーク',label:'テーマ'},
   aria:{style:'スタイル',mode:'問題の形式',filters:'原則で絞り込む',staff:'楽譜',curve:'強弱の曲線'}
  },
  en:{title:'Phrasing Dojo', classical:'Classical', jazz:'Jazz', compare:'Compare', all:'All', principle:n=>'Principle '+n,
@@ -344,6 +350,7 @@ const UI = {
   cmpOk:L=>`${L} is the model`, cmpBad:L=>`The model is ${L}`,
   hint:{last:'The last note is the cadence. A peak here leaves the phrase unfinished.',p:'This is an upbeat. It leads into the next downbeat, so it comes in lightly.',r:'This is a resolution. The dissonance before it releases here, so it is a place to relax.',first:'This is where the phrase begins. It starts moving toward the peak from here.',short:'A short note on a weak beat. It passes by and rarely carries the weight.',mid:'A note in the middle of the melody. In context it is either on the way up to the peak or on the way down.'},
   wj:{last:'The last note of the phrase. Cut it short and accent it.',tie:'It anticipates the beat. Accent the push of arriving early.',top:'The top of the line.',off:'An offbeat note.',acc:'A note that takes an accent.',missG:'A low downbeat note at the bottom of a dip; play it as a ghost note.',xG:'This one is a ghost note: the opposite of an accent, played so softly it is barely heard.',xOff:'An offbeat, but not one that needs a strong hit here.',xOn:'A downbeat. Let it pass lightly.',gA:'This note takes an accent.',gNo:'Not soft enough to be a ghost note.'},
+  theme:{auto:'Auto',light:'Light',dark:'Dark',label:'Theme'},
   aria:{style:'Style',mode:'Exercise type',filters:'Filter by principle',staff:'Score',curve:'Dynamics curve'}
  }
 };
@@ -839,6 +846,8 @@ function buildStatic(){
   document.querySelector('.seg.style').setAttribute('aria-label',u.aria.style); document.querySelectorAll('.bar .seg')[1].setAttribute('aria-label',u.aria.mode);
   $('filters').setAttribute('aria-label',u.aria.filters); $('staff').setAttribute('aria-label',u.aria.staff); $('curve').setAttribute('aria-label',u.aria.curve);
   document.querySelectorAll('[data-lang]').forEach(x=>x.setAttribute('aria-selected',x.dataset.lang===LANG));
+  ['auto','light','dark'].forEach(k=>{ const b=$('theme-'+k); b.textContent=u.theme[k]; b.setAttribute('aria-selected',THEME===k); });
+  $('theme-seg').setAttribute('aria-label',u.theme.label);
   document.querySelectorAll('[data-style]').forEach(x=>x.setAttribute('aria-selected',x.dataset.style===S.style));
   document.querySelectorAll('[data-mode]').forEach(x=>x.setAttribute('aria-selected',x.dataset.mode===S.mode));
   updScore();
@@ -1020,6 +1029,20 @@ $('next').onclick=()=>{ S.pos=(S.pos+1)%S.list.length; load(); };
 
 try{ const st=localStorage.getItem('yokuyo-style'); if(st==='j'||st==='c') S.style=st; }catch(e){}
 const cap=s=>LANG==='en'?s.charAt(0).toUpperCase()+s.slice(1):s;
+var THEME='auto';
+const HOST_THEME=document.documentElement.getAttribute('data-theme');
+function applyTheme(){
+  const r=document.documentElement;
+  if(THEME==='auto'){ if(HOST_THEME) r.setAttribute('data-theme',HOST_THEME); else r.removeAttribute('data-theme'); }
+  else r.setAttribute('data-theme',THEME);
+}
+try{ const t=localStorage.getItem('phrasing-theme'); if(t==='light'||t==='dark'||t==='auto') THEME=t; }catch(e){}
+applyTheme();
+document.querySelectorAll('[data-theme-opt]').forEach(b=>b.onclick=()=>{
+  THEME=b.dataset.themeOpt; applyTheme();
+  try{ localStorage.setItem('phrasing-theme',THEME); }catch(e){}
+  document.querySelectorAll('[data-theme-opt]').forEach(x=>x.setAttribute('aria-selected',x.dataset.themeOpt===THEME));
+});
 (function(){
   let l=null; try{ l=localStorage.getItem('phrasing-lang'); }catch(e){}
   if(l!=='ja'&&l!=='en'){ const langs=(navigator.languages&&navigator.languages.length)?navigator.languages:[navigator.language||'ja']; l=/^ja\b/i.test(langs[0]||'')?'ja':'en'; }
