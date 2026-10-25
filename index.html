@@ -31,7 +31,7 @@
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
 .wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
-header.top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+header.top{display:flex;align-items:center;gap:12px 18px;flex-wrap:wrap}
 h1{font-family:var(--f-display);font-weight:800;font-size:1.9rem;margin:0;letter-spacing:.04em;text-wrap:balance}
 .sub{margin:0;color:var(--muted);font-size:.92rem}
 .score{margin-left:auto;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -40,8 +40,21 @@ h1{font-family:var(--f-display);font-weight:800;font-size:1.9rem;margin:0;letter
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--panel)}
 .seg button{border:0;background:none;color:var(--muted);font:inherit;font-weight:700;padding:6px 16px;border-radius:999px;cursor:pointer}
 .seg button[aria-selected="true"]{background:var(--accent);color:var(--panel)}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.cgroup{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.seg.grp button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent)}
+.seg.grp button{padding:5px 14px;font-size:.85rem}
+.cmptag{margin-left:6px;font-size:.68rem;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 6px}
+.bar .chips{flex:1 1 auto;min-width:0}
+.glbl{font-size:.75rem;color:var(--muted);font-weight:700;margin-right:2px}
+.seg.mode{padding:2px}
+.seg button:disabled{opacity:.35;cursor:not-allowed}
+.seg.mode button{padding:5px 14px;font-size:.88rem}
+.pgh{grid-column:1/-1;margin:8px 0 -2px;font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+@media (max-width:620px){.cgroup{padding-left:0;border-left:0}}
 .chip{border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:.82rem;padding:4px 11px;border-radius:999px;cursor:pointer}
+.chip .cn{display:inline-block;min-width:1.4em;margin-right:5px;padding:0 4px;border-radius:999px;background:var(--bg);color:var(--muted);font-weight:700;font-size:.75rem;text-align:center;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"] .cn{background:var(--panel);color:var(--accent)}
 .chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:700}
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
@@ -79,6 +92,12 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .curve-grid{stroke:var(--line);stroke-width:1}
 .curve-label{fill:var(--muted);font-size:10px;font-family:var(--f-body)}
 .curve-line{fill:none;stroke-width:2.2;stroke-linejoin:round}
+.curve-line.model{stroke-width:4;stroke-opacity:.55}
+.clegend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.82rem;color:var(--muted);align-items:center}
+.clegend span{display:inline-flex;align-items:center;gap:6px}
+.clegend svg{flex:none}
+.clegend b{color:var(--ink)}
+.clegend .note{flex-basis:100%}
 .curve-dot{stroke:var(--panel);stroke-width:1.5}
 
 .prompt{margin:0;font-size:.95rem}
@@ -131,18 +150,38 @@ svg[hidden]{display:none}
 .seg.lang button{padding:4px 11px;font-size:.8rem}
 .seg.style button[aria-selected="true"]{background:var(--ink);color:var(--panel)}
 header.top .sub{flex:1 1 180px;min-width:0}
-.prefs{margin-left:auto;display:flex;flex-wrap:wrap;gap:6px}
+.prefs{margin-left:auto;position:relative}
+.gear{display:inline-flex;align-items:center;gap:4px;font-size:.85rem;padding:6px 14px}
+.gear[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+.settings{position:absolute;right:0;top:calc(100% + 6px);z-index:20;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.14);min-width:max-content}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.slbl{font-size:.8rem;color:var(--muted);font-weight:700}
+.psel{display:inline-flex;align-items:center;gap:8px}
+.psel select{font:inherit;font-size:.85rem;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);max-width:100%;cursor:pointer}
+.psel select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:620px){.psel{flex-basis:100%}.psel select{flex:1;min-width:0}}
 .bar .score{margin:0 0 0 auto}
 .beam{fill:var(--ink)}
 .rest{fill:var(--ink);stroke:var(--ink)}
 .rest-q{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
 .tie{fill:none;stroke:var(--ink);stroke-width:1.4}
+.bracket{stroke:var(--muted);stroke-width:1.2}
 .mark{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .mark.light{opacity:.4}
 .mark.user{stroke:var(--accent)}
 .paren{fill:var(--ink);font-size:15px;font-family:Georgia,serif}
 .paren.user{fill:var(--accent)}
 .sdot{fill:var(--ink)}
+.tuplet{fill:var(--ink);font:italic 700 12px Georgia,serif}
+.subt{font-family:var(--f-body);font-weight:700;font-size:.85rem;color:var(--accent);margin-left:10px;padding:2px 10px;border-radius:999px;background:var(--accent-soft);vertical-align:middle}
+.acc-line{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:round}
+.acc-bar{stroke:var(--ink);stroke-width:3}
+.sdot.user{fill:var(--accent)}
+.mark.given{stroke:var(--muted);opacity:.55}
+.pickable .note.fixed:hover .head{fill:var(--ink);stroke:var(--ink)}
+.note.fixed .hit{cursor:default}
+.sdot.given{fill:var(--muted);opacity:.55}
+.paren.given{fill:var(--muted);opacity:.55}
 .note.sel-a .head,.note.sel-g .head{fill:var(--accent);stroke:var(--accent)}
 .note.sel-g .head{opacity:.55}
 .note.missed .ring{stroke:var(--good)}
@@ -159,48 +198,55 @@ header.top .sub{flex:1 1 180px;min-width:0}
 <div class="wrap">
   <header class="top">
     <h1 id="h1">フレージング道場</h1>
-    <p class="sub" id="sub">解釈編｜旋律のどこに重みを置くか</p>
-    <div class="prefs">
+    <div class="seg style" role="tablist" aria-label="スタイル">
+      <button id="style-c" role="tab" aria-selected="true" data-style="c">クラシック</button>
+      <button id="style-j" role="tab" aria-selected="false" data-style="j">ジャズ</button>
+    </div>
+    <div class="prefs" id="prefs">
+    <button class="chip gear" id="gear" aria-expanded="false" aria-controls="settings"><span aria-hidden="true">⚙</span> <span id="gear-label">設定</span></button>
+    <div class="settings" id="settings" hidden>
+    <div class="srow"><span class="slbl" id="lbl-lang">言語</span>
     <div class="seg lang" role="tablist" aria-label="Language">
       <button id="lang-ja" role="tab" aria-selected="true" data-lang="ja" lang="ja">日本語</button>
       <button id="lang-en" role="tab" aria-selected="false" data-lang="en" lang="en">EN</button>
-    </div>
+    </div></div>
+    <div class="srow"><span class="slbl" id="lbl-theme">テーマ</span>
     <div class="seg lang" id="theme-seg" role="tablist" aria-label="テーマ">
       <button id="theme-auto" role="tab" aria-selected="true" data-theme-opt="auto">自動</button>
       <button id="theme-light" role="tab" aria-selected="false" data-theme-opt="light">ライト</button>
       <button id="theme-dark" role="tab" aria-selected="false" data-theme-opt="dark">ダーク</button>
+    </div></div>
+    <div class="srow" id="row-rhythm"><span class="slbl" id="lbl-rhythm">伴奏</span>
+    <button class="chip" id="rhythm" aria-pressed="true">リズム隊あり</button></div>
     </div>
     </div>
   </header>
 
   <div class="bar">
-    <div class="seg style" role="tablist" aria-label="スタイル">
-      <button id="style-c" role="tab" aria-selected="true" data-style="c">クラシック</button>
-      <button id="style-j" role="tab" aria-selected="false" data-style="j">ジャズ</button>
-    </div>
-    <div class="seg" role="tablist" aria-label="問題の形式">
-      <button id="mode-peak" role="tab" aria-selected="true" data-mode="peak">山はどこ？</button>
-      <button id="mode-cmp" role="tab" aria-selected="false" data-mode="cmp">聴き比べ</button>
-    </div>
+    <div class="chips" id="filters" role="group" aria-label="原則で絞り込む"></div>
     <p class="score" id="score"></p>
-    <button class="chip toggle" id="rhythm" aria-pressed="true" hidden>リズム隊あり</button>
   </div>
-  <div class="chips" id="filters" aria-label="原則で絞り込む"></div>
 
   <main class="card" id="card">
     <div class="card-head">
-      <span class="tag" id="tag"></span>
+      <div class="seg mode" id="mode-seg" role="tablist" aria-label="問題の形式">
+        <button id="mode-peak" role="tab" aria-selected="true" data-mode="peak">山はどこ？</button>
+        <button id="mode-cmp" role="tab" aria-selected="false" data-mode="cmp">聴き比べ</button>
+      </div>
       <span class="count" id="count"></span>
       <div class="nav">
         <button class="btn" id="prev">← 前へ</button>
         <button class="btn next" id="next">次へ →</button>
       </div>
     </div>
+    <span class="tag" id="tag"></span>
     <p class="pdesc" id="pdesc"></p>
     <div class="scroller">
       <svg id="staff" aria-label="楽譜"></svg>
       <svg id="curve" aria-label="強弱の曲線" hidden></svg>
+      <svg id="curve2" aria-label="強弱の曲線" hidden></svg>
     </div>
+    <div class="clegend" id="clegend" hidden></div>
     <p class="prompt" id="prompt"></p>
     <div id="controls"></div>
     <section class="feedback" id="feedback" hidden></section>
@@ -216,23 +262,33 @@ const PRS = {
  c:{
   1:{name:'弓なり形と終止', desc:'フレーズは中ほどで高まり、終わりで収まる。'},
   2:{name:'跳躍と最高音', desc:'大きな跳躍の到達点や、強拍に来る最高音に重心が来やすい。短い飾りの音は別。'},
-  3:{name:'倚音と解決', desc:'和音とぶつかる強拍の音（倚音）に重みを置き、解決音で力を抜く。'},
-  4:{name:'和声の緊張', desc:'同じ高さの音でも、下の和音の緊張が強いほど重くなる。'},
-  5:{name:'弱起', desc:'弱起の音は次の拍頭へ流れ込む。強く弾くと拍がずれて聞こえる。'},
-  6:{name:'反復音', desc:'同じ音を並べたままにしない。少しずつ次の音へ向かわせる。'}
+  3:{name:'反復とゼクエンツ', desc:'同じ形を繰り返すときは毎回同じにしない。上がるゼクエンツは少しずつ強く、下がるゼクエンツは少しずつ弱く。'},
+  4:{name:'フレーズの入れ子', desc:'小さなフレーズにもそれぞれ山があるが、全体の頂点は一つ。部分の山は全体の中で大きさを決める。'},
+  5:{name:'倚音と解決', desc:'和音とぶつかる強拍の音（倚音）に重みを置き、解決音で力を抜く。'},
+  6:{name:'和声の緊張', desc:'同じ高さの音でも、下の和音の緊張が強いほど重くなる。'},
+  7:{name:'弱起', desc:'弱起の音は次の拍頭へ流れ込む。強く弾くと拍がずれて聞こえる。'},
+  8:{name:'反復音', desc:'同じ音を並べたままにしない。少しずつ次の音へ向かわせる。'},
+  9:{name:'時間の取り方', desc:'頂点への到達や終止で、ほんの少し時間を取る。メトロノーム通りだと機械的になり、頂点で急ぐとせわしなくなる。'},
+  10:{name:'スラーのまとまり', desc:'2〜4音ほどの短いスラーでは、頭に重みを置き、終わりは軽く短めに収める。フレーズ全体にかかる長いスラーは、まとまりとレガートを示すもので、この型は当てはまらない。'}
  },
  j:{
   1:{name:'裏拍のアクセント', desc:'8分音符のラインでは、裏拍の音に軽くアクセントを置き、表拍は軽く流す。'},
   2:{name:'線の頂点', desc:'上行して折り返す一番上の音にアクセントを置く。拍の表か裏かには関係しない。'},
   3:{name:'先取り', desc:'拍頭を8分音符ひとつ早く食って入る音にアクセントを置き、タイで伸ばす。'},
   4:{name:'ゴーストノート', desc:'谷になった低い表拍の音を、ほとんど聞こえないくらいに弱く弾く。'},
-  5:{name:'短い終わり', desc:'フレーズの最後の音は長く伸ばさず、短く切ってアクセントを付ける。'}
+  5:{name:'短い終わり', desc:'フレーズの最後の音は長く伸ばさず、短く切ってアクセントを付ける。'},
+  6:{name:'3連符', desc:'スウィングの中の3連符は均等に弾き、ハネさせない。アクセントは組の頂点か、次の拍へ向かう音に置き、各組の頭を毎回強くしない。'},
+  7:{name:'3つずつのフレーズ', desc:'4拍子のまま、8分音符3つずつのまとまりを繰り返す。まとまりの頭に軽いアクセントを置くと、拍とずれた周期が浮かぶ。'},
+  8:{name:'ボサノヴァ', desc:'8分音符をハネずに均等に弾く。強弱の幅は小さく、アクセントは控えめにして、レガートで歌う。（聴き比べで練習します）'},
+  9:{name:'ダブルタイム', desc:'リズム隊はそのままに、16分音符で倍のテンポのように弾く。ハネとアクセントを1段細かい音価に移す。（聴き比べで練習します）'},
+  10:{name:'ビートとの位置', desc:'ビートのどこに乗るか。ミディアムテンポでは表拍をわずかに後ろに置いて裏拍は合わせ（レイドバック）、速いテンポではビートの頭に乗る（オントップ）。休符のあとの入りも、早めず遅らせずに合わせる。（聴き比べで練習します）'},
+  11:{name:'ハネの深さ', desc:'ハネの深さはテンポに合わせる。テンポが遅いほど深く3連符に近く、速いほど浅く均等に近づく。（聴き比べで練習します）'}
  }
 };
 const TEXT = {
- c:{sub:'解釈編｜旋律のどこに重みを置くか', modeA:'山はどこ？', prTitle:'6つの原則',
+ c:{sub:'解釈編｜旋律のどこに重みを置くか', modeA:'山はどこ？', prTitle:'10の原則',
     foot:'模範の抑揚は「筋の通った読み方の一例」です。点線の丸は別解として成り立つ音を示します。違う答えを選んだときは、その理由を自分の言葉で説明できるかを考えてみてください。'},
- j:{sub:'ジャズ編｜スウィングの8分音符をどう弾き分けるか', modeA:'アクセントはどこ？', prTitle:'5つの原則（スウィング）',
+ j:{sub:'ジャズ編｜スウィングの8分音符をどう弾き分けるか', modeA:'アクセントはどこ？', prTitle:'11の原則（ジャズ）',
     foot:'ジャズのアーティキュレーションは奏者やスタイルで大きく変わります。ここで扱うのはスウィングやビバップの8分音符ラインの基本的な型です。薄い「>」は、付けても付けなくてもよい軽い持ち上げを表し、採点には含めません。'}
 };
 
@@ -242,23 +298,33 @@ const PRS_EN = {
  c:{
   1:{name:'Arch and cadence', desc:'A phrase swells toward the middle and settles at the end.'},
   2:{name:'Leaps and high notes', desc:'The landing note of a big leap, or a high note on a strong beat, tends to carry the weight. Short ornaments are the exception.'},
-  3:{name:'Appoggiatura and resolution', desc:'Lean on the dissonant note on the strong beat (the appoggiatura) and relax on its resolution.'},
-  4:{name:'Harmonic tension', desc:'The same pitch weighs more when the harmony underneath is more tense.'},
-  5:{name:'Upbeats', desc:'An upbeat flows into the next downbeat. Played strongly, it makes the meter sound shifted.'},
-  6:{name:'Repeated notes', desc:"Don't leave repeated notes flat. Let each one lean toward the next."}
+  3:{name:'Repetition and sequence', desc:"Don't play a repeated shape the same way each time. Grow through a rising sequence; relax through a falling one."},
+  4:{name:'Phrases within phrases', desc:'Small phrases have their own peaks, but there is one overall summit. Size each partial peak against the whole.'},
+  5:{name:'Appoggiatura and resolution', desc:'Lean on the dissonant note on the strong beat (the appoggiatura) and relax on its resolution.'},
+  6:{name:'Harmonic tension', desc:'The same pitch weighs more when the harmony underneath is more tense.'},
+  7:{name:'Upbeats', desc:'An upbeat flows into the next downbeat. Played strongly, it makes the meter sound shifted.'},
+  8:{name:'Repeated notes', desc:"Don't leave repeated notes flat. Let each one lean toward the next."},
+  9:{name:'Taking time', desc:'Take a touch of time arriving at the peak and at the cadence. Strict time sounds mechanical; rushing the peak sounds hurried.'},
+  10:{name:'Slur groups', desc:'Under a short slur of two to four notes, put the weight at the start and end it lighter and slightly shorter. A long slur over a whole phrase marks a unit and legato, and this pattern does not apply.'}
  },
  j:{
   1:{name:'Offbeat accents', desc:'In a line of eighth notes, give the offbeats a light accent and let the downbeats pass lightly.'},
   2:{name:'Top of the line', desc:'Accent the highest note where the line turns around, whether it falls on or off the beat.'},
   3:{name:'Anticipation', desc:'Accent a note that arrives an eighth early, ahead of the beat, and tie it over.'},
   4:{name:'Ghost notes', desc:'Play a low downbeat note at the bottom of a dip so softly it is barely heard.'},
-  5:{name:'Short endings', desc:"Don't hold the last note of a phrase. Cut it short and accent it."}
+  5:{name:'Short endings', desc:"Don't hold the last note of a phrase. Cut it short and accent it."},
+  6:{name:'Triplets', desc:'Play triplets inside a swing line evenly, without swinging them. Accent the top of a group or the note heading into the next beat, not the first note of every group.'},
+  7:{name:'Groups of three', desc:'Keep the 4/4 meter but repeat a group of three eighth notes. A light accent on each group head brings out a cycle that drifts against the beat.'},
+  8:{name:'Bossa nova', desc:'Play the eighth notes even, without swing. Keep the dynamic range small and the accents gentle, and sing legato. (Practiced in Compare.)'},
+  9:{name:'Double time', desc:'With the rhythm section unchanged, play sixteenth-note lines as if at twice the tempo. Move the swing and accents down one note value. (Practiced in Compare.)'},
+  10:{name:'Placement on the beat', desc:'Where you sit on the beat. At medium tempos, place downbeats slightly behind and keep offbeats with the beat (laid back); at fast tempos, sit on top of the beat. Entries after rests land exactly on time, too. (Practiced in Compare.)'},
+  11:{name:'Swing depth', desc:'Match the depth of swing to the tempo: deeper and closer to triplets as the tempo slows, shallower and closer to even as it speeds up. (Practiced in Compare.)'}
  }
 };
 const TEXT_EN = {
- c:{sub:'Interpretation | Where does the melody lean?', modeA:'Find the peak', prTitle:'Six principles',
+ c:{sub:'Interpretation | Where does the melody lean?', modeA:'Find the peak', prTitle:'Ten principles',
     foot:'The model shaping is one well-reasoned reading, not the only answer. A dashed circle marks another note that also works as the peak. When your answer differs, ask yourself whether you can explain your reasons in your own words.'},
- j:{sub:'Jazz | Shaping swing eighth notes', modeA:'Find the accents', prTitle:'Five principles (swing)',
+ j:{sub:'Jazz | Shaping swing eighth notes', modeA:'Find the accents', prTitle:'Eleven principles (jazz)',
     foot:'Jazz articulation varies a lot between players and styles. This covers the basic patterns of swing and bebop eighth-note lines. A faint ">" marks an optional light lift on an offbeat and is not scored.'}
 };
 const DISTS_EN = {
@@ -267,7 +333,16 @@ const DISTS_EN = {
   end:{name:'Peak at the cadence',text:'It grows toward the final note. The cadence never settles, so the phrase sounds thrown away instead of closed.'},
   resLoud:{name:'Loud resolution',text:'The resolution is louder than the appoggiatura. Tension and release come in the wrong order, and the clash loses its meaning.'},
   pickupAccent:{name:'Heavy upbeat',text:'The upbeat is played strongly and the next downbeat weakly. The meter shifts, and the upbeat sounds like a downbeat.'},
-  peakAt:{name:'Peak in the wrong place',text:''}
+  peakAt:{name:'Peak in the wrong place',text:''},
+  sameRep:{name:'Same each time',text:"Each repetition is played at the same level. The pitch moves, but the dynamics don't follow, so the line seems to mark time."},
+  fallingSeq:{name:'Softer as it rises',text:'The rising sequence gets softer each time. Pitch and dynamics pull in opposite directions, and it sounds contradictory.'},
+  risingSeq:{name:'Louder as it falls',text:'The falling sequence gets louder each time. It fights the natural release, and the ending sounds pushy.'},
+  equalPeaks:{name:'All peaks equal',text:'Every sub-phrase peaks at the same level. With all the peaks equal, the overall summit disappears.'},
+  firstBig:{name:'Biggest peak first',text:'The first sub-phrase gets the biggest peak. Nothing is left for later, and the melody seems to fade out.'},
+  inTempo:{name:'Strictly in time',text:'Played with no give in the tempo. The notes are accurate, but the arrival at the peak and the cadence sound mechanical.'},
+  rushPeak:{name:'Rushing the peak',text:'The tempo speeds up around the peak instead. The arrival flashes past and the phrase sounds hurried.'},
+  slurEnd:{name:'Leaning on slur ends',text:'The last note under each slur is stressed. The groups are turned back to front and lose their coherence.'},
+  noGroup:{name:'No grouping',text:'The slur groups are ignored and every note is connected the same way. It is smooth but featureless; the groups never come through.'}
  },
  j:{
   classical:{name:'Downbeat accents',text:'Classical style: the downbeats are heavy and the last note is held long. Even over a swing groove, downbeat accents make the line drag.'},
@@ -275,7 +350,26 @@ const DISTS_EN = {
   straight:{name:'Even eighths',text:'The accents are where the model has them, but the eighths are even (not swung), so the offbeat accents sound rushed.'},
   noPeak:{name:'Key accents missing',text:'The offbeats get a light lift, but the notes that matter most (the top of the line or the anticipation) get no accent. The highlight of the line gets lost.'},
   noGhost:{name:'No ghost notes',text:'The low notes in the dips are as loud as everything else. They cut into the upper line and blur the shape of the melody.'},
-  longEnd:{name:'Long ending',text:'The last note is held and faded out. That is the classical way to end, and it loses the crisp jazz cutoff.'}
+  longEnd:{name:'Long ending',text:'The last note is held and faded out. That is the classical way to end, and it loses the crisp jazz cutoff.'},
+  ahead:{name:'Ahead of the beat',text:'The whole melody sits ahead of the beat. It sounds hurried and restless.'},
+  late:{name:'Too far behind',text:'The whole melody lags well behind the beat. It drifts away from the rhythm section and sounds like it is dragging.'},
+  earlyEntry:{name:'Early entries',text:'Only the notes entering after a rest come in a little early. The tempo is the same, but they sound like they jump in impatiently.'},
+  lateEntry:{name:'Late entries',text:'Only the notes entering after a rest come in a little late. They sound hesitant, and the line loses momentum.'},
+  beatAcc:{name:'Accents on the beats',text:'The grouping in threes is ignored and the accents fall on the beats. It sounds like plain 4/4 and the drifting cycle disappears.'},
+  offAcc:{name:'Usual offbeat accents',text:'The grouping in threes is ignored and the accents fall on the offbeats, as in ordinary swing. It swings neatly, but the cycle of three is lost.'},
+  tripRush:{name:'Rushed triplets',text:'Not swung, but the three notes crowd slightly toward the front of the beat, leaving a small gap before the next beat. The triplets sound hurried and the line leans forward. A common habit with fast notes.'},
+  swingTrip:{name:'Swung triplets',text:'The triplets get the long-short treatment of swing eighths. The three notes come out uneven and the line stumbles.'},
+  tripHeads:{name:'Heavy triplet heads',text:'The first note of every triplet group is stressed. The line turns square, like a waltz, and loses its flow.'},
+  swingBossa:{name:'Swung bossa',text:'The eighths are swung and the offbeats pushed, as in swing. They clash with the even rhythm section, and the calm sway of bossa nova falls apart.'},
+  punchy:{name:'Too punchy',text:'The accents are strong and the notes clipped. That crispness suits swing, but in bossa nova it sounds hard and breaks the flow.'},
+  over16:{name:'Over-swung sixteenths',text:'The tempo and accents match the model, but the sixteenths are swung almost to triplets. It swings, yet for double time it bounces heavily and the line stops flowing forward.'},
+  rush:{name:'Rushing',text:'The swing shape is right, but the sixteenth-note line creeps ahead and the landing note arrives before the rhythm section. A common slip in long runs of short notes.'},
+  frontAcc:{name:'Front-side accents',text:'The timing matches the model, but the accents fall on the first sixteenth of each pair. The rhythm sounds right, yet the line loses its forward lift and turns square.'},
+  even16:{name:'Even sixteenths',text:'The sixteenths are played evenly. The accents are where the model has them, but without swing the line sounds square, like a fast classical passage.'},
+  swing8only:{name:'Swung by eighths',text:'The sixteenths are swung at the eighth-note level. They clump in long-short pairs and the line sounds lumpy.'},
+  dragTop:{name:'Too laid back',text:'The downbeats are laid back as in a medium tempo. At this speed the delay feels large, and the line sounds heavy and dragging.'},
+  underSwing:{name:'Under-swung',text:'The swing is too shallow, too close to even for this tempo. The lilt shrinks and the line sounds slack.'},
+  overSwing:{name:'Over-swung',text:'The long-short difference is exaggerated, like a dotted eighth and a sixteenth. At this tempo it sounds old-fashioned and bouncy.'}
  }
 };
 const EN = {
@@ -287,22 +381,33 @@ const EN = {
    dw:{1:'E4 is a small opening gesture. A peak here weakens the big leap that follows.'}},
  '2-2':{why:'The leap of a sixth from E4 to C5 is the backbone of this phrase. The highest note is D5, but it is an eighth-note neighbor tone (an ornament) on a weak beat and passes lightly. Even the highest note rarely becomes the peak when it is a short ornament.',
    dw:{4:'Making the eighth-note D5 the peak lets an ornament stick out and blurs the backbone of the melody (the E4 → C5 leap).'}},
- '3-1':{why:'C5 at the start of bar 2 is a non-chord tone (an appoggiatura) over V (G–B–D). It clashes with B and creates tension, then resolves to B4. This moment of dissonance weighs more than the high E5, and the resolution B4 relaxes.',
+ '5-1':{why:'C5 at the start of bar 2 is a non-chord tone (an appoggiatura) over V (G–B–D). It clashes with B and creates tension, then resolves to B4. This moment of dissonance weighs more than the high E5, and the resolution B4 relaxes.',
    alt:{3:'E5 is the highest note. You can also make it the peak and show the appoggiatura in bar 2 through weight instead (a little softer, but still stronger than its resolution).'}},
- '3-2':{why:'F5 is an appoggiatura over V (E–G♯–B), a strong half-step clash with E. It is also a long note at the start of the bar. A5 just before it is the highest note, but as part of a tonic arpeggio it sounds stable. The peak of tension is F5, which relaxes as it resolves to E5.',
+ '5-2':{why:'F5 is an appoggiatura over V (E–G♯–B), a strong half-step clash with E. It is also a long note at the start of the bar. A5 just before it is the highest note, but as part of a tonic arpeggio it sounds stable. The peak of tension is F5, which relaxes as it resolves to E5.',
    alt:{2:'A5 is the highest note and the landing point of a leap. You can also make it the peak and let F5 be carried by its harmonic weight.'}},
- '4-1':{why:'C5 at the start of bar 3 is the same pitch as before, but the harmony changes to the secondary dominant (V⁷/V: D–F♯–A–C). C5 becomes the seventh and forms a tritone with F♯. The same pitch changes weight with the harmony.',
+ '6-1':{why:'C5 at the start of bar 3 is the same pitch as before, but the harmony changes to the secondary dominant (V⁷/V: D–F♯–A–C). C5 becomes the seventh and forms a tritone with F♯. The same pitch changes weight with the harmony.',
    alt:{3:'The C5 just before it is also the highest note. Growing from there and reaching the summit with the change of harmony is also natural.'}},
- '4-2':{why:'The melody stays on C5, but the harmony moves I → IV → II⁷ → V⁷/V, and the tension builds step by step. The peak is the V⁷/V, where F♯ enters. From there it resolves to V (B4) and then to I.',
+ '6-2':{why:'The melody stays on C5, but the harmony moves I → IV → II⁷ → V⁷/V, and the tension builds step by step. The peak is the V⁷/V, where F♯ enters. From there it resolves to V (B4) and then to I.',
    alt:{2:'Over II⁷, C5 is also a seventh and carries tension. Think of the peak starting here and growing further with the next chord.'},
    dw:{0:'The C5 in bar 1 sits over the tonic chord, the most stable sound. A peak here runs against the rising harmonic tension.'}},
- '5-1':{why:'F5 is the highest note and falls on the strong beat of bar 2. The opening G4 is an upbeat (anacrusis) that flows into C5 at the start of the next bar. Don\'t play the upbeat strongly; come in lightly toward the downbeat.'},
- '5-2':{why:'E5 is the highest note, reached by a leap of a sixth. It falls on beat 3, a weak beat, but acts as a small upbeat into the next bar; the energy built here unwinds from D5 onward. The two opening eighth notes are an upbeat too, so come in lightly.',
+ '7-1':{why:'F5 is the highest note and falls on the strong beat of bar 2. The opening G4 is an upbeat (anacrusis) that flows into C5 at the start of the next bar. Don\'t play the upbeat strongly; come in lightly toward the downbeat.'},
+ '7-2':{why:'E5 is the highest note, reached by a leap of a sixth. It falls on beat 3, a weak beat, but acts as a small upbeat into the next bar; the energy built here unwinds from D5 onward. The two opening eighth notes are an upbeat too, so come in lightly.',
    alt:{4:'D5 is at the start of the bar (a strong beat). You can also hear E5 as a run-up on the weak beat and treat D5 as the metrical peak.'}},
- '6-1':{why:'Repeated notes left flat make a melody sound stuck. Here groups of repeated notes rise E → G → B and peak on D5. Let each repeated note grow a little to give it direction toward the next.',
+ '8-1':{why:'Repeated notes left flat make a melody sound stuck. Here groups of repeated notes rise E → G → B and peak on D5. Let each repeated note grow a little to give it direction toward the next.',
    dw:{0:'Starting the repeated notes strongly leaves no room to grow as the line climbs.'}},
- '6-2':{why:'This phrase descends, so the peak comes at the start. Groups of repeated notes step down by thirds, A → F → D, relaxing overall. Still, don\'t flatten the repeated notes within each group; leaning a little into the next note keeps the descent moving.',
+ '8-2':{why:'This phrase descends, so the peak comes at the start. Groups of repeated notes step down by thirds, A → F → D, relaxing overall. Still, don\'t flatten the repeated notes within each group; leaning a little into the next note keeps the descent moving.',
    alt:{1:'If you treat the whole group of A4s as the peak, any of them works as the summit. The line descends from there.',2:'If you treat the whole group of A4s as the peak, any of them works as the summit. This reading leans into G4.'}},
+ '3-1':{why:'The same four-note shape (a motif) repeats three times, each a step higher (a sequence). Playing every repetition at the same level sounds monotonous. In a rising sequence, grow a little each time toward the peak G4 in the third repetition.'},
+ '3-2':{why:'A two-note group (long to short) repeats four times, each a step lower. A falling sequence relaxes a little each time. The peak is the first E5. Within each group, also let the long note settle into the short one.'},
+ '4-1':{why:'This eight-bar melody splits into two four-bar halves (a period). The first half asks a question with a half cadence on D4; the second answers on the tonic C4. Each half has its own small peak, but the overall peak is E5 in the second half. Keep the first-half peak, A4, a little reserved for the sake of the second.',
+   hints:{5:'The smaller peak of the first half. It rises too, but the overall peak is saved for the second half.'}},
+ '4-2':{why:'A two-bar idea is stated twice (the second time a step higher), then a four-bar continuation follows (a sentence). Raise the small peaks of the short ideas (D5, E5) step by step, and reach the overall peak on G5 in the long continuation. If every partial peak is the same size, the real summit is lost.',
+   alt:{15:'A5 is the highest note, so hearing the peak start here is also natural. Treat it and the G5 on the next downbeat as one continuous summit.'},
+   hints:{4:'The peak of the first short idea. Keep it modest for what follows.',10:'The peak of the second short idea. Higher than the first, but the overall peak is still ahead.'}},
+ '9-1':{why:'The peak is F5, reached by a leap of a sixth. Take just a little time here, giving the leap room to arrive, then return to tempo. Ease off slightly at the half cadence at the end too. Played strictly to the metronome, the leap sounds mechanical.'},
+ '9-2':{why:'The peak is G5, at the top of the arpeggio climb. Hold back very slightly in the climb just before it to give the arrival on G5 weight, then flow down from there. Rushing the peak makes the arrival light and the phrase sound hurried.'},
+ '10-1':{why:'A chain of two-note slurs: the "sigh" figure. Put the weight on the first note of each slur and let the second be lighter and a little shorter, leaving a tiny break before the next pair. On a string instrument, that means sinking weight into the bow on the first note and releasing it on the second. The four-note slur from bar 3 is not a short group but a single legato breath toward the cadence. Do not weight its first note; rise smoothly and settle on the final C5.'},
+ '10-2':{why:'Each bar is one three-note slur. Weight at the start of the slur and a slightly lighter end let each bar be heard as a group. The overall peak is F5 at the start of bar 3, which is also the start of a slur.'},
  'J1-1':{why:'A line of eighth notes moving within a narrow range, with no clear peak. In a line like this, give the offbeats a light accent and let the downbeats pass lightly. Say "doo-BAH doo-BAH": the accents fall on "BAH". Don\'t overdo it; just enough to feel the swing. Cut the last E4 short and accent it.'},
  'J1-2':{why:'A line that starts on an offbeat after a rest. From the first E4, light accents continue on every offbeat. Keeping the downbeats (G4, D4 and so on) light makes the line bounce forward. Cut the last C4 short on the offbeat.'},
  'J2-1':{why:'Accent E5, the top note where the rising line turns around. E5 is on the beat, but the top of a line is strong whether it falls on or off the beat. Keep the offbeats before it to a light lift so the top stands out.'},
@@ -312,51 +417,76 @@ const EN = {
  'J4-1':{why:'A low downbeat note where the line dips, like F4 on beat 2, is played so softly it is barely heard (a ghost note). Dropping it out lets the surrounding offbeats and the top F5 stand out.'},
  'J4-2':{why:'Low and high notes alternate as the line climbs. Ghost the low downbeat notes so only the high offbeat notes are heard, and the melody emerges from the top notes alone. Accent G5, the top it arrives at.'},
  'J5-1':{why:'This phrase ends with "doo-DAT". Play A4 softly and cut the last G4 short on the offbeat with an accent. Holding the last note and fading it, as in classical music, loses the jazz crispness. Accent the top E5 along the way too.'},
+ 'J10-1':{why:'In a relaxed medium swing, placing the downbeat notes slightly behind the ride cymbal (a few tens of milliseconds) while lining the offbeat notes up with the ride\'s offbeats makes the line sound settled and easy (laid back). Pushing everything ahead sounds rushed; delaying everything a lot drifts away from the rhythm section and drags. When comparing, listen to where the melody sits against the ride cymbal. This is a general tendency with tempo, but also an expressive choice. Ballads, soul jazz and blues-inflected playing in particular tend to be laid back.'},
+ 'J10-2':{why:'In fast bebop, the basic approach is to sit right on top of the beat without delaying the downbeats (on top). Laying the downbeats back as in a medium tempo sounds heavy and seems to fall behind at this speed; pushing ahead sounds like rushing. At this tempo the swing is nearly even, too. This is also a general tendency, and players differ. Fast bebop and hard bop tunes in particular tend to sit on top of the beat to drive the music forward. A common division of roles is the bass sitting slightly ahead to pull the band along.'},
+ 'J11-2':{why:'At slow tempos the long-short difference between eighth notes grows, approaching a triplet feel (the long note twice the short one or more). Evening it out as at a fast tempo loses the easy lilt, and the line sounds flat. Blues, shuffles and slow soul jazz in particular tend toward a deep, triplet-like swing. In ballads, though, players sometimes sing the eighths with little swing, so this varies with the tune and the player.'},
+ 'J6-1':{why:'The triplet on beat 2 climbs the arpeggio in three even notes, with the accent on the top note G5. Unlike swing eighths, triplets are played evenly, without swing. The triplet in bar 2 puts its weight on the last note, A4, heading into C5 on the next beat.'},
+ 'J6-2':{why:'A line of running triplets. The head of the first group, F5, is the top of the line, so it takes an accent, but the head of the next group (C5) does not. Stressing every group head makes the line square, like triple time. The triplet in bar 2 rises with its weight on the last note, B4, heading into the next beat.'},
+ 'J8-1':{why:'In bossa nova, play the eighth notes even, without swing, keep the dynamic range small and sing legato. The notes that anticipate the next bar before the barline (A4, B4) also come in softly, without a hit. Swinging, or punching the offbeats as in swing, clashes with the sway of the rhythm section.'},
+ 'J8-2':{why:'A bossa nova melody is built from long notes and notes that anticipate the next beat by an eighth. Do not stress the anticipations (C5, A4); connect them smoothly into the long notes. Clipping them breaks the soft flow typical of bossa nova.'},
+ 'J9-1':{why:'In a slow ballad, the line switches into double time with sixteenth notes from beat 3. The rhythm section stays at the original tempo, while the soloist plays as if swinging at twice the tempo. The key is to delay the second sixteenth of each pair slightly and lift it a little, moving the swing down one note value.'},
+ 'J9-2':{why:'A double-time line running in sixteenths for a whole bar. A light swing at the sixteenth level, with a slight lift on the second note of each pair, lets it flow forward as swing at twice the tempo. Stressing the front of each pair makes it square and kills the momentum, and swinging too deeply makes it bounce heavily for double time and stall.'},
+ 'J10-3':{why:'Notes that come in after a rest tend to jump in early, out of impatience. Keep feeling the beat through the rest and place the entries (A4, A♭4) exactly on the ride cymbal offbeat. Coming in late sounds hesitant, too.'},
+ 'J7-1':{why:'The three-note group E5–C5–A4 repeats inside 4/4. A light accent on each group head (E5) brings out a cycle of three that drifts against the beat, alternating between downbeats and offbeats. Accenting the beats, or the usual offbeats, turns it back into an ordinary 4/4 line.'},
+ 'J7-2':{why:'A rising three-note group, A4–C5–D5. The head A4 is the lowest note of the group, but it takes a light accent to mark the cycle. Stressing the top D5 or the offbeats is tempting, but it hides the grouping in threes. The final E5 breaks out of the cycle and ends short.'},
+ 'J11-1':{why:"At faster tempos the long-short difference between eighth notes gets smaller. Swinging hard, like a dotted eighth and a sixteenth, sounds old-fashioned and bouncy, while even eighths don't swing at all. A slight swing that fits the tempo sounds natural. Swing depth is also a general tendency with tempo, and it varies with style. Fast playing from bebop onward in particular tends toward shallow swing, with smooth, nearly even eighths. Swing-era big bands, on the other hand, may swing clearly even at brisk tempos."},
  'J5-2':{why:'The last C5 falls on the offbeat of beat 4, anticipating the next bar (the C chord), and ends short. Hold your breath on the eighth rest just before it, then hit it: "BAP". Accent the top E5 on the offbeat of beat 2 too.'}
 };
 const UI = {
  ja:{title:'フレージング道場', classical:'クラシック', jazz:'ジャズ', compare:'聴き比べ', all:'すべて', principle:n=>'原則'+n,
-  prev:'← 前へ', next:'次へ →', restart:'最初に戻る ↺', rhythmOn:'リズム隊あり', rhythmOff:'リズム隊なし',
+  prev:'← 前へ', next:'次へ →', restart:'最初に戻る ↺', cmpTag:'聴き比べ', cmpOnlyTip:'このトピックは聴き比べで練習します', nextPr:'次の原則へ →', prevPr:'← 前の原則へ', rhythmOn:'リズム隊あり', rhythmOff:'リズム隊なし',
   score:(st,a,b)=>`${st==='j'?'アクセント':'山'} ${a[0]}/${a[1]}　聴き比べ ${b[0]}/${b[1]}`,
   promptPeak:'このフレーズの頂点（いちばん重みを置きたい音）をタップしてください。先に旋律だけを聴いて確かめてもかまいません。',
-  promptAcc:'アクセントを置く音を<b>すべて</b>選んでください。1回タップでアクセント（&gt;）、2回でゴーストノート（ ）、3回で取り消しです。',
-  promptCmpJ:'同じラインを3通りのアーティキュレーションで弾きます。聴き比べて、いちばんスウィングらしいと思うものを選んでください。',
-  promptCmpC:'同じフレーズを3通りの抑揚で弾きます。聴き比べて、いちばん筋が通っていると思うものを選んでください。',
-  plain:'抑揚なしで聴く', mine:'選んだ通りに聴く', check:'答え合わせ', clear:'クリア', listen:'聴く', choose:'これを選ぶ',
+  givenNote:ks=>`灰色の印は、あとの原則（${[...new Set(ks)].sort().map(k=>'原則'+k+'「'+PRS.j[k].name+'」').join('、')}）で扱うもので、最初から付けてあります。採点には含めません。`,
+  promptAcc:'アクセントを置く音を<b>すべて</b>選んでください。1回タップでアクセント（&gt;）、2回でアクセント＋短く（&gt;・）、3回でゴーストノート（ ）、4回で取り消しです。',
+  promptCmpJ:'同じラインを3通りのアーティキュレーションで弾きます。聴き比べて、いちばんスウィングらしいと思うものを選んでください。「これを選ぶ」は、その版を聴いたあとで押せるようになります。',
+  promptCmpB:'同じラインを3通りの弾き方で弾きます。聴き比べて、いちばんボサノヴァらしいと思うものを選んでください。「これを選ぶ」は、その版を聴いたあとで押せるようになります。',
+  promptCmpC:'同じフレーズを3通りの抑揚で弾きます。聴き比べて、いちばん筋が通っていると思うものを選んでください。「これを選ぶ」は、その版を聴いたあとで押せるようになります。',
+  plain:'抑揚なしで聴く', mine:'選んだ通りに聴く', check:'答え合わせ', clear:'クリア', retry:'↻ もう一度挑戦', listen:'聴く', choose:'これを選ぶ',
   model:'模範', playModel:'模範の抑揚で聴く', playModelJ:'模範で聴く', again:L=>`模範（${L}）をもう一度聴く`,
   noteLabel:(i,nm)=>`${i+1}番目の音（${nm}）`,
   vBest:'そこが頂点です', vAlt:'それも一つの読み方です', vBad:'別の音を頂点と考えます', modelIs:lab=>`模範では${lab}を頂点としています。`,
   vAll:'すべて合っています', vNear:'あと少しです', vFar:'模範と見比べてみましょう',
-  tA:(a,b)=>`アクセント ${a}/${b}`, tG:(a,b)=>`ゴースト ${a}/${b}`, tX:n=>`余分 ${n}`,
-  kinds:{missA:'見落とし',missG:'見落とし（ゴースト）',extraA:'余分',extraG:'余分（ゴースト）'},
+  tA:(a,b)=>`アクセント ${a}/${b}`, tG:(a,b)=>`ゴースト ${a}/${b}`, tS:(a,b)=>`短く ${a}/${b}`, tX:n=>`余分 ${n}`,
+  kinds:{missA:'見落とし',missG:'見落とし（ゴースト）',extraA:'余分',extraG:'余分（ゴースト）',missS:'見落とし（短く）',extraS:'余分（短く）'},
   legend:['アクセント','軽い持ち上げ（任意）','ゴーストノート','短く切る','緑の丸：見落とした音'],
   cmpOk:L=>`${L}が模範です`, cmpBad:L=>`模範は${L}です`,
   hint:{last:'最後の音は終止です。ここに山を置くと、フレーズが閉じません。',p:'弱起の音です。次の拍頭へ向かう音なので、軽く入ります。',r:'解決音です。直前の不協和がほどける所なので、力を抜く場所です。',first:'フレーズの始まりです。ここから山に向かって動き出します。',short:'弱拍の短い音です。通過していく音で、重心にはなりにくいでしょう。',mid:'旋律の途中の音です。前後の流れの中では、山へ向かう途中か、山から下りる途中にあります。'},
-  wj:{last:'フレーズの最後の音です。短く切ってアクセントを付けます。',tie:'拍頭を先取りした音です。食って入る勢いにアクセントを付けます。',top:'線の頂点です。',off:'裏拍の音です。',acc:'アクセントを置く音です。',missG:'谷に落ちた低い表拍の音で、ゴーストノートにします。',xG:'ゴーストノートにする音です。アクセントとは逆に、ほとんど聞こえないくらいに弱くします。',xOff:'裏拍ですが、ここは強く打つほどの音ではありません。',xOn:'表拍の音です。軽く流します。',gA:'アクセントを置く音です。',gNo:'ゴーストにするほど弱くしない音です。'},
+  wj:{last:'フレーズの最後の音です。短く切ってアクセントを付けます。',tie:'拍頭を先取りした音です。食って入る勢いにアクセントを付けます。',top:'線の頂点です。',off:'裏拍の音です。',acc:'アクセントを置く音です。',missG:'谷に落ちた低い表拍の音で、ゴーストノートにします。',xG:'ゴーストノートにする音です。アクセントとは逆に、ほとんど聞こえないくらいに弱くします。',xOff:'裏拍ですが、ここは強く打つほどの音ではありません。',xOn:'表拍の音です。軽く流します。',gA:'アクセントを置く音です。',gNo:'ゴーストにするほど弱くしない音です。',missS:'短く切る音です。フレーズの終わりは伸ばさず、短く切ります。',extraS:'ここは短く切らず、次へつなげる音です。'},
   theme:{auto:'自動',light:'ライト',dark:'ダーク',label:'テーマ'},
+  overlapNote:'線が模範と重なっている版は、その面では模範と同じです。もう一方のグラフで違いを確かめてください。',
+  settings:'設定', lblLang:'言語', lblRhythm:'伴奏', principleSel:'原則',
   aria:{style:'スタイル',mode:'問題の形式',filters:'原則で絞り込む',staff:'楽譜',curve:'強弱の曲線'}
  },
  en:{title:'Phrasing Dojo', classical:'Classical', jazz:'Jazz', compare:'Compare', all:'All', principle:n=>'Principle '+n,
-  prev:'← Prev', next:'Next →', restart:'Back to start ↺', rhythmOn:'Rhythm section on', rhythmOff:'Rhythm section off',
+  prev:'← Prev', next:'Next →', restart:'Back to start ↺', cmpTag:'Compare', cmpOnlyTip:'This topic is practiced in Compare', nextPr:'Next principle →', prevPr:'← Previous principle', rhythmOn:'Rhythm section on', rhythmOff:'Rhythm section off',
   score:(st,a,b)=>`${st==='j'?'Accents':'Peaks'} ${a[0]}/${a[1]}　Compare ${b[0]}/${b[1]}`,
   promptPeak:'Tap the peak of this phrase, the note you would lean on most. You can listen to the plain melody first.',
-  promptAcc:'Select <b>every</b> note you would accent. Tap once for an accent (&gt;), twice for a ghost note ( ), and a third time to clear.',
-  promptCmpJ:'You will hear the same line with three different articulations. Pick the one that swings best.',
-  promptCmpC:'You will hear the same phrase shaped three ways. Pick the one that makes the most musical sense.',
-  plain:'Play without shaping', mine:'Play my marks', check:'Check', clear:'Clear', listen:'Listen', choose:'Choose this',
+  givenNote:ks=>`Grey marks belong to later principles (${[...new Set(ks)].sort().map(k=>'principle '+k+', "'+PRS_EN.j[k].name+'"').join('; ')}) and are filled in for you. They are not scored.`,
+  promptAcc:'Select <b>every</b> note you would accent. Tap once for an accent (&gt;), twice for accent + short (&gt;·), three times for a ghost note ( ), and a fourth time to clear.',
+  promptCmpJ:'You will hear the same line with three different articulations. Pick the one that swings best. "Choose this" unlocks once you have listened to that version.',
+  promptCmpB:'You will hear the same line played three ways. Pick the one that sounds most like bossa nova. "Choose this" unlocks once you have listened to that version.',
+  promptCmpC:'You will hear the same phrase shaped three ways. Pick the one that makes the most musical sense. "Choose this" unlocks once you have listened to that version.',
+  plain:'Play without shaping', mine:'Play my marks', check:'Check', clear:'Clear', retry:'↻ Try again', listen:'Listen', choose:'Choose this',
   model:'Model', playModel:'Play the model', playModelJ:'Play the model', again:L=>`Play the model (${L}) again`,
   noteLabel:(i,nm)=>`note ${i+1} (${nm})`,
   vBest:'That is the peak', vAlt:'That is another valid reading', vBad:'The model puts the peak elsewhere', modelIs:lab=>`The model treats ${lab} as the peak.`,
   vAll:'All correct', vNear:'Almost there', vFar:'Compare your marks with the model',
-  tA:(a,b)=>`Accents ${a}/${b}`, tG:(a,b)=>`Ghosts ${a}/${b}`, tX:n=>`Extra ${n}`,
-  kinds:{missA:'Missed',missG:'Missed (ghost)',extraA:'Extra',extraG:'Extra (ghost)'},
+  tA:(a,b)=>`Accents ${a}/${b}`, tG:(a,b)=>`Ghosts ${a}/${b}`, tS:(a,b)=>`Short ${a}/${b}`, tX:n=>`Extra ${n}`,
+  kinds:{missA:'Missed',missG:'Missed (ghost)',extraA:'Extra',extraG:'Extra (ghost)',missS:'Missed (short)',extraS:'Extra (short)'},
   legend:['accent','light lift (optional)','ghost note','short','Green circle: missed note'],
   cmpOk:L=>`${L} is the model`, cmpBad:L=>`The model is ${L}`,
   hint:{last:'The last note is the cadence. A peak here leaves the phrase unfinished.',p:'This is an upbeat. It leads into the next downbeat, so it comes in lightly.',r:'This is a resolution. The dissonance before it releases here, so it is a place to relax.',first:'This is where the phrase begins. It starts moving toward the peak from here.',short:'A short note on a weak beat. It passes by and rarely carries the weight.',mid:'A note in the middle of the melody. In context it is either on the way up to the peak or on the way down.'},
-  wj:{last:'The last note of the phrase. Cut it short and accent it.',tie:'It anticipates the beat. Accent the push of arriving early.',top:'The top of the line.',off:'An offbeat note.',acc:'A note that takes an accent.',missG:'A low downbeat note at the bottom of a dip; play it as a ghost note.',xG:'This one is a ghost note: the opposite of an accent, played so softly it is barely heard.',xOff:'An offbeat, but not one that needs a strong hit here.',xOn:'A downbeat. Let it pass lightly.',gA:'This note takes an accent.',gNo:'Not soft enough to be a ghost note.'},
+  wj:{last:'The last note of the phrase. Cut it short and accent it.',tie:'It anticipates the beat. Accent the push of arriving early.',top:'The top of the line.',off:'An offbeat note.',acc:'A note that takes an accent.',missG:'A low downbeat note at the bottom of a dip; play it as a ghost note.',xG:'This one is a ghost note: the opposite of an accent, played so softly it is barely heard.',xOff:'An offbeat, but not one that needs a strong hit here.',xOn:'A downbeat. Let it pass lightly.',gA:'This note takes an accent.',gNo:'Not soft enough to be a ghost note.',missS:"This note is cut short. Don't hold the end of a phrase; clip it.",extraS:"This note stays connected to the next; don't clip it."},
   theme:{auto:'Auto',light:'Light',dark:'Dark',label:'Theme'},
+  overlapNote:'A line lying on top of the model means that version matches the model in that respect. Check the other chart for the difference.',
+  settings:'Settings', lblLang:'Language', lblRhythm:'Backing', principleSel:'Principle',
   aria:{style:'Style',mode:'Exercise type',filters:'Filter by principle',staff:'Score',curve:'Dynamics curve'}
  }
+};
+const GROUPS={
+ c:[{ja:'フレーズの形',en:'Phrase shape',ks:[1,2,3,4]},{ja:'和声',en:'Harmony',ks:[5,6]},{ja:'拍とリズム',en:'Beat and rhythm',ks:[7,8]},{ja:'時間と音のつなぎ方',en:'Timing and connection',ks:[9,10]}],
+ j:[{ja:'アクセント',en:'Accents',ks:[1,2,3,4,5]},{ja:'リズムの種類',en:'Rhythmic feels',ks:[6,7,8,9]},{ja:'タイム感',en:'Time feel',ks:[10,11]}]
 };
 const U=()=>UI[LANG];
 const EN_MODE=()=>LANG==='en';
@@ -365,6 +495,7 @@ const textAll=()=>EN_MODE()?TEXT_EN:TEXT;
 const distsAll=()=>EN_MODE()?DISTS_EN:DISTS;
 const whyOf=ph=>EN_MODE()?EN[ph.id].why:ph.why;
 const altOf=(ph,i)=>EN_MODE()?EN[ph.id].alt[i]:ph.alt[i];
+const hintOf=(ph,i)=>EN_MODE()?((EN[ph.id]||{}).hints||{})[i]:(ph.hints||{})[i];
 const dwOf=(ph,d)=>EN_MODE()?EN[ph.id].dw[d.at]:d.why;
 
 // classical note: [name, beats, flag]  flag: a=倚音, r=解決音, p=弱起
@@ -389,50 +520,99 @@ const CLASSICAL = [
   peak:1, alt:{},
   why:'E4からC5への6度跳躍が、このフレーズの骨格です。最高音はD5ですが、これは8分音符の弱拍に置かれた刺繍音（飾りの音）で、軽く通過します。最高音でも、短い飾りの音は山になりにくいという例です。',
   dist:[{t:'peakAt',at:4,why:'8分音符のD5を山にすると、飾りの音だけが突出して、旋律の骨格（E4→C5の跳躍）がぼやけます。'},{t:'end'}]},
- {id:'3-1',pr:3,ts:[4,4],bpm:72,pickup:0,key:'C',
+ {id:'5-1',pr:5,ts:[4,4],bpm:72,pickup:0,key:'C',
   bars:[[['E4',1],['G4',1],['C5',1],['E5',1]],[['C5',2,'a'],['B4',2,'r']],[['C5',4]]],
   chords:[[0,4,'I',['C3','G3','C4']],[4,4,'V',['G2','D3','B3']],[8,4,'I',['C3','G3','E4']]],
   peak:4, alt:{3:'E5は最高音です。ここを頂点とし、2小節目の倚音は「重さ」で示す（音量は少し下げても、解決音よりは強く）という読み方も成り立ちます。'},
   why:'2小節目頭のC5は、V（ソ・シ・レ）の上で鳴る和音外音（倚音）です。シとぶつかって緊張が生まれ、次のB4で解決します。最高音のE5より、この不協和の瞬間の方が重く、解決音B4では力を抜きます。',
   dist:[{t:'resLoud'},{t:'flat'}]},
- {id:'3-2',pr:3,ts:[3,4],bpm:80,pickup:0,key:'a',
+ {id:'5-2',pr:5,ts:[3,4],bpm:80,pickup:0,key:'a',
   bars:[[['A4',1],['E5',1],['A5',1]],[['F5',2,'a'],['E5',1,'r']],[['C5',2],['B4',1]],[['A4',3]]],
   chords:[[0,3,'I',['A2','E3','C4']],[3,3,'V',['E2','B2','G#3']],[6,6,'I',['A2','E3','C4']]],
   peak:3, alt:{2:'A5は最高音で、跳躍の到達点でもあります。ここを頂点とし、F5は和声的な重みで支えるという読み方もあります。'},
   why:'F5はV（ミ・ソ♯・シ）の上の倚音で、ミと半音でぶつかる強い不協和です。しかも小節頭の長い音です。直前のA5は最高音ですが、主和音の分散和音なので響きは安定しています。緊張の頂点はF5で、E5へ解決して力が抜けます。',
   dist:[{t:'resLoud'},{t:'end'}]},
- {id:'4-1',pr:4,ts:[4,4],bpm:66,pickup:0,key:'C',
+ {id:'6-1',pr:6,ts:[4,4],bpm:66,pickup:0,key:'C',
   bars:[[['E4',2],['G4',2]],[['A4',2],['C5',2]],[['C5',2],['A4',2]],[['B4',4]]],
   chords:[[0,4,'I',['C3','G3','C4']],[4,4,'IV',['F2','C3','A3']],[8,4,'V⁷/V',['D2','A2','F#3']],[12,4,'V',['G2','D3','G3']]],
   peak:4, alt:{3:'直前のC5も最高音です。ここから大きくしておき、次の和音の変化で頂点に届く、とつなげる弾き方も自然です。'},
   why:'3小節目頭のC5は直前と同じ音ですが、下の和音がドッペルドミナント（V⁷/V：レ・ファ♯・ラ・ド）に変わります。C5は第7音になり、ファ♯との間に増4度の緊張が生まれます。同じ高さの音でも、和声で重さが変わる例です。',
   dist:[{t:'flat'},{t:'end'}]},
- {id:'4-2',pr:4,ts:[4,4],bpm:63,pickup:0,key:'C',
+ {id:'6-2',pr:6,ts:[4,4],bpm:63,pickup:0,key:'C',
   bars:[[['C5',2],['C5',2]],[['C5',2],['C5',2]],[['B4',4]],[['C5',4]]],
   chords:[[0,2,'I',['C3','G3','E4']],[2,2,'IV',['F2','A3','C4']],[4,2,'II⁷',['D2','A3','F4']],[6,2,'V⁷/V',['D2','A3','F#4']],[8,4,'V',['G2','D3','G3']],[12,4,'I',['C3','G3','E4']]],
   peak:3, alt:{2:'II⁷の上のC5も第7音で緊張があります。ここから山が始まり、次の和音でさらに高まると考えるとよいでしょう。'},
   why:'旋律はずっとC5ですが、下の和音が I → IV → II⁷ → V⁷/V と動き、だんだん緊張が高まります。ファ♯が加わる V⁷/V の瞬間が頂点です。そこからV（B4）へ、さらにIへ解決します。',
   dist:[{t:'flat'},{t:'peakAt',at:0,why:'1小節目のC5は主和音の上で、最も安定した響きです。ここを山にすると、和声の緊張の高まりと逆行します。'}]},
- {id:'5-1',pr:5,ts:[4,4],bpm:88,pickup:1,
+ {id:'7-1',pr:7,ts:[4,4],bpm:88,pickup:1,
   bars:[[['G4',1,'p']],[['C5',1],['D5',1],['E5',1],['C5',1]],[['F5',2],['E5',1],['D5',1]],[['C5',3]]],
   peak:5, alt:{},
   why:'F5は最高音で、2小節目の強拍に来ます。冒頭のG4は弱起（アウフタクト）で、次の小節頭C5に向かって流れ込む音です。弱起は強く弾かず、拍頭へ向けて軽く入ります。',
   dist:[{t:'pickupAccent'},{t:'end'}]},
- {id:'5-2',pr:5,ts:[3,4],bpm:92,pickup:1,
+ {id:'7-2',pr:7,ts:[3,4],bpm:92,pickup:1,
   bars:[[['E4',.5,'p'],['F4',.5,'p']],[['G4',2],['E5',1]],[['D5',1],['C5',1],['B4',1]],[['C5',2]]],
   peak:3, alt:{4:'D5は小節頭（強拍）です。E5を弱拍の「助走」とみて、D5を拍節上の頂点とする読み方もあります。'},
   why:'E5は6度の跳躍で到達する最高音です。3拍目の弱拍ですが、それ自体が次の小節へ向かう小さな弱起になっていて、ここで張ったエネルギーをD5以下でほどいていきます。冒頭の8分音符2つも弱起なので軽く入ります。',
   dist:[{t:'pickupAccent'},{t:'flat'}]},
- {id:'6-1',pr:6,ts:[4,4],bpm:92,pickup:0,
+ {id:'8-1',pr:8,ts:[4,4],bpm:92,pickup:0,
   bars:[[['E4',1],['E4',1],['E4',1],['F4',1]],[['G4',1],['G4',1],['G4',1],['A4',1]],[['B4',1],['C5',1],['D5',2]],[['C5',4]]],
   peak:10, alt:{},
   why:'同じ音を並べたままだと、旋律が止まって聞こえます。ここではE→G→Bと反復の塊が順に上がり、D5で頂点に達します。反復音は1つずつ少しずつ大きくし、次の音へ向かう方向を与えます。',
   dist:[{t:'flat'},{t:'peakAt',at:0,why:'冒頭の反復音を強く始めると、上行していく先の伸びしろがなくなります。'}]},
- {id:'6-2',pr:6,ts:[4,4],bpm:84,pickup:0,
+ {id:'8-2',pr:8,ts:[4,4],bpm:84,pickup:0,
   bars:[[['A4',1],['A4',1],['A4',1],['G4',1]],[['F4',1],['F4',1],['F4',1],['E4',1]],[['D4',2],['E4',1],['D4',1]],[['C4',4]]],
   peak:0, alt:{1:'冒頭のA4の塊全体を山と考えれば、どの音を頂点としても筋は通ります。そこから下りていきます。',2:'冒頭のA4の塊全体を山と考えれば、どの音を頂点としても筋は通ります。G4への寄りかかりを重く見る読み方です。'},
   why:'下降型のフレーズで、頂点は冒頭にあります。A→F→Dと反復の塊が3度ずつ下がり、全体としては力を抜いていきます。ただし各塊の中の反復音は平らにせず、少しずつ次の音へ寄りかかるようにすると、下降に推進力が残ります。',
-  dist:[{t:'end'},{t:'flat'}]}
+  dist:[{t:'end'},{t:'flat'}]},
+ {id:'3-1',pr:3,ts:[4,4],bpm:88,pickup:0,
+  bars:[[['C4',1],['D4',1],['E4',1],['C4',1]],[['D4',1],['E4',1],['F4',1],['D4',1]],[['E4',1],['F4',1],['G4',1],['E4',1]],[['F4',1],['E4',1],['D4',2]],[['C4',4]]],
+  segs:[{s:0,e:3,p:2,h:.62},{s:4,e:7,p:6,h:.8},{s:8,e:11,p:10,h:1},{s:12,e:15,p:12,h:.8}],
+  peak:10, alt:{},
+  why:'同じ4音の形（モチーフ）が、2度ずつ上へずれながら3回繰り返されます（ゼクエンツ）。同じ形でも毎回同じ強さで弾くと単調になります。上がっていくゼクエンツでは回を追うごとに少しずつ大きくし、3回目の頂点G4へ向かいます。',
+  dist:[{t:'segs',k:'sameRep',h:[.8,.8,.8,.8]},{t:'segs',k:'fallingSeq',h:[1,.8,.62,.6]}]},
+ {id:'3-2',pr:3,ts:[3,4],bpm:84,pickup:0,
+  bars:[[['E5',2],['D5',1]],[['D5',2],['C5',1]],[['C5',2],['B4',1]],[['B4',2],['G#4',1]],[['A4',3]]],
+  segs:[{s:0,e:1,p:0,h:1},{s:2,e:3,p:2,h:.84},{s:4,e:5,p:4,h:.68},{s:6,e:7,p:6,h:.56},{s:8,e:8,p:8,h:.42}],
+  peak:0, alt:{},
+  why:'2音の組（長い音から短い音へ）が、1音ずつ下へずれながら4回繰り返されます。下がっていくゼクエンツは、回を追うごとに少しずつ力を抜いていきます。頂点は最初のE5です。それぞれの組の中でも、長い音から短い音へ収めます。',
+  dist:[{t:'segs',k:'sameRep',h:[.85,.85,.85,.85,.42]},{t:'segs',k:'risingSeq',h:[.6,.74,.88,1,.6]}]},
+ {id:'4-1',pr:4,ts:[4,4],bpm:100,pickup:0,
+  bars:[[['C4',1],['E4',1],['G4',1],['E4',1]],[['F4',1],['A4',1],['G4',2]],[['F4',1],['E4',1],['D4',1],['E4',1]],[['D4',4]],
+        [['C4',1],['E4',1],['G4',1],['C5',1]],[['D5',1],['E5',1],['D5',2]],[['C5',1],['A4',1],['G4',1],['E4',1]],[['D4',2],['C4',2]]],
+  segs:[{s:0,e:11,p:5,h:.72},{s:12,e:24,p:17,h:1}], subs:[[0,11],[12,24]],
+  peak:17, alt:{}, hints:{5:'前半の小さな山です。ここも高まりますが、全体の頂点は後半に取っておきます。'},
+  why:'8小節の旋律が、4小節ずつの前半と後半に分かれています（楽段）。前半は半終止（D4）で問いかけ、後半が主音C4で答えます。それぞれに小さな山がありますが、全体の頂点は後半のE5です。前半の山A4は、後半のために少し控えめにしておきます。',
+  dist:[{t:'segs',k:'equalPeaks',h:[1,1]},{t:'segs',k:'firstBig',h:[1,.72]}]},
+ {id:'4-2',pr:4,ts:[4,4],bpm:96,pickup:0,
+  bars:[[['G4',1],['C5',1],['B4',1],['C5',1]],[['D5',2],['C5',2]],[['A4',1],['D5',1],['C5',1],['D5',1]],[['E5',2],['D5',2]],
+        [['E5',1],['F5',1],['G5',1],['A5',1]],[['G5',2],['E5',2]],[['D5',1],['C5',1],['B4',1],['D5',1]],[['C5',4]]],
+  segs:[{s:0,e:5,p:4,h:.6},{s:6,e:11,p:10,h:.76},{s:12,e:22,p:16,h:1}], subs:[[0,5],[6,11],[12,22]],
+  peak:16, alt:{15:'A5は最高音で、ここから頂点と考える読み方も自然です。次の小節頭のG5まで、ひと続きの頂点として扱うとよいでしょう。'},
+  hints:{4:'最初の短い句の山です。続く句のために控えめにしておきます。',10:'2回目の短い句の山です。1回目より高めますが、全体の頂点はこの先にあります。'},
+  why:'2小節の短い句が2回（2回目は一つ上で）繰り返され、そのあと4小節の長い句が続く形（文型）です。短い句の山（D5、E5）は段階的に高め、長い句の中のG5で全体の頂点に達します。部分の山を全部同じ大きさにすると、どこが本当の山かがわからなくなります。',
+  dist:[{t:'segs',k:'equalPeaks',h:[.92,.92,.92]},{t:'segs',k:'firstBig',h:[1,.82,.7]}]},
+ {id:'9-1',pr:9,ts:[4,4],bpm:76,pickup:0,timing:true,
+  bars:[[['E4',1],['G4',1],['C5',1],['B4',1]],[['A4',1],['F5',2],['E5',1]],[['D5',1],['C5',1],['B4',1],['A4',1]],[['G4',4]]],
+  peak:5, alt:{},
+  why:'6度の跳躍で届くF5が頂点です。ここでほんの少し時間を取り（跳躍の到達に余裕を持たせる）、そのあとはテンポに戻ります。終わりの半終止でも少し緩めます。メトロノーム通りに弾くと、跳躍が機械的に聞こえます。',
+  dist:[{t:'inTempo'},{t:'rushPeak'}]},
+ {id:'9-2',pr:9,ts:[3,4],bpm:92,pickup:0,timing:true,
+  bars:[[['G4',1],['B4',1],['D5',1]],[['G5',2],['F#5',1]],[['E5',1],['D5',1],['C5',1]],[['B4',2],['A4',1]],[['G4',3]]],
+  peak:3, alt:{},
+  why:'分散和音で駆け上がった先のG5が頂点です。頂点の直前の上行でわずかに時間をためて、G5の到着に重みを持たせ、そこから流れるように下ります。頂点で急いでしまうと、到達点が軽くなり、せわしなく聞こえます。',
+  dist:[{t:'rushPeak'},{t:'inTempo'}]},
+ {id:'10-1',pr:10,ts:[4,4],bpm:72,pickup:0,
+  bars:[[['E5',1],['D5',1],['D5',1],['C5',1]],[['C5',1],['B4',1],['B4',1],['A4',1]],[['G4',1],['A4',1],['B4',2]],[['C5',4]]],
+  slurs:[[0,1],[2,3],[4,5],[6,7],[8,11,'L']],
+  peak:0, alt:{},
+  why:'2音ずつのスラーが続く「ため息」の音型です。スラーの1音目に重みを置き、2音目は軽く短めに収めて、次の組との間にわずかな切れ目を作ります。弦楽器なら、1音目で弓に重さを乗せ、2音目で抜く動きです。3小節目からの4音のスラーは短い組ではなく、終止へ向かうひと息のレガートを示すものです。頭を重くせず、なめらかに上がって最後のC5に収めます。',
+  dist:[{t:'slurEnd'},{t:'noGroup'}]},
+ {id:'10-2',pr:10,ts:[3,4],bpm:96,pickup:0,
+  bars:[[['G4',1],['A4',1],['B4',1]],[['C5',1],['D5',1],['E5',1]],[['F5',1],['E5',1],['D5',1]],[['C5',3]]],
+  slurs:[[0,2],[3,5],[6,8]],
+  peak:6, alt:{},
+  why:'1小節ずつ3音のスラーでまとまっています。スラーの頭で重さを入れ、終わりで少し軽くすると、小節ごとのまとまりが聞こえます。全体の山は3小節目頭のF5で、ここもスラーの頭に当たります。',
+  dist:[{t:'noGroup'},{t:'slurEnd'}]}
 ];
 
 // jazz note: [name|'r', beats, flags]  A=アクセント, o=軽い持ち上げ（任意）, g=ゴースト, s=短く, t=タイ始点, c=タイの続き
@@ -486,7 +666,75 @@ const JAZZ = [
   bars:[[['F4',.5],['A4',.5,'o'],['C5',.5],['E5',.5,'A'],['D5',.5],['C5',.5,'o'],['A4',.5],['F4',.5,'o']],
         [['B4',.5],['A4',.5,'o'],['G4',.5],['F4',.5,'o'],['E4',1],['r',.5],['C5',.5,'As']]],
   why:'最後のC5は4拍目の裏拍に置かれ、次の小節（Cの和音）を先取りしながら短く切って終わります。直前の8分休符でいったん息を止め、「バッ」と弾くと決まります。2拍目裏の頂点E5にもアクセントを置きます。',
-  dist:[{t:'longEnd'},{t:'flat'}]}
+  dist:[{t:'longEnd'},{t:'flat'}]},
+ {id:'J10-1',pr:10,cmpOnly:true,sub:{ja:'レイドバック',en:'Laid back',dja:'ミディアムテンポでは、表拍の音をビートのわずかに後ろに置き、裏拍はライドシンバルに揃える。',den:'At medium tempos, place downbeat notes slightly behind the beat and line offbeats up with the ride cymbal.'},chartRef:'ride',bpm:120,laid:.04,timeFeel:true,forceRhythm:true,chords:[[0,4,'Fmaj7'],[4,2,'Gm7'],[6,2,'C7']],
+  bars:[[['r',.5],['C5',.5,'A'],['A4',.5],['F4',.5,'o'],['G4',.5],['A4',.5,'o'],['C5',1]],
+        [['Bb4',.5],['A4',.5,'o'],['G4',.5],['F4',.5,'o'],['E4',1,'As'],['r',1]]],
+  why:'ミディアムテンポのくつろいだスウィングでは、表拍の音をライドシンバルのわずかに後ろ（数十ミリ秒）に置き、裏拍の音はライドシンバルの裏拍に揃えると、ゆったりと落ち着いて聞こえます（レイドバック）。全体を前に出すと急いで聞こえ、全体を大きく遅らせるとリズム隊から離れて引きずって聞こえます。聴き比べでは、ライドシンバルとの位置関係に耳を澄ませてください。これはテンポによる一般的な傾向ですが、表現上の選択でもあります。特に、バラード、ソウルジャズ、ブルース寄りの演奏では、レイドバックされる傾向があります。',
+  dist:[{t:'ahead'},{t:'late'}]},
+ {id:'J10-2',pr:10,cmpOnly:true,sub:{ja:'オントップ',en:'On top',dja:'速いテンポでは、表拍を遅らせずにビートの頭に乗せる。',den:'At fast tempos, sit right on top of the beat without delaying the downbeats.'},chartRef:'ride',timeFeel:true,forceRhythm:true,bpm:200,chords:[[0,2,'Dm7'],[2,2,'G7'],[4,4,'Cmaj7']],
+  bars:[[['A4',.5],['C5',.5,'o'],['E5',.5],['G5',.5,'A'],['F5',.5],['D5',.5,'o'],['B4',.5],['G4',.5,'o']],
+        [['A4',.5],['B4',.5,'o'],['C5',.5],['E5',.5,'o'],['D5',1,'As'],['r',1]]],
+  why:'速いテンポのビバップでは、表拍を遅らせず、ビートの頭にぴったり乗せて弾くのが基本です（オントップ）。ミディアムテンポのように表拍を後ろに置くと、このテンポでは重く、遅れていくように聞こえます。前に出すと、今度は急いで走って聞こえます。このテンポではハネもほとんど均等です。これも一般的な傾向で、奏者による違いもあります。特に、ビバップやハードバップの速い曲では、ビートの頭に乗って推進力を出す傾向があります。また、ベースが少し前に乗ってバンドを引っ張るという役割分担もよく見られます。',
+  dist:[{t:'dragTop'},{t:'ahead'}]},
+ {id:'J11-1',pr:11,cmpOnly:true,sub:{ja:'ハネ具合（速いテンポ）',en:'Swing ratio (fast tempo)',dja:'速いテンポでは、8分音符の長短の差が小さくなり、均等に近づく。',den:'At fast tempos, the long-short difference shrinks and the eighth notes approach even.'},bpm:168,timeFeel:true,forceRhythm:true,chords:[[0,4,'Cmaj7'],[4,4,'Dm7']],
+  bars:[[['E4',.5],['G4',.5,'o'],['B4',.5],['D5',.5,'o'],['C5',.5],['A4',.5,'o'],['G4',.5],['E4',.5,'o']],
+        [['F4',.5],['A4',.5,'o'],['C5',.5],['E5',.5,'A'],['D5',1,'As'],['r',1]]],
+  why:'速めのテンポでは、8分音符の長短の差は小さくなります。付点8分と16分のように極端にハネると、古風で跳ねすぎたリズムに聞こえ、逆に均等にするとスウィングしません。テンポに合った、わずかなハネが自然です。ハネの深さもテンポによる一般的な傾向で、スタイルによって違います。特に、ビバップ以降の速い演奏ではハネが浅く、均等に近い8分音符で滑らかに弾く傾向があります。一方、スウィング時代のビッグバンドなどでは、速めのテンポでもはっきりハネることがあります。',
+  dist:[{t:'overSwing'},{t:'straight'}]},
+ {id:'J11-2',pr:11,cmpOnly:true,sub:{ja:'ハネ具合（遅いテンポ）',en:'Swing ratio (slow tempo)',dja:'遅いテンポでは、8分音符の長短の差が大きくなり、3連符に近い深いハネになる。',den:'At slow tempos, the long-short difference grows into a deep, triplet-like swing.'},timeFeel:true,forceRhythm:true,bpm:72,swing:.72,chords:[[0,4,'Fmaj7'],[4,4,'F6']],
+  bars:[[['C5',.5],['A4',.5,'o'],['F4',.5],['G4',.5,'o'],['A4',.5],['C5',.5,'o'],['D5',.5],['C5',.5,'o']],
+        [['Bb4',.5],['G4',.5,'o'],['E4',.5],['G4',.5,'o'],['F4',1,'As'],['r',1]]],
+  why:'ゆっくりしたテンポでは、8分音符の長短の差が大きくなり、3連符に近い（長い音が短い音の2倍以上の）ハネになります。速いテンポのように均等に近づけると、ゆったりした揺れが失われて平板に聞こえます。特に、ブルースやシャッフル、ソウルジャズの遅い曲では、3連符に近い深いハネになる傾向があります。ただしバラードでは、8分音符をあまりハネずに歌うように弾くこともあり、曲や奏者によって幅があります。',
+  dist:[{t:'underSwing'},{t:'straight'}]},
+ {id:'J10-3',pr:10,cmpOnly:true,sub:{ja:'休符のあとの入り',en:'Entering after rests',dja:'休符のあいだもビートを感じ続け、入りの音を早めず遅らせず、ビートにぴったり合わせる。',den:'Keep feeling the beat through the rest and place the entry exactly on time, neither early nor late.'},chartRef:'ride',timeFeel:true,forceRhythm:true,bpm:144,chords:[[0,4,'Fmaj7'],[4,4,'Bb7'],[8,4,'Fmaj7']],
+  bars:[[['r',1],['r',.5],['A4',.5,'A'],['C5',.5],['D5',.5,'o'],['C5',1]],
+        [['r',2],['r',.5],['Ab4',.5,'A'],['F4',.5],['D4',.5,'o']],
+        [['F4',1,'As'],['r',1],['r',2]]],
+  why:'休符のあとで入る音は、待ちきれずに早く入ってしまいがちです。休符のあいだもビートを感じ続け、入りの音（A4、A♭4）をライドシンバルの裏拍にぴったり合わせます。遅れて入るのも、ためらっているように聞こえます。',
+  dist:[{t:'earlyEntry'},{t:'lateEntry'}]},
+ {id:'J6-1',pr:6,timeFeel:true,dual:true,bpm:120,chords:[[0,4,'Cmaj7'],[4,4,'Am7']],
+  bars:[[['E4',.5],['G4',.5,'o'],['C5',1/3,'T'],['E5',1/3,'T'],['G5',1/3,'TA'],['E5',.5],['D5',.5,'o'],['C5',.5],['A4',.5,'o']],
+        [['G4',.5],['E4',.5,'o'],['F4',1/3,'T'],['G4',1/3,'T'],['A4',1/3,'TA'],['C5',1,'As'],['r',1]]],
+  why:'2拍目の3連符は、均等な3つの音で分散和音を駆け上がり、頂点のG5にアクセントを置きます。3連符はスウィングの8分音符と違い、ハネさせずに均等に弾きます。2小節目の3連符は、次の拍のC5へ向かう最後の音A4に重みを置きます。',
+  dist:[{t:'tripRush'},{t:'tripHeads'}]},
+ {id:'J6-2',pr:6,timeFeel:true,dual:true,bpm:132,chords:[[0,4,'Dm7'],[4,4,'G7']],
+  bars:[[['A4',.5],['D5',.5,'o'],['F5',1/3,'TA'],['E5',1/3,'T'],['D5',1/3,'T'],['C5',1/3,'T'],['A4',1/3,'T'],['F4',1/3,'T'],['E4',.5],['F4',.5,'o']],
+        [['G4',1/3,'T'],['A4',1/3,'T'],['B4',1/3,'TA'],['D5',.5],['B4',.5,'o'],['G4',1,'As'],['r',1]]],
+  why:'3連符が続くラインです。最初の組の頭F5はラインの頂点なのでアクセントを置きますが、続く組の頭（C5）は強くしません。組の頭を毎回強くすると、3拍子のように角張って聞こえます。2小節目の3連符は、次の拍へ向かう最後の音B4に重みを置いて上がります。',
+  dist:[{t:'tripHeads'},{t:'tripRush'}]},
+ {id:'J7-1',pr:7,bpm:144,chords:[[0,4,'Cmaj7'],[4,4,'C6']],
+  bars:[[['E5',.5,'A'],['C5',.5],['A4',.5],['E5',.5,'A'],['C5',.5],['A4',.5],['E5',.5,'A'],['C5',.5]],
+        [['A4',.5],['E5',.5,'A'],['C5',.5],['A4',.5],['E5',.5,'A'],['C5',.5],['D5',1,'As']]],
+  why:'E5–C5–A4 の3音のまとまりが、4拍子の中で繰り返されます。まとまりの頭（E5）に軽いアクセントを置くと、3つずつの周期が拍とずれながら浮かび上がり、拍の表と裏を行き来します。拍の頭や、いつもの裏拍にアクセントを置くと、ただの4拍子のラインに戻ってしまいます。',
+  dist:[{t:'beatAcc'},{t:'offAcc'}]},
+ {id:'J7-2',pr:7,bpm:160,chords:[[0,4,'Dm7'],[4,4,'G7']],
+  bars:[[['A4',.5,'A'],['C5',.5],['D5',.5],['A4',.5,'A'],['C5',.5],['D5',.5],['A4',.5,'A'],['C5',.5]],
+        [['D5',.5],['A4',.5,'A'],['C5',.5],['D5',.5],['A4',.5,'A'],['C5',.5],['E5',1,'As']]],
+  why:'A4–C5–D5 の上行する3音のまとまりです。頭のA4はまとまりの中で一番低い音ですが、周期を示すために軽くアクセントを置きます。頂点のD5や裏拍を強くしたくなりますが、そうすると3つずつのまとまりが聞こえにくくなります。最後のE5で周期を抜け、短く切って終わります。',
+  dist:[{t:'offAcc'},{t:'beatAcc'}]},
+ {id:'J8-1',pr:8,cmpOnly:true,feel:'bossa',forceRhythm:true,bpm:132,chords:[[0,4,'Cmaj7'],[4,2,'Dm7'],[6,2,'G7'],[8,4,'Cmaj7']],
+  bars:[[['E5',1.5],['D5',.5],['C5',1],['B4',.5],['A4',.5,'ot']],
+        [['A4',1,'c'],['F4',.5],['A4',.5],['D5',1],['C5',.5],['B4',.5,'ot']],
+        [['B4',1,'c'],['G4',1],['E4',2]]],
+  why:'ボサノヴァでは、8分音符をハネずに均等に弾き、強弱の幅を小さく保ってレガートで歌います。小節線の前で次の小節を食う音（A4、B4）も、強く打たずに柔らかく入ります。スウィングのつもりでハネたり、裏拍を強く打ったりすると、リズム隊の揺れと合わなくなります。',
+  dist:[{t:'swingBossa'},{t:'punchy'}]},
+ {id:'J8-2',pr:8,cmpOnly:true,feel:'bossa',forceRhythm:true,bpm:120,chords:[[0,4,'Am7'],[4,4,'D7'],[8,4,'Gmaj7']],
+  bars:[[['C5',.5],['E5',.5],['G5',1.5],['E5',.5],['D5',.5],['C5',.5,'ot']],
+        [['C5',1,'c'],['A4',1],['F#4',1.5],['A4',.5,'o']],
+        [['B4',4]]],
+  why:'ボサノヴァの旋律は、長い音と、次の拍を8分音符ひとつ早く食う音の組み合わせでできています。食う音（C5、A4）も強調せず、長い音へなめらかにつなげます。短く切ると、ボサノヴァ特有の柔らかい流れが途切れます。',
+  dist:[{t:'punchy'},{t:'swingBossa'}]},
+ {id:'J9-1',pr:9,cmpOnly:true,dt:true,dual:true,timeFeel:true,forceRhythm:true,bpm:76,chords:[[0,4,'Cmaj7'],[4,2,'Dm7'],[6,2,'G7']],
+  bars:[[['G4',1],['E4',.5],['G4',.5,'o'],['C5',.25],['D5',.25,'o'],['E5',.25],['G5',.25,'A'],['F5',.25],['E5',.25,'o'],['D5',.25],['B4',.25,'o']],
+        [['C5',.25],['A4',.25,'o'],['F4',.25],['A4',.25,'o'],['C5',.25],['E5',.25,'o'],['D5',.25],['B4',.25,'o'],['C5',1,'As'],['r',1]]],
+  why:'ゆっくりしたバラードの中で、3拍目から16分音符のダブルタイムに入ります。リズム隊は元のテンポのままで、ソロだけが倍のテンポのスウィングのように弾きます。16分音符の組の裏側を少し遅らせて軽く持ち上げ、ハネを1段細かい音価に移すのがポイントです。',
+  dist:[{t:'over16'},{t:'frontAcc'}]},
+ {id:'J9-2',pr:9,cmpOnly:true,dt:true,dual:true,timeFeel:true,forceRhythm:true,bpm:84,chords:[[0,4,'Dm7'],[4,4,'G7']],
+  bars:[[['D5',.25],['F5',.25,'o'],['A5',.25],['G5',.25,'o'],['F5',.25],['E5',.25,'o'],['D5',.25],['C#5',.25,'o'],['D5',.25],['A4',.25,'o'],['F4',.25],['A4',.25,'o'],['D5',.25],['E5',.25,'o'],['F5',.25],['A5',.25,'A']],
+        [['G5',.25],['F5',.25,'o'],['E5',.25],['D5',.25,'o'],['B4',.5],['G4',.5,'o'],['F5',1,'As'],['r',1]]],
+  why:'1小節まるごと16分音符で駆け回るダブルタイムのラインです。16分音符の単位で軽くハネさせ、組の裏側を少し持ち上げると、倍のテンポのスウィングとして前へ流れます。表側を強くすると角張って推進力がなくなり、ハネを深くしすぎると、倍のテンポにしては重く跳ねて流れが止まります。',
+  dist:[{t:'frontAcc'},{t:'over16'}]}
 ];
 
 const DISTS = {
@@ -495,7 +743,16 @@ const DISTS = {
   end:{name:'終止に山',text:'最後の音に向かって大きくしています。終止で収まらないので、フレーズが閉じずに放り出されたように聞こえます。'},
   resLoud:{name:'解決音を強調',text:'倚音より解決音の方を強くしています。緊張から解決への順序が逆になり、ぶつかりの意味が消えます。'},
   pickupAccent:{name:'弱起を強調',text:'弱起の音を強く弾き、次の拍頭を弱めています。拍がずれて、弱起が小節頭のように聞こえます。'},
-  peakAt:{name:'山の位置違い',text:''}
+  peakAt:{name:'山の位置違い',text:''},
+  sameRep:{name:'毎回同じ',text:'繰り返しを毎回同じ強さで弾いています。高さは変わっているのに強弱がついてこないので、足踏みしているように聞こえます。'},
+  fallingSeq:{name:'上がるのに弱く',text:'上がっていくゼクエンツを、回を追うごとに弱くしています。音の高さの流れと強弱の流れが逆になり、ちぐはぐに聞こえます。'},
+  risingSeq:{name:'下がるのに強く',text:'下がっていくゼクエンツを、回を追うごとに強くしています。力を抜いていく流れに逆らい、終わりが押しつけがましく聞こえます。'},
+  equalPeaks:{name:'山がみな同じ',text:'部分ごとの山を同じ大きさにしています。どの山も同じなので、全体のどこが頂点かがわからなくなります。'},
+  firstBig:{name:'最初に最大の山',text:'最初の部分の山をいちばん大きくしています。後半に向かう伸びしろがなくなり、旋律が尻すぼみに聞こえます。'},
+  inTempo:{name:'メトロノーム通り',text:'時間の伸び縮みなしで弾いています。音の並びは正確でも、頂点への到達や終止が機械的に聞こえます。'},
+  rushPeak:{name:'頂点で急ぐ',text:'頂点のあたりで逆にテンポを速めています。到達点が軽く通り過ぎてしまい、せわしなく聞こえます。'},
+  slurEnd:{name:'スラーの終わりを強調',text:'スラーの終わりの音を強くしています。まとまりの頭と終わりが逆になり、音の組がつながりを失って聞こえます。'},
+  noGroup:{name:'まとまりなし',text:'スラーのまとまりを無視して、すべての音を同じようにつなげています。なめらかですが、音の組が聞こえず、のっぺりとします。'}
  },
  j:{
   classical:{name:'表拍アクセント',text:'クラシック風に表拍を重くし、最後の音を長く伸ばしています。スウィングのリズムに乗っていても、アクセントが表拍に来るとハネが重く引きずって聞こえます。'},
@@ -503,7 +760,26 @@ const DISTS = {
   straight:{name:'イーブン',text:'アクセントの位置は模範と同じですが、8分音符を均等に弾いていて（ハネていない）、裏拍のアクセントが前のめりに聞こえます。'},
   noPeak:{name:'要のアクセントなし',text:'裏拍の軽い持ち上げはありますが、このラインの要になる音（頂点や先取りの音）にアクセントがありません。聴かせどころがぼやけます。'},
   noGhost:{name:'ゴーストなし',text:'谷の低い音をほかと同じ強さで弾いています。上の音の流れに低い音が割り込み、旋律の輪郭が見えにくくなります。'},
-  longEnd:{name:'伸ばす終わり',text:'最後の音を長く伸ばし、弱めて収めています。クラシックの終止の作法で、ジャズの歯切れのよい終わり方になりません。'}
+  longEnd:{name:'伸ばす終わり',text:'最後の音を長く伸ばし、弱めて収めています。クラシックの終止の作法で、ジャズの歯切れのよい終わり方になりません。'},
+  ahead:{name:'前のめり',text:'旋律全体がビートより前に出ています。急いでいるように聞こえ、落ち着きがなくなります。'},
+  late:{name:'遅れすぎ',text:'旋律全体がビートから大きく遅れています。リズム隊から離れて、もたれて引きずったように聞こえます。'},
+  earlyEntry:{name:'入りが早い',text:'休符のあとの入りの音だけが、少し早く出ています。テンポは同じでも、待ちきれずに飛び込んだように聞こえます。'},
+  lateEntry:{name:'入りが遅い',text:'休符のあとの入りの音だけが、少し遅れています。ためらっているように聞こえ、ラインの勢いが弱まります。'},
+  beatAcc:{name:'拍の頭にアクセント',text:'3つずつのまとまりを無視して、拍の頭の音にアクセントを置いています。ふつうの4拍子に聞こえ、周期のずれが消えます。'},
+  offAcc:{name:'いつもの裏拍アクセント',text:'3つずつのまとまりを無視して、ふつうのスウィングのように裏拍にアクセントを置いています。整ったスウィングには聞こえますが、3つずつの周期は聞こえません。'},
+  tripRush:{name:'3連符が急ぐ',text:'ハネてはいませんが、3連符の3つの音が拍の前のほうに少し詰まり、次の拍の前にわずかな隙間ができています。3連符が急いで聞こえ、ラインが前のめりになります。細かい音符で起きやすい癖です。'},
+  swingTrip:{name:'3連符もハネる',text:'3連符までスウィングの8分音符のように長短をつけています。3つの音が不揃いになり、もたついて聞こえます。'},
+  tripHeads:{name:'組の頭を強調',text:'3連符の各組の1音目を毎回強くしています。3拍子のように角張り、ラインの流れが途切れます。'},
+  swingBossa:{name:'ハネるボサノヴァ',text:'8分音符をスウィングのようにハネさせ、裏拍を強めています。均等に刻むリズム隊とずれて、ボサノヴァの穏やかな揺れが崩れます。'},
+  punchy:{name:'強すぎ・短すぎ',text:'アクセントを強く付け、音を短く切っています。スウィングのような歯切れですが、ボサノヴァでは硬く、流れが途切れて聞こえます。'},
+  over16:{name:'16分のハネすぎ',text:'テンポとアクセントは模範と同じですが、16分音符を3連符に近いほど深くハネさせています。スウィングはしているのに、倍のテンポにしては重く跳ねて、ラインが前へ流れません。'},
+  rush:{name:'走る',text:'ハネの形は正しいのですが、16分音符のラインが少しずつ前のめりになり、着地の音がリズム隊より早く着いてしまいます。細かい音符が続くところで起きやすい失敗です。'},
+  frontAcc:{name:'表側アクセント',text:'タイミングは模範と同じですが、アクセントを16分音符の組の表側（1つ目）に置いています。リズムは正しく聞こえるのに、前へ進む推進力がなく、角張って聞こえます。'},
+  even16:{name:'イーブン16分',text:'16分音符を均等に弾いています。アクセントの位置は模範と同じですが、ハネがないので、クラシックの速いパッセージのように角張って聞こえます。'},
+  swing8only:{name:'8分単位のハネ',text:'16分音符を8分音符の単位でハネさせています。2つずつが固まって長短に分かれ、ごつごつと引っかかって聞こえます。'},
+  dragTop:{name:'レイドバックしすぎ',text:'ミディアムテンポのように表拍を後ろに置いています。速いテンポではそのずれが大きく感じられ、重く引きずって聞こえます。'},
+  underSwing:{name:'ハネ不足',text:'ハネが浅く、このテンポには均等に近すぎます。揺れが小さく、間延びして聞こえます。'},
+  overSwing:{name:'ハネすぎ',text:'付点8分と16分のように、長短の差を大きくしすぎています。このテンポでは古風で跳ねすぎたリズムに聞こえます。'}
  }
 };
 
@@ -520,11 +796,13 @@ function prep(ph,style){
   ph.bars.forEach((bar,bi)=>{ let pos=0; bar.forEach(([n,d,f])=>{
     const base={on,dur:d,bar:bi,pos,flag:f||''};
     if(n==='r'){ ph.items.push(Object.assign(base,{rest:true})); }
-    else { const o=Object.assign(parse(n),base,{idx:ph.notes.length}); ph.notes.push(o); ph.items.push(o); }
+    else { const prev=ph.items[ph.items.length-1]; const o=Object.assign(parse(n),base,{idx:ph.notes.length,afterRest:!!(prev&&prev.rest)}); ph.notes.push(o); ph.items.push(o); }
     on+=d; pos+=d; }); });
   ph.total=on;
 }
 CLASSICAL.forEach(p=>prep(p,'c')); JAZZ.forEach(p=>prep(p,'j'));
+JAZZ.sort((a,b)=>a.pr-b.pr||a.id.localeCompare(b.id));
+CLASSICAL.sort((a,b)=>a.pr-b.pr||a.id.localeCompare(b.id));
 const SETS={c:CLASSICAL,j:JAZZ};
 
 /* ================= classical dynamics ================= */
@@ -545,17 +823,47 @@ function shape(ph,peakIdx){
   N.forEach((n,i)=>{ if(n.flag==='p') v[i]=Math.min(v[i],.40); });
   return v.map(x=>Math.max(.16,Math.min(1,x)));
 }
-function versionC(ph,d){
-  const N=ph.notes, model=shape(ph,ph.peak);
-  if(!d) return model;
-  if(d.t==='flat') return N.map(()=>.62);
-  if(d.t==='end') return shape(ph,N.length-1);
-  if(d.t==='peakAt') return shape(ph,d.at);
-  if(d.t==='resLoud'){ const v=model.slice(); N.forEach((n,i)=>{ if(n.flag==='r'){ v[i]=Math.min(1,model[i-1]+.08); v[i-1]=model[i-1]-.22; } }); return v; }
-  if(d.t==='pickupAccent'){ const v=model.slice(); let first=-1; N.forEach((n,i)=>{ if(n.flag==='p') v[i]=.98; else if(first<0) first=i; }); if(first>=0) v[first]*=.62; return v; }
-  return model;
+function archSegs(ph,segs,heights){
+  const N=ph.notes, v=N.map(()=>.4);
+  segs.forEach((sg,k)=>{
+    const h=heights?heights[k]:sg.h, lo=Math.max(.3,h-.3), endLo=k===segs.length-1?.38:Math.max(.3,h-.25);
+    const tp=N[sg.p].on, ts=N[sg.s].on, te=N[sg.e].on;
+    for(let i=sg.s;i<=sg.e;i++){ const n=N[i]; let x;
+      if(n.on<=tp){ const f=tp<=ts?1:(n.on-ts)/(tp-ts); x=lo+(h-lo)*(.5-.5*Math.cos(Math.PI*f)); }
+      else { const f=(n.on-tp)/((te-tp)||1); x=h-(h-endLo)*(.5-.5*Math.cos(Math.PI*f)); }
+      v[i]=x; }
+  });
+  return v;
 }
-
+function versionC(ph,d){
+  const N=ph.notes, t=d&&d.t;
+  const model=ph.segs?archSegs(ph,ph.segs):shape(ph,ph.peak);
+  let v;
+  if(!d||['inTempo','rushPeak','slurEnd','noGroup'].includes(t)) v=model.slice();
+  else if(t==='segs') v=archSegs(ph,ph.segs,d.h);
+  else if(t==='flat') v=N.map(()=>.62);
+  else if(t==='end') v=shape(ph,N.length-1);
+  else if(t==='peakAt') v=shape(ph,d.at);
+  else if(t==='resLoud'){ v=model.slice(); N.forEach((n,i)=>{ if(n.flag==='r'){ v[i]=Math.min(1,model[i-1]+.08); v[i-1]=model[i-1]-.22; } }); }
+  else if(t==='pickupAccent'){ v=model.slice(); let first=-1; N.forEach((n,i)=>{ if(n.flag==='p') v[i]=.98; else if(first<0) first=i; }); if(first>=0) v[first]*=.62; }
+  else v=model.slice();
+  if(ph.slurs&&t!=='flat'&&t!=='noGroup'){
+    if(t==='slurEnd') ph.slurs.forEach(([a,b,L])=>{ if(!L){ v[a]-=.08; v[b]+=.18; } });
+    else ph.slurs.forEach(([a,b,L])=>{ if(!L){ v[a]+=.08; v[b]-=.12; } });
+  }
+  return v.map(x=>Math.max(.16,Math.min(1,x)));
+}
+function lenC(ph,d){
+  const N=ph.notes, len=N.map(()=>.97);
+  if(ph.slurs&&!(d&&(d.t==='noGroup'||d.t==='flat'))) ph.slurs.forEach(([a,b,L])=>{ if(!L&&b<N.length-1) len[b]=.66; });
+  return len;
+}
+function tmC(ph,d){
+  const t=d&&d.t;
+  if(t==='inTempo') return {amp:0,rit:0};
+  if(t==='rushPeak') return {amp:-.16,rit:.24};
+  return {amp:ph.timing?.22:0,rit:.24};
+}
 /* ================= jazz articulation ================= */
 const isOff=n=>Math.abs((n.on%1)-.5)<1e-6;
 const swingR=bpm=>Math.max(.53,Math.min(.68,.68-(bpm-110)*.0012));
@@ -576,11 +884,48 @@ function jart(ph,d){
   if(t==='noGhost'){ N.forEach((n,i)=>{ if(n.flag.includes('g')) v[i]=.56; }); }
   if(t==='noPeak'){ N.forEach((n,i)=>{ if(i<L&&n.flag.includes('A')) v[i]=isOff(n)?.7:.56; }); }
   N.forEach((n,i)=>{ if(n.flag.includes('c')) v[i]=v[i-1]; });
-  return {v,len,r:t==='straight'?.5:swingR(ph.bpm)};
+  if(t==='beatAcc'||t==='offAcc'){ N.forEach((n,i)=>{ if(i===L) return; const off=isOff(n); v[i]=(t==='beatAcc'?!off:off)?.9:.5; }); }
+  if(t==='tripHeads'){ N.forEach((n,i)=>{ if(n.flag.includes('T')){ const head=Math.abs((n.on%1))<1e-6; v[i]=head?.97:.45; } }); }
+  if(ph.feel==='bossa'){
+    if(t==='punchy'){ N.forEach((n,i)=>{ if(n.flag.includes('o')) v[i]=.9; if(i<L) len[i]=.5; }); }
+    else if(t!=='swingBossa'){ N.forEach((n,i)=>{ v[i]=.55+(v[i]-.55)*.35; len[i]=.96; }); }
+    else { N.forEach((n,i)=>{ if(isOff(n)) v[i]=Math.max(v[i],.8); }); }
+  }
+  const base=ph.swing??swingR(ph.bpm);
+  let r=t==='straight'?.5:t==='overSwing'?.75:t==='underSwing'?.58:base;
+  let rBand=r;
+  if(ph.feel==='bossa'){ rBand=.5; r=t==='swingBossa'?.64:.5; }
+  let r16=null, dt8=false;
+  let rush=0, dtStart=0;
+  if(ph.dt){ rBand=base; r16=t==='even16'?.5:t==='over16'?.69:.6; dt8=t==='swing8only';
+    const f16=N.find(n=>Math.abs(n.dur-.25)<1e-6); dtStart=f16?f16.on:0;
+    if(t==='rush') rush=.045;
+    if(t==='frontAcc') N.forEach((n,i)=>{ if(Math.abs(n.dur-.25)<1e-6&&!n.flag.includes('A')){ const front=Math.round(n.on*4)%2===0; v[i]=front?.84:.5; } });
+  }
+  const tripSw=t==='swingTrip', tripRush=t==='tripRush';
+  // downbeats sit slightly behind the ride (ph.laid); offbeats line up with the ride's offbeat
+  let offOn=ph.laid||0, offOff=0;
+  if(t==='ahead'){ offOn=-.035; offOff=-.035; }
+  if(t==='late'){ offOn=.11; offOff=.11; }
+  if(t==='dragTop'){ offOn=.055; offOff=0; }
+  const entryOff=t==='earlyEntry'?-.04:t==='lateEntry'?.05:0;
+  return {v,len,r,offOn,offOff,entryOff,rBand,r16,dt8,tripSw,tripRush,rush,dtStart};
 }
+function jcat(ph,i){
+  const N=ph.notes, n=N[i], f=n.flag;
+  let last=N.length-1; while(last>0&&N[last].flag.includes('c')) last--;
+  if(i===last&&f.includes('s')) return 5;
+  if(f.includes('t')) return 3;
+  if(f.includes('g')) return 4;
+  if(isOff(n)&&ph.pr===1) return 1;
+  if(n.midi===Math.max(...N.map(x=>x.midi))) return 2;
+  return isOff(n)?1:2;
+}
+function givenOf(ph){ return ph.notes.map((n,i)=>{ const f=n.flag; if(f.includes('c')||!(f.includes('A')||f.includes('g'))) return ''; return jcat(ph,i)>ph.pr?f.replace(/[tco]/g,''):''; }); }
 function artFromSel(ph,sel){
   const a=jart(ph,{t:'flat'});
-  ph.notes.forEach((n,i)=>{ if(sel[i]==='A') a.v[i]=.97; if(sel[i]==='g') a.v[i]=.2; if(n.flag.includes('c')) a.v[i]=a.v[i-1]; });
+  const gv=givenOf(ph); sel=sel.map((x,i)=>gv[i]||x);
+  ph.notes.forEach((n,i)=>{ if(sel[i][0]==='A') a.v[i]=.97; if(sel[i]==='As') a.len[i]='short'; if(sel[i]==='g') a.v[i]=.2; if(n.flag.includes('c')) a.v[i]=a.v[i-1]; });
   return a;
 }
 function version(ph,d){ return ph.style==='j'?jart(ph,d).v:versionC(ph,d); }
@@ -632,6 +977,12 @@ function cymbal(dest,t0,v,hat){
   g.gain.setTargetAtTime(0,t0+.002,hat?.025:.16);
   s.connect(hp); hp.connect(bp); bp.connect(g); g.connect(dest); s.start(t0); s.stop(t0+.6);
 }
+function rim(dest,t0){
+  const s=ctx.createBufferSource(); s.buffer=noiseBuf;
+  const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1900; bp.Q.value=4;
+  const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(.22,t0+.001); g.gain.setTargetAtTime(0,t0+.001,.018);
+  s.connect(bp); bp.connect(g); g.connect(dest); s.start(t0); s.stop(t0+.2);
+}
 function stopAll(){
   if(bus){ const b=bus; try{ b.gain.setTargetAtTime(0,ctx.currentTime,.03); }catch(e){} setTimeout(()=>{ try{b.disconnect();}catch(e){} },400); bus=null; }
   timers.forEach(clearTimeout); timers=[];
@@ -640,23 +991,25 @@ function stopAll(){
 function highlight(i,ms){
   timers.push(setTimeout(()=>{ document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')); const el=document.getElementById('n'+i); if(el) el.classList.add('sounding'); },ms));
 }
-function beatToSecC(ph,b){
-  const spb=60/ph.bpm, T=ph.total, start=T-2.5; let s=0; const step=.02;
-  for(let x=0;x<b-1e-9;x+=step){ const mid=Math.min(x+step/2,b); const r=1+.24*Math.max(0,Math.min(1,(mid-start)/2.5)); s+=Math.min(step,b-x)*spb*r; }
+function secC(ph,b,tm){
+  const spb=60/ph.bpm, T=ph.total, start=T-2.5, c=ph.notes[ph.peak].on; let s=0; const step=.02;
+  for(let x=0;x<b-1e-9;x+=step){ const mid=Math.min(x+step/2,b);
+    const r=1+tm.rit*Math.max(0,Math.min(1,(mid-start)/2.5))+tm.amp*Math.exp(-Math.pow((mid-c)/.75,2));
+    s+=Math.min(step,b-x)*spb*r; }
   return s;
 }
-function playC(ph,dyn){
+function playCRaw(ph,dyn,len,tm){
   ensureCtx(); stopAll(); bus=ctx.createGain(); bus.connect(master);
   const t=ctx.currentTime+.08;
   ph.notes.forEach((n,i)=>{
-    const s=beatToSecC(ph,n.on), e=beatToSecC(ph,n.on+n.dur), last=i===ph.notes.length-1;
-    piano(bus,n.midi,t+s,(e-s)*.97+(last?.6:0),dyn[i]); highlight(i,(s+.08)*1000);
+    const s=secC(ph,n.on,tm), e=secC(ph,n.on+n.dur,tm), last=i===ph.notes.length-1;
+    piano(bus,n.midi,t+s,(e-s)*len[i]+(last?.6:0),dyn[i]); highlight(i,(s+.08)*1000);
   });
   (ph.chords||[]).forEach(([b,d,,notes])=>{
-    const s=beatToSecC(ph,b), e=beatToSecC(ph,b+d), last=b+d>=ph.total;
+    const s=secC(ph,b,tm), e=secC(ph,b+d,tm), last=b+d>=ph.total;
     notes.forEach(nm=>piano(bus,parse(nm).midi,t+s,(e-s)*.98+(last?.6:0),.34,.75));
   });
-  timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(beatToSecC(ph,ph.total)+.5)*1000));
+  timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(secC(ph,ph.total,tm)+.5)*1000));
 }
 const QUAL={maj7:[0,4,7,11],m7:[0,3,7,10],'7':[0,4,7,10],'6':[0,4,7,9],m7b5:[0,3,6,10]};
 function chordInfo(sym){
@@ -665,20 +1018,51 @@ function chordInfo(sym){
   return {root,iv};
 }
 function inRange(pc,lo){ let x=lo+((pc-lo)%12+12)%12; return x; }
+function noteT(ph,a){
+  const spb=60/ph.bpm;
+  const sw=(f,r)=>f<=.5?f/.5*r:r+(f-.5)/.5*(1-r);
+  return (b,n)=>{
+    const k=Math.floor(b+1e-9), f=Math.max(0,b-k);
+    let m;
+    if(n&&n.flag.includes('T')&&a.tripRush) m=f*.86;
+    else if(n&&n.flag.includes('T')&&!a.tripSw) m=f;
+    else if(ph.dt&&a.r16!=null&&!a.dt8){ const h=f<.5-1e-9?0:.5, g=(f-h)/.5; m=h+.5*sw(g,a.r16); }
+    else if(ph.dt&&a.dt8) m=sw(f,.66);
+    else m=sw(f,a.r);
+    return (k+m)*spb-(a.rush?Math.min(Math.max(0,b-a.dtStart)*a.rush,.15)*spb:0);
+  };
+}
+function makeT(ph,r){ const spb=60/ph.bpm; return b=>{ const k=Math.floor(b+1e-9), f=b-k; return (k+(f<=.5?f/.5*r:r+(f-.5)/.5*(1-r)))*spb; }; }
 function playJ(ph,art){
   ensureCtx(); stopAll(); bus=ctx.createGain(); bus.connect(master);
-  const spb=60/ph.bpm, r=art.r;
-  const T=b=>{ const k=Math.floor(b+1e-9), f=b-k; return (k+(f<=.5?f/.5*r:r+(f-.5)/.5*(1-r)))*spb; };
+  const spb=60/ph.bpm, r=art.rBand??art.r;
+  const T=makeT(ph,r), TN=noteT(ph,art);
   const t=ctx.currentTime+.08, N=ph.notes;
   N.forEach((n,i)=>{
     if(n.flag.includes('c')) return;
     let durB=n.dur; if(n.flag.includes('t')&&N[i+1]) durB+=N[i+1].dur;
-    const s=T(n.on), e=T(n.on+durB);
+    const s=TN(n.on,n), e=TN(n.on+durB,n);
     let len=art.len[i];
     const d = len==='short' ? Math.min(.3*spb,(e-s)*.6) : len==='long' ? (e-s)+spb*1.4 : (e-s)*len;
-    piano(bus,n.midi,t+s,d,art.v[i]); highlight(i,(s+.08)*1000);
+    const off=(isOff(n)?art.offOff:art.offOn)+(n.afterRest?art.entryOff||0:0);
+    piano(bus,n.midi,t+s+off,d,art.v[i]); highlight(i,(s+off+.08)*1000);
   });
-  if(S.rhythm){
+  if((S.rhythm||ph.forceRhythm)&&ph.feel==='bossa'){
+    const bars=Math.ceil(ph.total/4);
+    for(let b=0;b<bars;b++){
+      for(let k=0;k<8;k++) cymbal(bus,t+T(b*4+k*.5),k%2?.012:.02,true);
+      (b%2===0?[0,1.5,3]:[1,2.5]).forEach(x=>rim(bus,t+T(b*4+x)));
+    }
+    ph.chords.forEach(([b0,d,sym])=>{
+      const c=chordInfo(sym), root=inRange(c.root,36), fifth=root+7>48?root-5:root+7;
+      for(let bb=b0;bb<b0+d;bb+=4){
+        const seg=Math.min(4,b0+d-bb);
+        [[0,1.5,root],[1.5,.5,fifth],[2,1.5,fifth],[3.5,.5,root]].filter(([x])=>x<seg).forEach(([x,l,m])=>bass(bus,m,t+T(bb+x),T(bb+x+l)-T(bb+x)-.03));
+        const voicing=[c.iv[1],c.iv[3],14].map(x=>inRange((c.root+x)%12,52));
+        [0,1.5,2.5].filter(x=>x<seg).forEach(x=>voicing.forEach(m=>piano(bus,m,t+T(bb+x),spb*.4,.26,.5)));
+      }
+    });
+  } else if(S.rhythm||ph.forceRhythm){
     const bars=Math.ceil(ph.total/4), beats=bars*4;
     for(let k=0;k<beats;k++){
       cymbal(bus,t+T(k),.05,false);
@@ -700,8 +1084,8 @@ function playJ(ph,art){
   }
   timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(T(ph.total)+.4)*1000));
 }
-function play(ph,d){ if(ph.style==='j') playJ(ph,jart(ph,d)); else playC(ph,versionC(ph,d)); }
-function playPlain(ph){ if(ph.style==='j') playJ(ph,jart(ph,{t:'flat'})); else playC(ph,ph.notes.map(()=>.6)); }
+function play(ph,d){ if(ph.style==='j') playJ(ph,jart(ph,d)); else playCRaw(ph,versionC(ph,d),lenC(ph,d),tmC(ph,d)); }
+function playPlain(ph){ if(ph.style==='j') playJ(ph,jart(ph,{t:'flat'})); else playCRaw(ph,ph.notes.map(()=>.6),ph.notes.map(()=>.97),{amp:0,rit:.24}); }
 
 /* ================= staff ================= */
 const SVGNS='http://www.w3.org/2000/svg';
@@ -711,6 +1095,34 @@ let layout=null;
 function el(tag,attrs,parent,text){ const e=document.createElementNS(SVGNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(text!=null) e.textContent=text; if(parent) parent.appendChild(e); return e; }
 const pretty=s=>s.replace(/b(?=\d|m|7|$)/g,'♭').replace('#','♯');
 
+// Scale and place the treble clef from its measured outline, so it sits right whichever font draws it:
+// top about 1.8 spaces above the staff, bottom about 1.5 spaces below.
+function fitClef(t){
+  try{
+    let bb=t.getBBox(); if(!bb||!bb.height) return;
+    const want=(BOT+15)-(TOP-18);
+    t.setAttribute('font-size',parseFloat(t.getAttribute('font-size'))*want/bb.height);
+    bb=t.getBBox(); t.setAttribute('y',parseFloat(t.getAttribute('y'))+((TOP-18)-bb.y));
+  }catch(e){}
+}
+try{ document.fonts&&document.fonts.ready.then(()=>document.querySelectorAll('.clef').forEach(fitClef)); }catch(e){}
+// Accidentals drawn as paths so they keep a fixed size relative to the staff (one space = 10px).
+function drawAcc(g,cx,y,acc){
+  if(acc<0){
+    el('line',{x1:cx-3,x2:cx-3,y1:y-17,y2:y+5,class:'acc-line'},g);
+    el('path',{d:`M${cx-3} ${y+5} C${cx+7} ${y} ${cx+6} ${y-7} ${cx-3} ${y-2}`,class:'acc-line'},g);
+  } else if(acc>0){
+    el('line',{x1:cx-2,x2:cx-2,y1:y-12,y2:y+13,class:'acc-line'},g);
+    el('line',{x1:cx+3,x2:cx+3,y1:y-14,y2:y+11,class:'acc-line'},g);
+    el('line',{x1:cx-6,x2:cx+7,y1:y-2,y2:y-5,class:'acc-bar'},g);
+    el('line',{x1:cx-6,x2:cx+7,y1:y+6,y2:y+3,class:'acc-bar'},g);
+  } else {
+    el('line',{x1:cx-3,x2:cx-3,y1:y-13,y2:y+5,class:'acc-line'},g);
+    el('line',{x1:cx+3,x2:cx+3,y1:y-5,y2:y+13,class:'acc-line'},g);
+    el('line',{x1:cx-3,x2:cx+3,y1:y-3,y2:y-5,class:'acc-bar'},g);
+    el('line',{x1:cx-3,x2:cx+3,y1:y+5,y2:y+3,class:'acc-bar'},g);
+  }
+}
 function drawStaff(ph){
   const svg=document.getElementById('staff'); svg.innerHTML='';
   const xs=[], itemX=[], spans=[]; let x=72; const accMem={}; const bars=[];
@@ -725,8 +1137,9 @@ function drawStaff(ph){
   });
   const W=x+14, H=128;
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const minW=Math.max(520,Math.round(W))+'px'; svg.style.minWidth=minW;
   for(let k=0;k<5;k++) el('line',{x1:6,x2:W-4,y1:TOP+k*GAP,y2:TOP+k*GAP,class:'staff-line'},svg);
-  el('text',{x:8,y:BOT-GAP,class:'glyph','font-family':'Noto Music, Bravura, Segoe UI Symbol, Apple Symbols, serif','font-size':44},svg,'\u{1D11E}');
+  fitClef(el('text',{x:8,y:BOT-GAP,class:'glyph clef','font-family':'Noto Music, Bravura, Segoe UI Symbol, Apple Symbols, serif','font-size':44},svg,'\u{1D11E}'));
   el('text',{x:44,y:TOP+GAP*2-2,class:'glyph','font-size':21,'font-weight':800,'font-family':'Georgia, serif','text-anchor':'middle'},svg,String(ph.ts[0]));
   el('text',{x:44,y:BOT-2,class:'glyph','font-size':21,'font-weight':800,'font-family':'Georgia, serif','text-anchor':'middle'},svg,String(ph.ts[1]));
   bars.forEach(bx=>el('line',{x1:bx,x2:bx,y1:TOP,y2:BOT,class:'bar-line'},svg));
@@ -744,10 +1157,14 @@ function drawStaff(ph){
   // beam groups
   const N=ph.notes, info=[];
   const groups=[]; let g=[];
-  const gkey=n=>ph.ts[0]===4?Math.floor(n.pos/2+1e-9):Math.floor(n.pos+1e-9);
+  const btype=it=>it.rest?null:Math.abs(it.dur-.5)<1e-6?'e':Math.abs(it.dur-1/3)<1e-6?'t':Math.abs(it.dur-.25)<1e-6?'s':null;
+  const gkey=it=>{ const ty=btype(it); return ty+':'+it.bar+':'+(ty==='e'?(ph.ts[0]===4?Math.floor(it.pos/2+1e-9):Math.floor(it.pos+1e-9)):Math.floor(it.pos+1e-9)); };
+  let prevIt=null;
   ph.items.forEach(it=>{
-    if(!it.rest&&it.dur===.5&&g.length&&N[g[g.length-1]].bar===it.bar&&gkey(N[g[g.length-1]])===gkey(it)&&N[g[g.length-1]].idx===it.idx-1&&ph.items.indexOf(N[g[g.length-1]])===ph.items.indexOf(it)-1) g.push(it.idx);
-    else { if(g.length) groups.push(g); g=(!it.rest&&it.dur===.5)?[it.idx]:[]; }
+    const ty=btype(it);
+    if(ty&&prevIt&&gkey(prevIt)===gkey(it)) g.push(it.idx);
+    else { if(g.length) groups.push(g); g=ty?[it.idx]:[]; }
+    prevIt=ty?it:null;
   });
   if(g.length) groups.push(g);
   const inBeam={};
@@ -757,11 +1174,13 @@ function drawStaff(ph){
     let y1=ny[0]+(up?-32:32), y2=ny[ny.length-1]+(up?-32:32);
     let slope=Math.max(-8,Math.min(8,y2-y1)); y2=y1+slope;
     const by=j=>y1+(y2-y1)*(sx[j]-sx[0])/(sx[sx.length-1]-sx[0]);
-    let shift=0; gr.forEach((i,j)=>{ const need=up?(ny[j]-26)-by(j):by(j)-(ny[j]+26); if(need<shift) shift=need; });
+    const minS=btype(N[gr[0]])==='s'?30:26; let shift=0; gr.forEach((i,j)=>{ const need=up?(ny[j]-minS)-by(j):by(j)-(ny[j]+minS); if(need<shift) shift=need; });
     const B=j=>by(j)+(up?shift:-shift);
     gr.forEach((i,j)=>inBeam[i]={up,tip:B(j),sx:sx[j]});
-    const th=up?4.5:-4.5;
+    const th=up?4.5:-4.5, ty=btype(N[gr[0]]);
     el('polygon',{points:`${sx[0]},${B(0)} ${sx[sx.length-1]},${B(gr.length-1)} ${sx[sx.length-1]},${B(gr.length-1)+th} ${sx[0]},${B(0)+th}`,class:'beam'},svg);
+    if(ty==='s'){ const o=up?7:-7; el('polygon',{points:`${sx[0]},${B(0)+o} ${sx[sx.length-1]},${B(gr.length-1)+o} ${sx[sx.length-1]},${B(gr.length-1)+o+th} ${sx[0]},${B(0)+o+th}`,class:'beam'},svg); }
+    if(ty==='t'){ const mx=(sx[0]+sx[sx.length-1])/2, my=(B(0)+B(gr.length-1))/2+(up?-6:16); el('text',{x:mx,y:my,class:'tuplet','text-anchor':'middle'},svg,'3'); }
   });
 
   N.forEach((n,i)=>{
@@ -769,7 +1188,7 @@ function drawStaff(ph){
     const gN=el('g',{class:'note',id:'n'+i,'data-i':i},svg);
     for(let s=28;s>=n.step;s-=2) el('line',{x1:x-9,x2:x+9,y1:yOf(s),y2:yOf(s),class:'ledger'},gN);
     for(let s=40;s<=n.step;s+=2) el('line',{x1:x-9,x2:x+9,y1:yOf(s),y2:yOf(s),class:'ledger'},gN);
-    if(n.showAcc) el('text',{x:x-13,y:y+5,class:'acc','font-size':15,'text-anchor':'middle','font-family':'Noto Music, Segoe UI Symbol, serif'},gN,n.acc>0?'♯':n.acc<0?'♭':'♮');
+    if(n.showAcc) drawAcc(gN,x-14,y,n.acc);
     el('circle',{cx:x,cy:y,r:10.5,class:'ring'},gN);
     el('ellipse',{cx:x,cy:y,rx:5.6,ry:4.1,transform:`rotate(-20 ${x} ${y})`,class:'head'+(n.dur>=2?' hollow':'')},gN);
     let up=n.step<34, tip=null;
@@ -786,42 +1205,64 @@ function drawStaff(ph){
   // ties
   N.forEach((n,i)=>{ if(n.flag.includes('t')&&N[i+1]){ const a=info[i],b=info[i+1]; const below=a.up; const yy=a.y+(below?7:-7), c=below?9:-9;
     el('path',{d:`M${a.x+4} ${yy} Q${(a.x+b.x)/2} ${yy+c} ${b.x-4} ${yy}`,class:'tie'},svg); } });
+  // slurs
+  (ph.slurs||[]).forEach(([a,b])=>{
+    const rng=[]; for(let k=a;k<=b;k++) rng.push(info[k]);
+    const ups=rng.filter(o=>o.up).length, below=ups*2>rng.length;
+    let ext; const A=info[a], B=info[b];
+    if(below){ ext=Math.max(...rng.map(o=>o.up?o.y:Math.max(o.y,o.tip??o.y)))+9; }
+    else { ext=Math.min(...rng.map(o=>o.up&&o.tip!=null?Math.min(o.y,o.tip):o.y))-9; }
+    const sgn=below?1:-1, y1=A.y+sgn*7, y2=B.y+sgn*7, cy=ext+sgn*8;
+    el('path',{d:`M${A.x} ${y1} C${A.x+(B.x-A.x)*.25} ${cy} ${B.x-(B.x-A.x)*.25} ${cy} ${B.x} ${y2}`,class:'tie'},svg);
+  });
+  // sub-phrase brackets
+  (ph.subs||[]).forEach(([a,b])=>{
+    const x1=info[a].x-8, x2=info[b].x+8, y=7;
+    el('path',{d:`M${x1} ${y+6} L${x1} ${y} L${x2} ${y} L${x2} ${y+6}`,class:'tie bracket'},svg);
+  });
   // chord labels
   (ph.chords||[]).forEach((ch,ci)=>{
     const b=ch[0]; const k=ph.items.findIndex(it=>it.on>=b-1e-9); const cx=itemX[k];
     const lab=ph.style==='j'?pretty(ch[2]):((ci===0&&ph.key?ph.key+': ':'')+ch[2]);
     el('text',{x:cx-(ph.style==='c'&&ci===0&&ph.key?10:4),y:120,class:'chord'},svg,lab);
   });
-  el('g',{id:'marks'},svg);
-  layout={W,xs,info};
+  el('g',{id:'gmarks'},svg); el('g',{id:'marks'},svg);
+  layout={W,xs,info,minW};
 }
-function drawMarks(ph,marks,user){
-  const g=document.getElementById('marks'); g.innerHTML='';
+function drawMarks(ph,marks,user,gid){
+  const g=document.getElementById(gid||'marks'); g.innerHTML='';
+  const sfx=user==='given'?' given':user?' user':'';
   ph.notes.forEach((n,i)=>{
     const m=marks[i]; if(!m) return;
     const {x,y,up,tip}=layout.info[i];
     const topY=Math.min(TOP-10,(up&&tip!=null?tip:y-6)-10);
-    const cls='mark'+(user?' user':'');
+    const cls='mark'+sfx;
     if(m.includes('A')||m.includes('o')) el('path',{d:`M${x-6} ${topY-4} L${x+5} ${topY} L${x-6} ${topY+4}`,class:cls+(m.includes('o')&&!m.includes('A')?' light':'')},g);
-    if(m.includes('s')) el('circle',{cx:x,cy:topY+9,r:1.9,class:'sdot'},g);
-    if(m.includes('g')){ const pc='paren'+(user?' user':''); el('text',{x:x-12,y:y+5,class:pc,'text-anchor':'middle'},g,'('); el('text',{x:x+12,y:y+5,class:pc,'text-anchor':'middle'},g,')'); }
+    if(m.includes('s')){
+      // staccato dot on the notehead side, away from the stem; nudged off a staff line
+      const dir=up?1:-1; let cy=y+dir*9;
+      for(let k=0;k<5;k++){ if(Math.abs(cy-(TOP+k*GAP))<2.5) cy+=dir*3; }
+      el('circle',{cx:x,cy,r:1.9,class:'sdot'+sfx},g);
+    }
+    if(m.includes('g')){ const pc='paren'+sfx; el('text',{x:x-12,y:y+5,class:pc,'text-anchor':'middle'},g,'('); el('text',{x:x+12,y:y+5,class:pc,'text-anchor':'middle'},g,')'); }
   });
 }
 function modelMarks(ph){ return ph.notes.map(n=>n.flag.includes('c')?'':n.flag.replace(/[tc]/g,'')); }
 
-function drawCurves(ph,series){
-  const svg=document.getElementById('curve'); svg.innerHTML=''; svg.hidden=false;
+function drawCurves(ph,series,opts){
+  const svg=document.getElementById((opts&&opts.target)||'curve'); svg.innerHTML=''; svg.removeAttribute('hidden'); svg.style.minWidth=layout.minW;
   const {W,xs}=layout, H=84, yv=v=>66-v*54;
   const idx=ph.notes.map((n,i)=>i).filter(i=>!ph.notes[i].flag.includes('c'));
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-  [[1,'強'],[.5,''],[0,'弱']].forEach(([v,l])=>{ el('line',{x1:30,x2:W-6,y1:yv(v),y2:yv(v),class:'curve-grid'},svg); if(l) el('text',{x:10,y:yv(v)+4,class:'curve-label'},svg,l); });
+  const grid=(opts&&opts.grid)||(LANG==='en'?[[1,'Loud'],[.5,''],[0,'Soft']]:[[1,'強'],[.5,''],[0,'弱']]);
+  grid.forEach(([v,l])=>{ el('line',{x1:62,x2:W-6,y1:yv(v),y2:yv(v),class:'curve-grid'},svg); if(l) el('text',{x:4,y:yv(v)+4,class:'curve-label'},svg,l); });
   const lastX=xs[idx[idx.length-1]];
   const ly=series.map((s,k)=>({k,y:yv(s.v[idx[idx.length-1]])+4})).sort((a,b)=>a.y-b.y);
   for(let j=1;j<ly.length;j++) if(ly[j].y-ly[j-1].y<11) ly[j].y=ly[j-1].y+11;
   const labelY={}; ly.forEach(o=>labelY[o.k]=o.y);
-  series.forEach((s,k)=>{
+  series.map((s,k)=>k).sort((a,b)=>(series[a].dash?1:0)-(series[b].dash?1:0)).forEach(k=>{ const s=series[k];
     const pts=idx.map(i=>`${xs[i]},${yv(s.v[i]).toFixed(1)}`).join(' ');
-    el('polyline',{points:pts,class:'curve-line',stroke:s.color,'stroke-dasharray':s.dash||''},svg);
+    el('polyline',{points:pts,class:'curve-line'+(s.dash?'':' model'),stroke:s.color,'stroke-dasharray':s.dash||''},svg);
     idx.forEach(i=>el('circle',{cx:xs[i],cy:yv(s.v[i]),r:3.4,fill:s.color,class:'curve-dot'},svg));
     if(s.label) el('text',{x:lastX+8,y:labelY[k],class:'curve-label',fill:s.color,'font-weight':700},svg,s.label);
   });
@@ -838,25 +1279,51 @@ function noteLabel(ph,i){ return U().noteLabel(i,ph.notes[i].name.replace('#','�
 
 function buildStatic(){
   const box=$('filters'); box.innerHTML='';
-  const mk=(v,label)=>{ const b=document.createElement('button'); b.className='chip'; b.id='f'+S.style+v; b.textContent=label; b.setAttribute('aria-pressed',S.filter===v); b.onclick=()=>{ S.filter=v; refreshList(); S.pos=0; buildStatic(); load(); }; box.appendChild(b); };
-  mk(0,U().all); Object.entries(PR()).forEach(([k,p])=>mk(+k,k+' '+p.name));
-  const pr=$('principles'); pr.querySelectorAll('.pr').forEach(e=>e.remove());
-  Object.entries(PR()).forEach(([k,p])=>{ const d=document.createElement('div'); d.className='pr'; d.innerHTML=`<span class="n">${k}</span><div><b>${p.name}</b><span>${p.desc}</span></div>`; pr.appendChild(d); });
+  const mk=(v,label,parent)=>{ const b=document.createElement('button'); b.className='chip'; b.id='f'+S.style+v; if(v){ const n=document.createElement('span'); n.className='cn'; n.textContent=v; b.append(n,label); } else b.textContent=label; b.setAttribute('aria-pressed',S.filter===v); b.onclick=()=>{ S.filter=v; refreshList(); S.pos=0; buildStatic(); load(); }; (parent||box).appendChild(b); };
+  const avail=availPr, any=k=>set().some(p=>p.pr===+k);
+  const pick=k=>{ S.filter=k; if(!availPr(k)) S.mode='cmp'; refreshList(); S.pos=0; buildStatic(); load(); };
+  const gs=GROUPS[S.style];
+  const cur=gs.find(gp=>gp.ks.includes(S.filter))||gs[0];
+  const tag=t=>{ const x=document.createElement('small'); x.className='cmptag'; x.textContent=U().cmpTag; return x; };
+  const seg=document.createElement('div'); seg.className='seg grp'; seg.setAttribute('role','tablist');
+  gs.forEach(gp=>{ const b=document.createElement('button'); b.setAttribute('role','tab'); b.setAttribute('aria-selected',gp===cur); b.append(EN_MODE()?gp.en:gp.ja);
+    if(!gp.ks.some(avail)) b.append(tag());
+    b.onclick=()=>{ if(gp===cur) return; pick(gp.ks.find(avail)||gp.ks[0]); }; seg.appendChild(b); });
+  box.appendChild(seg);
+  const gd=document.createElement('div'); gd.className='cgroup';
+  const cks=cur.ks.filter(any); cks.forEach(k=>{ mk(k,PR()[k].name,gd); const b=gd.lastChild; b.onclick=()=>pick(k); if(!avail(k)) b.append(tag()); });
+  if(cks.length>1) box.appendChild(gd);
+  const pr=$('principles'); pr.querySelectorAll('.pr,.pgh').forEach(e=>e.remove());
+  GROUPS[S.style].forEach(gp=>{
+    const h=document.createElement('h3'); h.className='pgh'; h.textContent=EN_MODE()?gp.en:gp.ja; pr.appendChild(h);
+    gp.ks.forEach(k=>{ const p=PR()[k]; const d=document.createElement('div'); d.className='pr'; d.innerHTML=`<span class="n">${k}</span><div><b>${p.name}</b><span>${p.desc}</span></div>`; pr.appendChild(d); });
+  });
   const T=textAll()[S.style];
-  $('sub').textContent=T.sub; $('pr-title').textContent=T.prTitle; $('foot').textContent=T.foot; $('mode-peak').textContent=T.modeA;
-  $('rhythm').hidden=S.style!=='j'; $('rhythm').textContent=S.rhythm?U().rhythmOn:U().rhythmOff;
+  $('pr-title').textContent=T.prTitle; $('foot').textContent=T.foot; $('mode-peak').textContent=T.modeA;
+  $('row-rhythm').hidden=S.style!=='j'; $('rhythm').textContent=S.rhythm?U().rhythmOn:U().rhythmOff;
   const u=U(); $('h1').textContent=u.title; document.title=u.title; document.documentElement.lang=LANG;
   $('style-c').textContent=u.classical; $('style-j').textContent=u.jazz; $('mode-cmp').textContent=u.compare;
-  document.querySelector('.seg.style').setAttribute('aria-label',u.aria.style); document.querySelectorAll('.bar .seg')[1].setAttribute('aria-label',u.aria.mode);
-  $('filters').setAttribute('aria-label',u.aria.filters); $('staff').setAttribute('aria-label',u.aria.staff); $('curve').setAttribute('aria-label',u.aria.curve);
+  document.querySelector('.seg.style').setAttribute('aria-label',u.aria.style); $('mode-seg').setAttribute('aria-label',u.aria.mode);
+  $('filters').setAttribute('aria-label',u.aria.filters); $('gear-label').textContent=u.settings; $('lbl-lang').textContent=u.lblLang; $('lbl-theme').textContent=u.theme.label; $('lbl-rhythm').textContent=u.lblRhythm; $('staff').setAttribute('aria-label',u.aria.staff); $('curve').setAttribute('aria-label',u.aria.curve);
   document.querySelectorAll('[data-lang]').forEach(x=>x.setAttribute('aria-selected',x.dataset.lang===LANG));
   ['auto','light','dark'].forEach(k=>{ const b=$('theme-'+k); b.textContent=u.theme[k]; b.setAttribute('aria-selected',THEME===k); });
   $('theme-seg').setAttribute('aria-label',u.theme.label);
   document.querySelectorAll('[data-style]').forEach(x=>x.setAttribute('aria-selected',x.dataset.style===S.style));
   document.querySelectorAll('[data-mode]').forEach(x=>x.setAttribute('aria-selected',x.dataset.mode===S.mode));
+  { const hasPeak=set().some(p=>p.pr===S.filter&&!p.cmpOnly); const mp=$('mode-peak'); mp.disabled=!hasPeak; mp.title=hasPeak?'':U().cmpOnlyTip; }
   updScore();
 }
-function refreshList(){ S.list=set().map((p,i)=>i).filter(i=>!S.filter||set()[i].pr===S.filter); }
+// principles in display order that have exercises for the current exercise type
+function availPr(k){ return set().some(p=>p.pr===+k&&!(S.mode==='peak'&&p.cmpOnly)); }
+function prOrder(){ return GROUPS[S.style].flatMap(g=>g.ks).filter(availPr); }
+function refreshList(){
+  if(!S.filter||!availPr(S.filter)) S.filter=prOrder()[0];
+  S.list=set().map((p,i)=>i).filter(i=>set()[i].pr===S.filter&&!(S.mode==='peak'&&set()[i].cmpOnly));
+}
+function stepPr(dir){
+  const o=prOrder(), k=o.indexOf(S.filter); S.filter=o[(k+dir+o.length)%o.length];
+  refreshList(); S.pos=dir>0?0:S.list.length-1; buildStatic(); load();
+}
 function updScore(){ const a=S.score[S.style+'-peak'],b=S.score[S.style+'-cmp']; $('score').textContent=U().score(S.style,a,b); }
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function colorFor(k){ return ['var(--accent)','var(--c2)','var(--c3)'][k]; }
@@ -865,13 +1332,14 @@ function btn(label,fn,cls,tri){ const b=document.createElement('button'); b.clas
 function load(){
   stopAll(); S.answered=false;
   const ph=cur();
-  $('tag').innerHTML=`<small>${U().principle(ph.pr)}</small>${PR()[ph.pr].name}`;
+  $('tag').innerHTML=`<small>${U().principle(ph.pr)}</small>${PR()[ph.pr].name}`+(ph.sub?`<span class="subt">${EN_MODE()?ph.sub.en:ph.sub.ja}</span>`:'');
   $('count').textContent=`${ph.id}　${S.pos+1} / ${S.list.length}`;
-  $('pdesc').textContent=PR()[ph.pr].desc;
+  $('pdesc').textContent=ph.sub&&ph.sub.dja?(EN_MODE()?ph.sub.den:ph.sub.dja):PR()[ph.pr].desc;
   drawStaff(ph);
-  $('curve').hidden=true; $('curve').innerHTML=''; $('feedback').hidden=true; $('feedback').innerHTML='';
-  $('prev').disabled=S.pos===0;
-  $('next').textContent=S.pos===S.list.length-1?U().restart:U().next; $('prev').textContent=U().prev;
+  $('curve').setAttribute('hidden',''); $('curve').innerHTML=''; $('curve2').setAttribute('hidden',''); $('curve2').innerHTML=''; $('clegend').hidden=true; $('feedback').hidden=true; $('feedback').innerHTML='';
+  const po=prOrder(), pk=po.indexOf(S.filter);
+  $('prev').disabled=S.pos===0&&pk===0;
+  $('next').textContent=S.pos<S.list.length-1?U().next:pk<po.length-1?U().nextPr:U().restart; $('prev').textContent=S.pos>0?U().prev:U().prevPr;
   const c=$('controls'); c.innerHTML=''; c.className='';
   $('staff').onclick=null; $('staff').classList.remove('pickable');
   if(S.mode==='peak'&&ph.style==='c'){
@@ -882,35 +1350,41 @@ function load(){
     $('staff').onclick=e=>{ const g=e.target.closest('.note'); if(g&&!S.answered) answerPeak(+g.dataset.i); };
   } else if(S.mode==='peak'){
     S.sel=ph.notes.map(()=>'');
+    S.given=givenOf(ph); drawMarks(ph,S.given,'given','gmarks'); S.given.forEach((x,i)=>{ if(x) $('n'+i).classList.add('fixed'); });
     $('staff').classList.add('pickable');
-    $('prompt').innerHTML=U().promptAcc;
+    $('prompt').innerHTML=U().promptAcc+(S.given.some(x=>x)?'<br><span class="hint">'+U().givenNote(S.given.map((x,i)=>x?jcat(ph,i):0).filter(x=>x))+'</span>':'');
     c.className='controls';
     c.appendChild(btn(U().plain,()=>playPlain(ph),'',true));
     c.appendChild(btn(U().mine,()=>playJ(ph,artFromSel(ph,S.sel)),'',true));
     c.appendChild(btn(U().check,()=>answerAcc(),'primary'));
     c.appendChild(btn(U().clear,()=>{ S.sel=ph.notes.map(()=>''); paintSel(ph); },'ghost'));
-    $('staff').onclick=e=>{ const g=e.target.closest('.note'); if(!g||S.answered) return; let i=+g.dataset.i; if(ph.notes[i].flag.includes('c')) i--; S.sel[i]=S.sel[i]===''?'A':S.sel[i]==='A'?'g':''; paintSel(ph); };
+    $('staff').onclick=e=>{ const g=e.target.closest('.note'); if(!g||S.answered) return; let i=+g.dataset.i; if(ph.notes[i].flag.includes('c')) i--; if(S.given[i]) return; S.sel[i]={'':'A','A':'As','As':'g','g':''}[S.sel[i]]; paintSel(ph); };
   } else {
-    $('prompt').textContent=ph.style==='j'?U().promptCmpJ:U().promptCmpC;
-    S.order=shuffle([null,...ph.dist]);
+    $('prompt').textContent=ph.feel==='bossa'?U().promptCmpB:ph.style==='j'?U().promptCmpJ:U().promptCmpC;
+    const okey=o=>o.map(d=>d?(d.k||d.t)+(d.at??''):'M').join(',');
+    let o=shuffle([null,...ph.dist]), tries=0;
+    while(S.lastOrder&&S.lastOrder.id===ph.id&&(o.indexOf(null)===S.lastOrder.mi||okey(o)===S.lastOrder.key)&&tries++<30) o=shuffle([null,...ph.dist]);
+    S.order=o; S.lastOrder={id:ph.id,key:okey(o),mi:o.indexOf(null)};
     c.className='opts';
     S.order.forEach((d,k)=>{
       const o=document.createElement('div'); o.className='opt'; o.id='opt'+k;
       o.innerHTML=`<span class="lbl"><span class="sw" style="background:${colorFor(k)}"></span>${'ABC'[k]}</span>`;
-      o.appendChild(btn(U().listen,()=>play(ph,d),'',true));
-      const pick=btn(U().choose,()=>answerCmp(k),'primary'); pick.classList.add('pick'); o.appendChild(pick);
+      const pick=btn(U().choose,()=>answerCmp(k),''); pick.classList.add('pick'); pick.disabled=true;
+      o.appendChild(btn(U().listen,()=>{ play(ph,d); if(!S.answered) pick.disabled=false; o.classList.add('heard'); },'primary',true));
+      o.appendChild(pick);
       const w=document.createElement('span'); w.className='what'; o.appendChild(w);
       c.appendChild(o);
     });
   }
 }
 function paintSel(ph){
-  ph.notes.forEach((n,i)=>{ const g=$('n'+i); g.classList.toggle('sel-a',S.sel[i]==='A'); g.classList.toggle('sel-g',S.sel[i]==='g'); });
+  ph.notes.forEach((n,i)=>{ const g=$('n'+i); g.classList.toggle('sel-a',S.sel[i][0]==='A'); g.classList.toggle('sel-g',S.sel[i]==='g'); });
   drawMarks(ph,S.sel,true);
 }
 
 function hintFor(ph,i){
   const n=ph.notes[i];
+  const hx=hintOf(ph,i); if(hx) return hx;
   const H=U().hint;
   if(i===ph.notes.length-1) return H.last;
   if(n.flag==='p') return H.p;
@@ -936,9 +1410,9 @@ function answerPeak(i){
   else html+=`<p class="verdict bad">${u.vBad}</p><p class="hint">${cap(noteLabel(ph,i))}${sep}${hintFor(ph,i)}</p><p>${u.modelIs(noteLabel(ph,ph.peak))}${sp}${whyOf(ph)}</p>`;
   fb.innerHTML=html;
   const row=document.createElement('div'); row.className='controls';
-  row.appendChild(btn(U().playModel,()=>playC(ph,model),'primary',true));
+  row.appendChild(btn(U().playModel,()=>play(ph,null),'primary',true));
   row.appendChild(btn(U().plain,()=>playPlain(ph),'',true));
-  fb.appendChild(row);
+  row.appendChild(btn(U().retry,()=>load(),'')); fb.appendChild(row);
 }
 
 function whyJ(ph,i,kind){
@@ -952,38 +1426,44 @@ function whyJ(ph,i,kind){
     return W.acc;
   }
   if(kind==='missG') return W.missG;
+  if(kind==='missS') return W.missS;
+  if(kind==='extraS') return W.extraS;
   if(kind==='extraA'){ if(n.flag.includes('g')) return W.xG; return isOff(n)?W.xOff:W.xOn; }
   if(kind==='extraG') return n.flag.includes('A')?W.gA:W.gNo;
   return '';
 }
 function answerAcc(){
   const ph=cur(); S.answered=true; $('staff').classList.remove('pickable');
-  const N=ph.notes, res={hitA:0,hitG:0,M:0,G:0,list:[]};
+  const N=ph.notes, res={hitA:0,hitG:0,hitS:0,M:0,G:0,SS:0,list:[]};
   N.forEach((n,i)=>{
-    if(n.flag.includes('c')) return;
+    if(n.flag.includes('c')||S.given[i]) return;
     const f=n.flag, s=S.sel[i], wantA=f.includes('A'), wantG=f.includes('g'), opt=f.includes('o');
-    if(wantA) res.M++; if(wantG) res.G++;
+    const wantS=f.includes('s'), selS=s==='As', isA=s[0]==='A';
+    if(wantA) res.M++; if(wantG) res.G++; if(wantS) res.SS++;
     const g=$('n'+i); g.classList.remove('sel-a','sel-g');
-    if(wantA&&s==='A'){ res.hitA++; g.classList.add('hit'); }
+    if(wantS&&selS) res.hitS++;
+    else if(wantS&&isA){ g.classList.add('missed'); res.list.push([i,'missS']); }
+    if(selS&&!wantS&&(wantA||opt)) res.list.push([i,'extraS']);
+    if(wantA&&isA){ res.hitA++; g.classList.add('hit'); }
     else if(wantG&&s==='g'){ res.hitG++; g.classList.add('hit'); }
     else {
       if(wantA){ g.classList.add('missed'); res.list.push([i,'missA']); }
       if(wantG){ g.classList.add('missed'); res.list.push([i,'missG']); }
-      if(s==='A'&&!wantA&&!opt){ g.classList.add('extra'); res.list.push([i,'extraA']); }
-      else if(s==='A'&&opt){ g.classList.add('hit'); }
+      if(isA&&!wantA&&!opt){ g.classList.add('extra'); res.list.push([i,'extraA']); }
+      else if(isA&&opt){ g.classList.add('hit'); }
       if(s==='g'&&!wantG){ g.classList.add('extra'); res.list.push([i,'extraG']); }
     }
   });
   const extras=res.list.filter(x=>x[1].startsWith('extra')).length;
-  const perfect=res.hitA===res.M&&res.hitG===res.G&&extras===0;
+  const perfect=res.hitA===res.M&&res.hitG===res.G&&res.hitS===res.SS&&extras===0;
   const sc=S.score['j-peak']; sc[1]++; if(perfect) sc[0]++; updScore();
-  drawMarks(ph,modelMarks(ph),false);
+  $('gmarks').innerHTML=''; drawMarks(ph,modelMarks(ph),false);
   drawCurves(ph,[{v:jart(ph,null).v,color:'var(--good)',label:U().model}]);
   const fb=$('feedback'); fb.hidden=false;
   const near=!perfect&&res.list.length<=2;
   const u=U(), sep=LANG==='en'?': ':'：', lg=u.legend;
   let html=`<p class="verdict ${perfect?'good':near?'mid':'bad'}">${perfect?u.vAll:near?u.vNear:u.vFar}</p>`;
-  html+=`<div class="tally"><span>${u.tA(res.hitA,res.M)}</span>${res.G?`<span>${u.tG(res.hitG,res.G)}</span>`:''}<span>${u.tX(extras)}</span></div>`;
+  html+=`<div class="tally"><span>${u.tA(res.hitA,res.M)}</span>${res.G?`<span>${u.tG(res.hitG,res.G)}</span>`:''}${res.SS?`<span>${u.tS(res.hitS,res.SS)}</span>`:''}<span>${u.tX(extras)}</span></div>`;
   html+=`<p>${whyOf(ph)}</p>`;
   if(res.list.length){ html+='<ul class="vlist">'; res.list.forEach(([i,k])=>{ const lab=u.kinds[k]; html+=`<li><span class="k" style="color:var(--${k.startsWith('miss')?'good':'warn'})">${i+1}</span><span><b>${lab}</b>　${cap(noteLabel(ph,i))}${sep}${whyJ(ph,i,k)}</span><span></span></li>`; }); html+='</ul>'; }
   html+=`<div class="legend"><span><b>&gt;</b>${lg[0]}</span><span><b style="opacity:.45">&gt;</b>${lg[1]}</span><span><b>( )</b>${lg[2]}</span><span><b>・</b>${lg[3]}</span><span>${lg[4]}</span></div>`;
@@ -991,9 +1471,20 @@ function answerAcc(){
   const row=document.createElement('div'); row.className='controls';
   row.appendChild(btn(U().playModelJ,()=>play(ph,null),'primary',true));
   row.appendChild(btn(U().mine,()=>playJ(ph,artFromSel(ph,S.sel)),'',true));
-  fb.appendChild(row);
+  row.appendChild(btn(U().retry,()=>load(),'')); fb.appendChild(row);
 }
 
+function timingSeries(ph){
+  const clip=x=>Math.max(0,Math.min(1,x));
+  if(ph.style==='c'&&ph.timing) return d=>{ const tm=tmC(ph,d), spb=60/ph.bpm; return ph.notes.map(n=>clip(.5+((secC(ph,n.on+n.dur,tm)-secC(ph,n.on,tm))/(n.dur*spb)-1)*2)); };
+  if(ph.style==='j'&&ph.timeFeel) return d=>{ const a=jart(ph,d), T=noteT(ph,a), spb=60/ph.bpm; const sc=240; return ph.notes.map(n=>{ const off=(isOff(n)?a.offOff:a.offOn)+(n.afterRest?a.entryOff||0:0); const dev=ph.chartRef==='ride'?off:(T(n.on,n)-n.on*spb+off); return clip(.5+dev*1000/sc); }); };
+  return null;
+}
+function timingGrid(ph){
+  if(ph.style==='c') return LANG==='en'?[[1,'Broader'],[.5,'In time'],[0,'Hurried']]:[[1,'ゆったり'],[.5,'インテンポ'],[0,'急ぐ']];
+  if(ph.chartRef==='ride') return LANG==='en'?[[1,'Behind'],[.5,'With ride'],[0,'Ahead']]:[[1,'後ろ'],[.5,'ライドと同時'],[0,'前']];
+  return LANG==='en'?[[1,'Late'],[.5,'As written'],[0,'Early']]:[[1,'遅い'],[.5,'記譜通り'],[0,'早い']];
+}
 function answerCmp(k){
   if(S.answered) return;
   const ph=cur(); S.answered=true;
@@ -1004,32 +1495,47 @@ function answerCmp(k){
   S.order.forEach((d,j)=>{
     const o=$('opt'+j); o.querySelector('.pick').disabled=true;
     if(j===mi) o.classList.add('model'); else if(j===k) o.classList.add('picked');
-    o.querySelector('.what').textContent=d?D[d.t].name:U().model;
+    o.querySelector('.what').textContent=d?D[d.k||d.t].name:U().model;
   });
-  if(ph.style==='j') drawMarks(ph,modelMarks(ph),false);
-  drawCurves(ph,S.order.map((d,j)=>({v:version(ph,d),color:colorFor(j),label:'ABC'[j],dash:d?'5 4':''})));
+  if(ph.style==='j'){ $('gmarks').innerHTML=''; drawMarks(ph,modelMarks(ph),false); }
+  const tv=timingSeries(ph);
+  const dashes=[];{ let n=0; S.order.forEach((d,j)=>dashes[j]=d?['7 4','2 3'][n++]:''); }
+  const mk=f=>S.order.map((d,j)=>({v:f(d),color:colorFor(j),label:'ABC'[j],dash:dashes[j]}));
+  const s1=mk(d=>tv?tv(d):version(ph,d)); drawCurves(ph,s1,tv?{grid:timingGrid(ph)}:null);
+  let s2=null; if(tv&&ph.dual){ s2=mk(d=>version(ph,d)); drawCurves(ph,s2,{target:'curve2'}); }
+  { const same=(a,b)=>a.v.every((x,i)=>Math.abs(x-b.v[i])<.01);
+    const overlap=[s1,s2].filter(Boolean).some(ss=>ss.some((x,j)=>j!==mi&&same(x,ss[mi])));
+    const lg=$('clegend'); lg.hidden=false;
+    lg.innerHTML=S.order.map((d,j)=>`<span><svg width="30" height="8" aria-hidden="true"><line x1="1" y1="4" x2="29" y2="4" stroke="${colorFor(j)}" stroke-width="${d?2.4:4}" stroke-opacity="${d?1:.55}" stroke-dasharray="${dashes[j]}"/></svg><b>${'ABC'[j]}</b>${d?D[d.k||d.t].name:U().model}</span>`).join('')
+      +(overlap&&s2?`<span class="note">${U().overlapNote}</span>`:''); }
   const fb=$('feedback'); fb.hidden=false;
   let html=ok?`<p class="verdict good">${U().cmpOk('ABC'[k])}</p>`:`<p class="verdict bad">${U().cmpBad('ABC'[mi])}</p>`;
   html+=`<p>${whyOf(ph)}</p><ul class="vlist">`;
-  S.order.forEach((d,j)=>{ if(d) html+=`<li><span class="k" style="color:${colorFor(j)}">${'ABC'[j]}</span><span><b>${D[d.t].name}</b>　${d.t==='peakAt'?dwOf(ph,d):D[d.t].text}</span><span></span></li>`; });
+  S.order.forEach((d,j)=>{ if(d) html+=`<li><span class="k" style="color:${colorFor(j)}">${'ABC'[j]}</span><span><b>${D[d.k||d.t].name}</b>　${d.t==='peakAt'?dwOf(ph,d):D[d.k||d.t].text}</span><span></span></li>`; });
   html+='</ul>';
   fb.innerHTML=html;
   const js=S.order.map((d,jj)=>d?jj:-1).filter(x=>x>=0);
   fb.querySelectorAll('.vlist li').forEach((li,n)=>{ const j=js[n]; li.lastChild.appendChild(btn(U().listen,()=>play(ph,S.order[j]),'',true)); });
   const row=document.createElement('div'); row.className='controls';
   row.appendChild(btn(U().again('ABC'[mi]),()=>play(ph,null),'primary',true));
-  fb.appendChild(row);
+  row.appendChild(btn(U().retry,()=>load(),'')); fb.appendChild(row);
 }
 
-document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{ S.mode=b.dataset.mode; buildStatic(); load(); });
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
+  const id=S.list.length?cur().id:null; S.mode=b.dataset.mode; refreshList();
+  const k=S.list.findIndex(i=>set()[i].id===id); S.pos=k>=0?k:0; buildStatic(); load();
+});
 document.querySelectorAll('[data-style]').forEach(b=>b.onclick=()=>{
   if(S.style===b.dataset.style) return;
   S.style=b.dataset.style; S.filter=0; S.pos=0; refreshList(); buildStatic(); load();
   try{ localStorage.setItem('yokuyo-style',S.style); }catch(e){}
 });
 $('rhythm').onclick=()=>{ S.rhythm=!S.rhythm; $('rhythm').setAttribute('aria-pressed',S.rhythm); $('rhythm').textContent=S.rhythm?U().rhythmOn:U().rhythmOff; };
-$('prev').onclick=()=>{ if(S.pos>0){ S.pos--; load(); } };
-$('next').onclick=()=>{ S.pos=(S.pos+1)%S.list.length; load(); };
+$('gear').onclick=e=>{ e.stopPropagation(); const open=$('settings').hidden; $('settings').hidden=!open; $('gear').setAttribute('aria-expanded',open); };
+document.addEventListener('click',e=>{ if(!$('settings').hidden&&!$('prefs').contains(e.target)){ $('settings').hidden=true; $('gear').setAttribute('aria-expanded','false'); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('settings').hidden){ $('settings').hidden=true; $('gear').setAttribute('aria-expanded','false'); $('gear').focus(); } });
+$('prev').onclick=()=>{ if(S.pos>0){ S.pos--; load(); } else if(prOrder().indexOf(S.filter)>0) stepPr(-1); };
+$('next').onclick=()=>{ if(S.pos<S.list.length-1){ S.pos++; load(); } else stepPr(1); };
 
 try{ const st=localStorage.getItem('yokuyo-style'); if(st==='j'||st==='c') S.style=st; }catch(e){}
 const cap=s=>LANG==='en'?s.charAt(0).toUpperCase()+s.slice(1):s;
