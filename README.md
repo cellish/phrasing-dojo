@@ -30,6 +30,12 @@
 
 エレクトリックピアノの音源は非営利の利用に限られます。
 
+## ファイル構成
+
+- `index.html`：ページ本体
+- `samples/`：楽器の録音（楽器ごとのフォルダ）。選んだスタイルで使う楽器だけを読み込みます。
+- `tools/pages.py`：音源を埋め込んだ1ファイル版と、この構成とを相互に変換するスクリプト
+
 ## English
 
 A browser drill for interpreting melodic phrasing and articulation in three styles. The classical edition (10 principles) asks you to find the peak of a phrase and compare three shaped versions. The jazz edition (12 principles) asks you to mark accents and ghost notes and compare articulations, triplets, bossa nova, Latin clave, double time and time feel. The rock edition (8 principles) covers anticipations, 3+3+2 groupings, riffs, 16th-note grooves, kicks, time feel, shuffle and section dynamics.
