@@ -424,7 +424,7 @@ const DISTS_EN = {
   tripRush:{name:'Rushed triplets',text:'Not swung, but the three notes crowd slightly toward the front of the beat, leaving a small gap before the next beat. The triplets sound hurried and the line leans forward. A common habit with fast notes.'},
   swingTrip:{name:'Swung triplets',text:'The triplets get the long-short treatment of swing eighths. The three notes come out uneven and the line stumbles.'},
   tripHeads:{name:'Heavy triplet heads',text:'The first note of every triplet group is stressed. The line turns square, like a waltz, and loses its flow.'},
-  swingBossa:{name:'Swung bossa',text:'The eighths are swung and the offbeats pushed, as in swing. They clash with the even rhythm section, and the calm sway of bossa nova falls apart.'},
+  swingBossa:{name:'Swung bossa',text:'The eighths are lightly swung and the offbeats slightly pushed, as in swing. The difference is small, but they clash with the even rhythm section, and the calm sway of bossa nova falls apart.'},
   punchy:{name:'Too punchy',text:'The accents are strong and the notes clipped. That crispness suits swing, but in bossa nova it sounds hard and breaks the flow.'},
   over16:{name:'Over-swung sixteenths',text:'The tempo and accents match the model, but the sixteenths are swung almost to triplets. It swings, yet for double time it bounces heavily and the line stops flowing forward.'},
   rush:{name:'Rushing',text:'The swing shape is right, but the sixteenth-note line creeps ahead and the landing note arrives before the rhythm section. A common slip in long runs of short notes.'},
@@ -764,9 +764,9 @@ const JAZZ = [
         [['B4',.5],['A4',.5,'o'],['G4',.5],['F4',.5,'o'],['E4',1],['r',.5],['C5',.5,'As']]],
   why:'最後のC5は4拍目の裏拍に置かれ、次の小節（Cの和音）を先取りしながら短く切って終わります。直前の8分休符でいったん息を止め、「バッ」と弾くと決まります。2拍目裏の頂点E5にもアクセントを置きます。',
   dist:[{t:'longEnd'},{t:'flat'}]},
- {id:'J11-1',pr:11,cmpOnly:true,sub:{ja:'レイドバック',en:'Laid back',dja:'ミディアムテンポでは、表拍の音をビートのわずかに後ろに置き、裏拍はライドシンバルに揃える。',den:'At medium tempos, place downbeat notes slightly behind the beat and line offbeats up with the ride cymbal.'},chartRef:'ride',bpm:120,laid:.04,timeFeel:true,forceRhythm:true,chords:[[0,4,'Fmaj7'],[4,2,'Gm7'],[6,2,'C7']],
+ {id:'J11-1',pr:11,cmpOnly:true,sub:{ja:'レイドバック',en:'Laid back',dja:'ミディアムテンポでは、表拍の音をビートのわずかに後ろに置き、裏拍はライドシンバルに揃える。',den:'At medium tempos, place downbeat notes slightly behind the beat and line offbeats up with the ride cymbal.'},chartRef:'ride',bpm:120,laid:.03,timeFeel:true,forceRhythm:true,chords:[[0,4,'Fmaj7'],[4,2,'Gm7'],[6,2,'C7']],
   bars:[[['r',.5],['C5',.5,'A'],['A4',.5],['F4',.5,'o'],['G4',.5],['A4',.5,'o'],['C5',1]],
-        [['Bb4',.5],['A4',.5,'o'],['G4',.5],['F4',.5,'o'],['E4',1,'As'],['r',1]]],
+        [['Bb4',.5],['A4',.5,'o'],['G4',.5],['F4',.5,'o'],['E4',1,'os'],['r',1]]],
   why:'ミディアムテンポのくつろいだスウィングでは、表拍の音をライドシンバルのわずかに後ろ（数十ミリ秒）に置き、裏拍の音はライドシンバルの裏拍に揃えると、ゆったりと落ち着いて聞こえます（レイドバック）。全体を前に出すと急いで聞こえ、全体を大きく遅らせるとリズム隊から離れて引きずって聞こえます。聴き比べでは、ライドシンバルとの位置関係に耳を澄ませてください。これはテンポによる一般的な傾向ですが、表現上の選択でもあります。特に、バラード、ソウルジャズ、ブルース寄りの演奏では、レイドバックされる傾向があります。',
   dist:[{t:'ahead'},{t:'late'}]},
  {id:'J11-2',pr:11,cmpOnly:true,sub:{ja:'オントップ',en:'On top',dja:'速いテンポでは、表拍を遅らせずにビートの頭に乗せる。',den:'At fast tempos, sit right on top of the beat without delaying the downbeats.'},chartRef:'ride',timeFeel:true,forceRhythm:true,bpm:200,chords:[[0,2,'Dm7'],[2,2,'G7'],[4,4,'Cmaj7']],
@@ -989,7 +989,7 @@ const DISTS = {
   tripRush:{name:'3連符が急ぐ',text:'ハネてはいませんが、3連符の3つの音が拍の前のほうに少し詰まり、次の拍の前にわずかな隙間ができています。3連符が急いで聞こえ、ラインが前のめりになります。細かい音符で起きやすい癖です。'},
   swingTrip:{name:'3連符もハネる',text:'3連符までスウィングの8分音符のように長短をつけています。3つの音が不揃いになり、もたついて聞こえます。'},
   tripHeads:{name:'組の頭を強調',text:'3連符の各組の1音目を毎回強くしています。3拍子のように角張り、ラインの流れが途切れます。'},
-  swingBossa:{name:'ハネるボサノヴァ',text:'8分音符をスウィングのようにハネさせ、裏拍を強めています。均等に刻むリズム隊とずれて、ボサノヴァの穏やかな揺れが崩れます。'},
+  swingBossa:{name:'ハネるボサノヴァ',text:'8分音符をスウィングのように軽くハネさせ、裏拍をやや強めています。わずかな差ですが、均等に刻むリズム隊とずれて、ボサノヴァの穏やかな揺れが崩れます。'},
   punchy:{name:'強すぎ・短すぎ',text:'アクセントを強く付け、音を短く切っています。スウィングのような歯切れですが、ボサノヴァでは硬く、流れが途切れて聞こえます。'},
   over16:{name:'16分のハネすぎ',text:'テンポとアクセントは模範と同じですが、16分音符を3連符に近いほど深くハネさせています。スウィングはしているのに、倍のテンポにしては重く跳ねて、ラインが前へ流れません。'},
   rush:{name:'走る',text:'ハネの形は正しいのですが、16分音符のラインが少しずつ前のめりになり、着地の音がリズム隊より早く着いてしまいます。細かい音符が続くところで起きやすい失敗です。'},
@@ -1169,12 +1169,12 @@ function jart(ph,d){
   if(ph.feel==='bossa'){
     if(t==='punchy'){ N.forEach((n,i)=>{ if(n.flag.includes('o')) v[i]=.9; if(i<L) len[i]=.5; }); }
     else if(t!=='swingBossa'){ N.forEach((n,i)=>{ v[i]=.55+(v[i]-.55)*.35; len[i]=.96; }); }
-    else { N.forEach((n,i)=>{ if(isOff(n)) v[i]=Math.max(v[i],.8); }); }
+    else { N.forEach((n,i)=>{ if(isOff(n)) v[i]=Math.max(v[i],.7); }); }
   }
   const base=ph.swing??swingR(ph.bpm);
   let r=t==='straight'?.5:t==='overSwing'?.75:t==='underSwing'?.58:base;
   let rBand=r;
-  if(ph.feel==='bossa'){ rBand=.5; r=t==='swingBossa'?.64:.5; }
+  if(ph.feel==='bossa'){ rBand=.5; r=t==='swingBossa'?.6:.5; }
   if(ph.feel==='latin'){ rBand=.5; r=.5; }
   if(ph.style==='r'){ rBand=.5; r=t==='swungRock'?.64:.5; }
   if(ph.shuffle){ rBand=.667; r=t==='evenOnShuffle'?.5:t==='lightShuffle'?.58:t==='dottedShuffle'?.75:t==='jazzSwing'?swingR(ph.bpm):.667;
@@ -1484,12 +1484,12 @@ function crash(dest,t0){
   const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(.05,t0+.006); g.gain.setTargetAtTime(0,t0+.006,.55);
   s.connect(hp); hp.connect(g); g.connect(dest); s.start(t0); s.stop(t0+2.6);
 }
-function kick(dest,t0){
+function kick(dest,t0,lv){ lv=lv==null?1:lv;
   const o=ctx.createOscillator(); o.frequency.setValueAtTime(150,t0); o.frequency.exponentialRampToValueAtTime(48,t0+.1);
-  const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(.42,t0+.003); g.gain.setTargetAtTime(0,t0+.003,.12);
+  const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(.42*lv,t0+.003); g.gain.setTargetAtTime(0,t0+.003,.12);
   o.connect(g); g.connect(dest); o.start(t0); o.stop(t0+.6);
   const s=ctx.createBufferSource(); s.buffer=noiseBuf; const hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=2500;
-  const g2=ctx.createGain(); g2.gain.setValueAtTime(0,t0); g2.gain.linearRampToValueAtTime(.08,t0+.001); g2.gain.setTargetAtTime(0,t0+.001,.008);
+  const g2=ctx.createGain(); g2.gain.setValueAtTime(0,t0); g2.gain.linearRampToValueAtTime(.08*lv,t0+.001); g2.gain.setTargetAtTime(0,t0+.001,.008);
   s.connect(hp); hp.connect(g2); g2.connect(dest); s.start(t0); s.stop(t0+.05);
 }
 function snare(dest,t0,v){
@@ -1612,14 +1612,16 @@ function playJ(ph,art){
         bass(bus,root,t+T(bb+1.5),T(bb+3)-T(bb+1.5)-.03); bass(bus,fifth,t+T(bb+3),T(bb+4)-T(bb+3)-.05);
         const voicing=[c.iv[1],c.iv[3],14].map(x=>inRange((c.root+x)%12,55));
         // montuno-style piano: syncopated two-bar pattern
-        ((bb/4)%2===0?[.5,1.5,2.5,3.5]:[0,1,1.5,2.5,3.5]).forEach(x=>voicing.forEach(m=>pianoNote(bus,m,t+T(bb+x),spb*.28,.26,.42)));
+        ((bb/4)%2===0?[.5,1.5,2.5,3.5]:[0,1,1.5,2.5,3.5]).forEach(x=>voicing.forEach(m=>pianoNote(bus,m,t+T(bb+x),spb*.32,.32,.6)));
+        [[1.5,.5],[3,.4]].forEach(([x,lv])=>kick(bus,t+T(bb+x),lv*.6));
       }
     });
   } else if((S.rhythm||ph.forceRhythm)&&ph.feel==='bossa'){
     const bars=Math.ceil(ph.total/4);
     for(let b=0;b<bars;b++){
-      for(let k=0;k<8;k++) cymbal(bus,t+T(b*4+k*.5),k%2?.012:.02,true);
+      for(let k=0;k<8;k++) cymbal(bus,t+T(b*4+k*.5),k%2?.016:.024,true);
       (b%2===0?[0,1.5,3]:[1,2.5]).forEach(x=>rim(bus,t+T(b*4+x)));
+      [[0,.55],[1.5,.3],[2,.45],[3.5,.3]].forEach(([x,lv])=>kick(bus,t+T(b*4+x),lv*.6));
     }
     ph.chords.forEach(([b0,d,sym])=>{
       const c=chordInfo(sym), root=inRange(c.root,28), fifth=root+7>40?root-5:root+7;
@@ -1627,13 +1629,15 @@ function playJ(ph,art){
         const seg=Math.min(4,b0+d-bb);
         [[0,1.5,root],[1.5,.5,fifth],[2,1.5,fifth],[3.5,.5,root]].filter(([x])=>x<seg).forEach(([x,l,m])=>bass(bus,m,t+T(bb+x),T(bb+x+l)-T(bb+x)-.03));
         const voicing=[c.iv[1],c.iv[3],14].map(x=>inRange((c.root+x)%12,52));
-        [0,1.5,2.5].filter(x=>x<seg).forEach(x=>voicing.forEach((m,k)=>compNote(bus,m,t+T(bb+x)+k*.014,spb*.45,.1,'nylon')));
+        // guitar: the two-bar bossa figure (3 + 2), slightly arpeggiated
+        const fig=Math.floor(bb/4+1e-6)%2===0?[0,1.5,3]:[1,2.5];
+        fig.filter(x=>x<seg).forEach(x=>voicing.forEach((m,k)=>compNote(bus,m,t+T(bb+x)+k*.014,spb*.6,.17,'nylon')));
       }
     });
   } else if(S.rhythm||ph.forceRhythm){
     const bars=Math.ceil(ph.total/4), beats=bars*4;
     for(let k=0;k<beats;k++){
-      if(ph.brush&&S.timbre!=='piano'){ brush(bus,t+T(k),T(k+1)-T(k),.028); if(k%2===1) brushTap(bus,t+T(k),.07); continue; }
+      if(ph.brush){ brush(bus,t+T(k),T(k+1)-T(k),.028); if(k%2===1){ brushTap(bus,t+T(k),.07); cymbal(bus,t+T(k),.022,true); } continue; }
       cymbal(bus,t+T(k),.05,false);
       if(k%2===1){ cymbal(bus,t+T(k+.5),.032,false); cymbal(bus,t+T(k),.03,true); }
     }
@@ -1647,7 +1651,7 @@ function playJ(ph,art){
         bass(bus,m,t+T(b+j),T(b+j+1)-T(b+j)-.02);
       }
       const voicing=[c.iv[1],c.iv[3],14].map(x=>inRange((c.root+x)%12,52));
-      const hits=d>=4?[0,1.5]:[0];
+      const hits=d>=4?[0,1.5]:ph.brush?[0,1.5].filter(h=>h<d):[0];
       hits.forEach(h=>voicing.forEach(m=>pianoNote(bus,m,t+T(b+h),spb*.45,.32,.55)));
     });
   }
