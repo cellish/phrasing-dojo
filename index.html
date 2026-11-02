@@ -1408,7 +1408,7 @@ function compNote(dest,midi,t0,dur,v,kind){
 function brush(dest,t0,len,v){
   const s=ctx.createBufferSource(); s.buffer=noiseBuf; s.loop=true;
   const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=3200; bp.Q.value=.6;
-  const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(v,t0+len*.45); g.gain.linearRampToValueAtTime(0,t0+len*.95);
+  const g=ctx.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(v,t0+Math.min(.05,len*.12)); g.gain.linearRampToValueAtTime(v*.35,t0+len*.9); g.gain.linearRampToValueAtTime(0,t0+len*.99);
   s.connect(bp); bp.connect(g); g.connect(dest); s.start(t0); s.stop(t0+len);
 }
 function brushTap(dest,t0,v){
@@ -1637,7 +1637,10 @@ function playJ(ph,art){
   } else if(S.rhythm||ph.forceRhythm){
     const bars=Math.ceil(ph.total/4), beats=bars*4;
     for(let k=0;k<beats;k++){
-      if(ph.brush){ brush(bus,t+T(k),T(k+1)-T(k),.028); if(k%2===1){ brushTap(bus,t+T(k),.07); cymbal(bus,t+T(k),.022,true); } continue; }
+      if(ph.brush){ brush(bus,t+T(k),T(k+1)-T(k),.028);
+        // right hand keeps the ride pattern on the snare: every beat, plus the swung skip after 2 and 4
+        brushTap(bus,t+T(k),k%2===1?.07:.045);
+        if(k%2===1){ brushTap(bus,t+T(k+.5),.03); cymbal(bus,t+T(k),.022,true); } continue; }
       cymbal(bus,t+T(k),.05,false);
       if(k%2===1){ cymbal(bus,t+T(k+.5),.032,false); cymbal(bus,t+T(k),.03,true); }
     }
