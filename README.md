@@ -1,12 +1,12 @@
 # フレージング道場 / Phrasing Dojo
 
-旋律の抑揚（フレージング）とアーティキュレーションを解釈する力を鍛えるブラウザ用ドリルです。クラシック・ジャズ・ロックの3つのスタイルを切り替えて使えます。
+旋律の抑揚（フレージング）とアーティキュレーションを解釈する力を鍛えるブラウザ用ドリルです。クラシック・ジャズ・ロック・弦と歌の4つのタブを切り替えて使えます。
 
-- **クラシック編**：フレーズの頂点を選ぶ「山はどこ？」と、3通りの抑揚を聴き比べる「聴き比べ」。11の原則を4つの種類に分けています。
+- **クラシック編**：フレーズの頂点を選ぶ「山はどこ？」と、3通りの抑揚を聴き比べる「聴き比べ」。10の原則を4つの種類に分けています。
   - フレーズの形：弓なり形と終止、跳躍と最高音、反復とゼクエンツ、フレーズの入れ子
   - 和声：倚音と解決、和声の緊張
   - 拍とリズム：弱起、反復音
-  - 時間と音のつなぎ方：時間の取り方、スラーのまとまり、長い音の歌わせ方（チェロの音で、伸ばす音の中の抑揚を聴き比べます）
+  - 時間と音のつなぎ方：時間の取り方、スラーのまとまり
 - **ジャズ編**：アクセントやゴーストノートを置く音を選ぶ「アクセントはどこ？」と「聴き比べ」。12の原則を3つの種類に分けています。
   - アクセント：裏拍のアクセント、線の頂点、先取り、ゴーストノート、短い終わり
   - リズムの種類：3連符、3つずつのフレーズ、ボサノヴァ、ラテン（クラーベ）、ダブルタイム
@@ -15,6 +15,11 @@
   - アクセント：先取り（食い）、3＋3＋2、リフの刻み、16分のグルーヴ
   - タイミング：キメ、ノリの位置、シャッフル
   - 構成：セクションの盛り上がり
+
+- **弦・歌**：チェロの録音で、伸ばしている音の中の抑揚や音程の動かし方を聴き比べます（すべて「聴き比べ」）。9の原則を3つの種類に分けています。
+  - 音の形と流れ：長い音の歌わせ方、音の終わり方、次の音への受け渡し、息継ぎと弓の返し
+  - 音程の表現：表現的な音程（導音）、ポルタメント、ビブラートの配分
+  - 様式による違い：バロックの長い音（メッサ・ディ・ヴォーチェ）、ジャズのバラード
 
 「全部」を選ぶと、そのスタイルの課題を両方の形式で通して練習できます。
 
@@ -41,7 +46,7 @@
 
 ## English
 
-A browser drill for interpreting melodic phrasing and articulation in three styles. The classical edition (11 principles) asks you to find the peak of a phrase and compare three shaped versions, including how to shape long notes on the cello. The jazz edition (12 principles) asks you to mark accents and ghost notes and compare articulations, triplets, bossa nova, Latin clave, double time and time feel. The rock edition (8 principles) covers anticipations, 3+3+2 groupings, riffs, 16th-note grooves, kicks, time feel, shuffle and section dynamics.
+A browser drill for interpreting melodic phrasing and articulation in three styles. The classical edition (10 principles) asks you to find the peak of a phrase and compare three shaped versions. The jazz edition (12 principles) asks you to mark accents and ghost notes and compare articulations, triplets, bossa nova, Latin clave, double time and time feel. The rock edition (8 principles) covers anticipations, 3+3+2 groupings, riffs, 16th-note grooves, kicks, time feel, shuffle and section dynamics. The strings & voice tab (9 principles) uses recorded cello to compare shaping inside held notes, note endings, breaths and bow changes, expressive intonation, portamento, vibrato, Baroque messa di voce and jazz-ballad phrasing.
 
 Sounds are recorded instrument samples: piano from Salamander Grand Piano (Alexander Holm, CC BY 3.0), electric piano from jRhodes3 (Jeff Learman, CC BY-NC 4.0, noncommercial use only), cello recorded by flcellogrl on Freesound (CC BY 3.0), basses from Karoryfer Samples (CC0), and other instruments from the FluidR3_GM soundfont (Frank Wen) via MIDI.js Soundfonts (Benjamin Gleitzman, CC BY 3.0). Percussion is synthesized in the browser.
 

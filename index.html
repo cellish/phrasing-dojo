@@ -159,7 +159,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   header.top h1{flex:1 1 auto}
   header.top .prefs{order:2}
   header.top .seg.style{order:3;flex:1 1 100%;display:flex}
-  header.top .seg.style button{flex:1 1 0;padding:6px 8px}
+  header.top .seg.style button{flex:1 1 auto;padding:6px 6px;white-space:nowrap;font-size:.9rem}
   .seg.grp{max-width:100%;overflow-x:auto;scrollbar-width:none}
   .seg.grp::-webkit-scrollbar{display:none}
 }
@@ -230,6 +230,7 @@ header.top .sub{flex:1 1 180px;min-width:0}
       <button id="style-c" role="tab" aria-selected="true" data-style="c">クラシック</button>
       <button id="style-j" role="tab" aria-selected="false" data-style="j">ジャズ</button>
       <button id="style-r" role="tab" aria-selected="false" data-style="r">ロック</button>
+      <button id="style-s" role="tab" aria-selected="false" data-style="s">弦・歌</button>
     </div>
     <div class="prefs" id="prefs">
     <button class="chip gear" id="gear" aria-expanded="false" aria-controls="settings"><span aria-hidden="true">⚙</span> <span id="gear-label">設定</span></button>
@@ -331,7 +332,6 @@ const PRS = {
   7:{name:'弱起', desc:'弱起の音は次の拍頭へ流れ込む。強く弾くと拍がずれて聞こえる。'},
   8:{name:'反復音', desc:'同じ音を並べたままにしない。少しずつ次の音へ向かわせる。'},
   9:{name:'時間の取り方', desc:'頂点への到達や終止で、ほんの少し時間を取る。メトロノーム通りだと機械的になり、頂点で急ぐとせわしなくなる。'},
-  11:{name:'長い音の歌わせ方', desc:'弦楽器や歌では、伸ばしている音の中でも音量を動かす。頂点の長い音は少しふくらませて次の音へ渡す。1音ずつ膨らませたり、音を痩せさせたりしない。（聴き比べで練習します）'},
   10:{name:'スラーのまとまり', desc:'2〜4音ほどの短いスラーでは、頭に重みを置き、終わりは軽く短めに収める。フレーズ全体にかかる長いスラーは、まとまりとレガートを示すもので、この型は当てはまらない。'}
  },
  j:{
@@ -348,6 +348,17 @@ const PRS = {
   11:{name:'ビートとの位置', desc:'ビートのどこに乗るか。ミディアムテンポでは表拍をわずかに後ろに置いて裏拍は合わせ（レイドバック）、速いテンポではビートの頭に乗る（オントップ）。休符のあとの入りも、早めず遅らせずに合わせる。（聴き比べで練習します）'},
   12:{name:'ハネの深さ', desc:'ハネの深さはテンポに合わせる。テンポが遅いほど深く3連符に近く、速いほど浅く均等に近づく。（聴き比べで練習します）'}
  },
+ s:{
+  1:{name:'長い音の歌わせ方', desc:'伸ばしている音の中でも音量を動かす。頂点の長い音は少しふくらませて次の音へ渡す。1音ずつ膨らませたり、音を痩せさせたりしない。'},
+  2:{name:'音の終わり方', desc:'フレーズを閉じる長い音は、弓や息をゆるめて響きの中で終える。急に切ったり、最後で押し込んだりしない。'},
+  3:{name:'次の音への受け渡し', desc:'長い音の後半で次の音へ向かう流れを保ち、音と音を1本の線につなぐ。音の終わりで力を抜いて隙間を作らない。'},
+  4:{name:'息継ぎと弓の返し', desc:'息継ぎや弓の返しはフレーズの区切りに置く。区切りでは前の音を少し短くして時間を作り、フレーズの途中では流れを切らない。'},
+  5:{name:'表現的な音程', desc:'導音はわずかに高めにとって主音へ引き寄せる。平均律どおりより解決への力が強く聞こえる。'},
+  6:{name:'ポルタメント', desc:'表情のある跳躍1か所だけ、短く軽く音をずり上げてつなぐ。遅く大きく、または毎回ずらすと癖に聞こえる。'},
+  7:{name:'ビブラートの配分', desc:'ビブラートは長い音に、入りから少し遅れてかけ、頂点で最も深くする。どの音にも同じようにかけない。'},
+  8:{name:'バロックの長い音', desc:'バロックでは長い音を1つずつ弱く入って膨らませ、また収める（メッサ・ディ・ヴォーチェ）。ロマン派とは正解が逆になる。'},
+  9:{name:'ジャズのバラード', desc:'長い音はまっすぐ伸ばしてから後半でビブラートをかける。下からのすくい上げ（スクープ）は要所だけに使う。'}
+ },
  r:{
   1:{name:'先取り（食い）', desc:'イーブンの8分音符で、次の拍や小節の頭を8分音符ひとつ早く食う音にアクセントを置き、食った先の拍では弾き直さない。'},
   2:{name:'3＋3＋2', desc:'8分音符8つを3・3・2に区切り、区切りの頭にアクセントを置く。区切りは小節ごとに頭へ戻る。'},
@@ -360,10 +371,12 @@ const PRS = {
  }
 };
 const TEXT = {
- c:{sub:'解釈編｜旋律のどこに重みを置くか', modeA:'山はどこ？', prTitle:'11の原則',
+ c:{sub:'解釈編｜旋律のどこに重みを置くか', modeA:'山はどこ？', prTitle:'10の原則',
     foot:'模範の抑揚は「筋の通った読み方の一例」です。点線の丸は別解として成り立つ音を示します。違う答えを選んだときは、その理由を自分の言葉で説明できるかを考えてみてください。'},
  j:{sub:'ジャズ編｜スウィングの8分音符をどう弾き分けるか', modeA:'アクセントはどこ？', prTitle:'12の原則（ジャズ）',
     foot:'ジャズのアーティキュレーションは奏者やスタイルで大きく変わります。ここで扱うのは、スウィングやビバップの8分音符ラインを中心に、ボサノヴァ、ラテン、ダブルタイム、タイム感（ビートとの位置やハネの深さ）の基本的な型です。薄い「>」は、付けても付けなくてもよい軽い持ち上げを表し、採点には含めません。'},
+ s:{sub:'', modeA:'山はどこ？', prTitle:'9つの原則（弦・歌）',
+    foot:'弦楽器（チェロ）の録音で、伸ばしている音の中の抑揚や、音程の動かし方を聴き比べます。旋律は楽譜より1オクターブ下で鳴ります。原則は歌にも共通しますが、いまは楽器の音で表しています。録音にはもとから軽いビブラートがあるため、「ビブラートなし」の例は作れません。'},
  r:{sub:'', modeA:'アクセントはどこ？', prTitle:'8つの原則（ロック）',
     foot:'ロックやポップスに共通するリズムの基本的な型を扱います。旋律は歪ませたエレキギターの音で、ミュートは「短く弱く」刻む音で表します。チョーキングのような音程を揺らす表現はまだ扱っていません。'}
 };
@@ -381,7 +394,6 @@ const PRS_EN = {
   7:{name:'Upbeats', desc:'An upbeat flows into the next downbeat. Played strongly, it makes the meter sound shifted.'},
   8:{name:'Repeated notes', desc:"Don't leave repeated notes flat. Let each one lean toward the next."},
   9:{name:'Taking time', desc:'Take a touch of time arriving at the peak and at the cadence. Strict time sounds mechanical; rushing the peak sounds hurried.'},
-  11:{name:'Singing through long notes', desc:'On strings or in singing, the level keeps moving inside a held note. Let a long peak note swell a little and pass on to the next note; do not swell every note or let it thin out. (Practiced in Compare)'},
   10:{name:'Slur groups', desc:'Under a short slur of two to four notes, put the weight at the start and end it lighter and slightly shorter. A long slur over a whole phrase marks a unit and legato, and this pattern does not apply.'}
  },
  j:{
@@ -398,6 +410,17 @@ const PRS_EN = {
   11:{name:'Placement on the beat', desc:'Where you sit on the beat. At medium tempos, place downbeats slightly behind and keep offbeats with the beat (laid back); at fast tempos, sit on top of the beat. Entries after rests land exactly on time, too. (Practiced in Compare.)'},
   12:{name:'Swing depth', desc:'Match the depth of swing to the tempo: deeper and closer to triplets as the tempo slows, shallower and closer to even as it speeds up. (Practiced in Compare.)'}
  },
+ s:{
+  1:{name:'Singing through long notes', desc:'Keep the level moving inside a held note. Let a long peak note swell a little and pass on to the next note; do not swell every note or let it thin out.'},
+  2:{name:'Ending a note', desc:'A long note that closes a phrase ends inside its own resonance as the bow or breath eases. Do not stop it abruptly or push into the end.'},
+  3:{name:'Passing to the next note', desc:'Keep the second half of a long note moving toward the next one so the notes join into one line. Do not let each note die away and leave a gap.'},
+  4:{name:'Breaths and bow changes', desc:'Place breaths and bow changes between phrases, taking the time from the note before. Inside a phrase, keep the line unbroken.'},
+  5:{name:'Expressive intonation', desc:'Take the leading note slightly high so it leans into the tonic. It pulls toward the resolution more strongly than equal temperament.'},
+  6:{name:'Portamento', desc:'Slide briefly and lightly into one expressive leap only. Slow, wide slides or sliding everywhere sound like a habit.'},
+  7:{name:'Placing vibrato', desc:'Give vibrato to long notes, starting a little after the note begins and deepest at the peak. Do not give every note the same vibrato.'},
+  8:{name:'Baroque long notes', desc:'In Baroque music each long note starts softly, swells and settles again (messa di voce). The right answer is the opposite of Romantic style.'},
+  9:{name:'Jazz ballads', desc:'Hold long notes straight and add vibrato in their second half. Save the scoop from below for a few chosen notes.'}
+ },
  r:{
   1:{name:'Anticipation (push)', desc:'With straight eighths, accent the note that arrives an eighth early, ahead of the next beat or bar, and do not re-strike it on the beat.'},
   2:{name:'3 + 3 + 2', desc:'Split the eight eighth notes of a bar into 3, 3 and 2, and accent the head of each group. The grouping resets every bar.'},
@@ -410,10 +433,12 @@ const PRS_EN = {
  }
 };
 const TEXT_EN = {
- c:{sub:'Interpretation | Where does the melody lean?', modeA:'Find the peak', prTitle:'Eleven principles',
+ c:{sub:'Interpretation | Where does the melody lean?', modeA:'Find the peak', prTitle:'Ten principles',
     foot:'The model shaping is one well-reasoned reading, not the only answer. A dashed circle marks another note that also works as the peak. When your answer differs, ask yourself whether you can explain your reasons in your own words.'},
  j:{sub:'Jazz | Shaping swing eighth notes', modeA:'Find the accents', prTitle:'Twelve principles (jazz)',
     foot:'Jazz articulation varies a lot between players and styles. This covers basic patterns centred on swing and bebop eighth-note lines, plus bossa nova, Latin, double time and time feel (placement on the beat and swing depth). A faint ">" marks an optional light lift on an offbeat and is not scored.'},
+ s:{sub:'', modeA:'Find the peak', prTitle:'Nine principles (strings & voice)',
+    foot:'Recorded cello is used to compare shaping inside held notes and ways of moving the pitch. The melody sounds an octave below the notation. The principles apply to singing as well, but are played on the instrument for now. The recordings already carry a light vibrato, so a version with no vibrato at all cannot be made.'},
  r:{sub:'', modeA:'Find the accents', prTitle:'Eight principles (rock)',
     foot:'This covers basic rhythmic patterns shared by rock and pop. The melody uses an overdriven electric guitar, and palm muting is played as short, soft notes. Pitch bends such as string bending are not covered yet.'}
 };
@@ -502,8 +527,24 @@ const EN = {
  '9-1':{why:'The peak is F5, reached by a leap of a sixth. Take just a little time here, giving the leap room to arrive, then return to tempo. Ease off slightly at the half cadence at the end too. Played strictly to the metronome, the leap sounds mechanical.'},
  '9-2':{why:'The peak is G5, at the top of the arpeggio climb. Hold back very slightly in the climb just before it to give the arrival on G5 weight, then flow down from there. Rushing the peak makes the arrival light and the phrase sound hurried.'},
  '10-1':{why:'A chain of two-note slurs: the "sigh" figure. Put the weight on the first note of each slur and let the second be lighter and a little shorter, leaving a tiny break before the next pair. On a string instrument, that means sinking weight into the bow on the first note and releasing it on the second. The four-note slur from bar 3 is not a short group but a single legato breath toward the cadence. Do not weight its first note; rise smoothly and settle on the final C5.'},
- '11-1':{why:'The melody holds E5 for a whole bar in bar 2 (played an octave lower on the cello). A piano note can only fade once struck, but on a string instrument or in singing you keep shaping the level while the note is held. Keep the bow speed and weight on the peak E5, let it swell a little, give it a direction toward the next D5, and then let it settle. Swelling and shrinking every single note chops the line into pieces (so-called sausage bowing), and letting the bow go slack makes the long note thin out so the melody seems to break off.'},
- '11-2':{why:'A melody in three, with B4 held as a dotted half note in bar 2 as its peak (played an octave lower on the cello). Swell it a little while it is held and lead it toward the A4 of the next bar, and the long note sings. Holding it at a fixed level makes it sound static, like an organ, and the melody stops there.'},
+ 'S2-1':{why:'The final D5 is a long note that closes the phrase. Slow the bow little by little, let the level fall and leave the note while it is still ringing, and the ending lands. Stopping abruptly at full level sounds as if the phrase was cut off, and pushing into the end keeps the phrase from closing.'},
+ 'S2-2':{why:'A short phrase in three, ending on G4 as it returns to the tonic. Ease the breath or the bow and let the level fall so it ends inside its resonance. Cutting it off leaves no afterglow, and getting louder at the end makes it sound unfinished.'},
+ 'S3-1':{why:'A melody of half notes. If the second half of each held note keeps or slightly gains level toward the next note, the notes are handed on and form one line. If each note loses energy at its end, gaps open between them; holding them flat just sets the notes down without moving forward.'},
+ 'S3-2':{why:'A minor-key melody peaking on C5, held for a dotted half. Keep the long note moving toward the following B4 and the line stays unbroken. If it fades at the end the notes come apart, and if it stays flat the melody stops on the long note.'},
+ 'S4-1':{why:'Two phrases of two bars each. Shorten the E4 at the end of bar 2 a little to breathe (or change bow), and the division sounds natural and the rise to C5 starts with fresh breath. Without a breath the division disappears, and breathing in the middle of the rise cuts the most important line in two.'},
+ 'S4-2':{why:'The first group ends on A4 in bar 2, and a new phrase starts on the next D4. Shorten the A4 slightly and breathe (or change bow) there, and the D4 sounds like the start of the next phrase. Without a breath the phrases run together, and breathing just before the peak C5 breaks the rising line.'},
+ 'S5-1':{why:"An unaccompanied melody in which the leading note B3 in bar 3 resolves to the final tonic C4. String players and singers often take the leading note slightly high so it leans into the tonic, which strengthens the pull of the resolution. Here the model's leading note is about 16 cents above equal temperament. Equal temperament is not wrong but pulls less, and a low leading note sinks instead of arriving."},
+ 'S5-2':{why:"A minor-key melody in which C#5, the raised leading note, resolves to the final D5. Taking it slightly high narrows the half step to the tonic and sharpens the resolution. Here the model's leading note is about 16 cents above equal temperament. Equal temperament pulls less, and a low leading note sounds dark and loses its leading-note character."},
+ 'S6-1':{why:'The leap of a sixth from A4 to F#5 is the most expressive moment in the melody. In Romantic string playing and singing, a short slide (portamento) into this one note makes the leap sing. The model slides through about half the interval in about 0.15 seconds. A slow, wide slide turns sentimental, and sliding into every note makes the whole melody slack.'},
+ 'S6-2':{why:'The leap of a sixth from G4 to E5 enters the long peak note. A short, light slide in this one place gives the leap feeling. A slow, wide slide makes the pitch sound unsure, and sliding everywhere sounds like a habit rather than expression.'},
+ 'S7-1':{why:'Vibrato is not just decoration; it brings long notes to life. The model adds almost none to short notes, starts it a little after the beginning of long notes and makes it deepest on the long peak F5. The same fast vibrato on every note sounds restless, and a slow, wide vibrato makes the pitch wobble. (The recordings already carry a light vibrato; the model adds to it.)'},
+ 'S7-2':{why:'A minor-key melody holding its peak G5 for a dotted half. Vibrato goes on the long notes, deepening a little after they start and richest at the peak. The same vibrato on short notes too sounds nervous, and a slow, wide one blurs the pitch. (The recordings already carry a light vibrato; the model adds to it.)'},
+ 'S8-1':{why:"A sarabande-like melody with long notes on beat 2. In Baroque style each long note starts softly, swells and settles again (messa di voce), as 18th-century treatises such as Geminiani's describe it as an ornament for long notes. The note-by-note swell avoided in Romantic playing is right here. Singing the whole phrase in one big arc with vibrato added throughout makes it heavy and 19th-century, and holding the notes flat leaves them lifeless."},
+ 'S8-2':{why:'A largo melody of long notes. In Baroque style each long note swells lightly and settles (messa di voce) while short notes stay light. Pushing through in one big arc with layered vibrato belongs to a later era, and holding them flat makes a monotonous row of long notes.'},
+ 'S9-1':{why:'In a jazz ballad, long notes are typically held straight first and given vibrato in their second half (delayed vibrato). The model starts vibrato late in each long note and scoops lightly into the B4 in bar 1 only. Vibrato from the start of every note sounds classical, and scooping into every note becomes a habit rather than expression.'},
+ 'S9-2':{why:'Three slow bars of a ballad. The opening D5 is scooped into slightly from below, and long notes are held straight before vibrato is added in their second half. The same vibrato from start to finish sounds classical, and scooping every note becomes cloying.'},
+ 'S1-1':{why:'The melody holds E5 for a whole bar in bar 2 (played an octave lower on the cello). A piano note can only fade once struck, but on a string instrument or in singing you keep shaping the level while the note is held. Keep the bow speed and weight on the peak E5, let it swell a little, give it a direction toward the next D5, and then let it settle. Swelling and shrinking every single note chops the line into pieces (so-called sausage bowing), and letting the bow go slack makes the long note thin out so the melody seems to break off.'},
+ 'S1-2':{why:'A melody in three, with B4 held as a dotted half note in bar 2 as its peak (played an octave lower on the cello). Swell it a little while it is held and lead it toward the A4 of the next bar, and the long note sings. Holding it at a fixed level makes it sound static, like an organ, and the melody stops there.'},
  '10-2':{why:'Each bar is one three-note slur. Weight at the start of the slur and a slightly lighter end let each bar be heard as a group. The overall peak is F5 at the start of bar 3, which is also the start of a slur.'},
  'R3-1':{why:'Mute the low E4 chugs, short and soft, and let the G4, A4 and B4 between them ring open and strong. The muted chugs form the floor and the open notes stand out, so the shape of the riff comes through. Playing everything the same way makes the chugging flat.'},
  'R3-2':{why:'Ring the open notes strongly on the heads of the 3-3-2 groups, and mute the chugs between them, short and soft. Cut the last A4 short, like a hit. The bigger the contrast between open and muted notes, the more three-dimensional the riff sounds.'},
@@ -548,9 +589,9 @@ const EN = {
  'J5-2':{why:'The last C5 falls on the offbeat of beat 4, anticipating the next bar (the C chord), and ends short. Hold your breath on the eighth rest just before it, then hit it: "BAP". Accent the top E5 on the offbeat of beat 2 too.'}
 };
 const UI = {
- ja:{title:'フレージング道場', classical:'クラシック', jazz:'ジャズ', rock:'ロック', compare:'聴き比べ', all:'すべて', principle:n=>'原則'+n,
+ ja:{title:'フレージング道場', classical:'クラシック', jazz:'ジャズ', rock:'ロック', strings:'弦・歌', compare:'聴き比べ', all:'すべて', principle:n=>'原則'+n,
   prev:'← 前へ', next:'次へ →', restart:'最初に戻る ↺', allGroups:'全部', cmpTag:'聴き比べ', cmpOnlyTip:'このトピックは聴き比べで練習します', nextPr:'次の原則へ →', prevPr:'← 前の原則へ', rhythmOn:'リズム隊あり', rhythmOff:'リズム隊なし',
-  score:(st,a,b)=>`${st!=='c'?'アクセント':'山'} ${a[0]}/${a[1]}　聴き比べ ${b[0]}/${b[1]}`,
+  score:(st,a,b)=>(st==='s'?'':`${st!=='c'?'アクセント':'山'} ${a[0]}/${a[1]}　`)+`聴き比べ ${b[0]}/${b[1]}`,
   loading:'音源を読み込み中…',
   promptPeak:'このフレーズの頂点（いちばん重みを置きたい音）をタップしてください。先に旋律だけを聴いて確かめてもかまいません。',
   givenNote:ks=>`灰色の印は、あとの原則（${[...new Set(ks)].sort().map(k=>'原則'+k+'「'+PRS.j[k].name+'」').join('、')}）で扱うもので、最初から付けてあります。採点には含めません。`,
@@ -558,6 +599,7 @@ const UI = {
   promptCmpJ:'同じラインを3通りのアーティキュレーションで弾きます。聴き比べて、いちばんスウィングらしいと思うものを選んでください。「これを選ぶ」は、その版を聴いたあとで押せるようになります。',
   promptCmpR:'同じラインを3通りの弾き方で弾きます。聴き比べて、いちばんロックらしく決まっていると思うものを選んでください。「これを選ぶ」は、その版を聴いたあとで押せるようになります。',
   promptCmpB:'同じラインを3通りの弾き方で弾きます。聴き比べて、いちばんボサノヴァらしいと思うものを選んでください。「これを選ぶ」は、その版を聴いたあとで押せるようになります。',
+  promptCmpS:'同じ旋律を3通りの歌わせ方で弾きます。聴き比べて、いちばん自然に歌っていると思うものを選んでください。「これを選ぶ」は、その版を聴いたあとで押せるようになります。',
   promptCmpC:'同じフレーズを3通りの抑揚で弾きます。聴き比べて、いちばん筋が通っていると思うものを選んでください。「これを選ぶ」は、その版を聴いたあとで押せるようになります。',
   plain:'抑揚なしで聴く', mine:'選んだ通りに聴く', check:'答え合わせ', clear:'クリア', retry:'↻ もう一度挑戦', listen:'聴く', choose:'これを選ぶ',
   model:'模範', playModel:'模範の抑揚で聴く', playModelJ:'模範で聴く', again:L=>`模範（${L}）をもう一度聴く`,
@@ -584,9 +626,9 @@ const UI = {
   settings:'設定', lblLang:'言語', lblRhythm:'伴奏', principleSel:'原則',
   aria:{style:'スタイル',mode:'問題の形式',filters:'原則で絞り込む',staff:'楽譜',curve:'強弱の曲線'}
  },
- en:{title:'Phrasing Dojo', classical:'Classical', jazz:'Jazz', rock:'Rock', compare:'Compare', all:'All', principle:n=>'Principle '+n,
+ en:{title:'Phrasing Dojo', classical:'Classical', jazz:'Jazz', rock:'Rock', strings:'Strings & voice', compare:'Compare', all:'All', principle:n=>'Principle '+n,
   prev:'← Prev', next:'Next →', restart:'Back to start ↺', allGroups:'All', cmpTag:'Compare', cmpOnlyTip:'This topic is practiced in Compare', nextPr:'Next principle →', prevPr:'← Previous principle', rhythmOn:'Rhythm section on', rhythmOff:'Rhythm section off',
-  score:(st,a,b)=>`${st!=='c'?'Accents':'Peaks'} ${a[0]}/${a[1]}　Compare ${b[0]}/${b[1]}`,
+  score:(st,a,b)=>(st==='s'?'':`${st!=='c'?'Accents':'Peaks'} ${a[0]}/${a[1]}　`)+`Compare ${b[0]}/${b[1]}`,
   loading:'Loading sounds…',
   promptPeak:'Tap the peak of this phrase, the note you would lean on most. You can listen to the plain melody first.',
   givenNote:ks=>`Grey marks belong to later principles (${[...new Set(ks)].sort().map(k=>'principle '+k+', "'+PRS_EN.j[k].name+'"').join('; ')}) and are filled in for you. They are not scored.`,
@@ -594,6 +636,7 @@ const UI = {
   promptCmpJ:'You will hear the same line with three different articulations. Pick the one that swings best. "Choose this" unlocks once you have listened to that version.',
   promptCmpR:'You will hear the same line played three ways. Pick the one that sounds most convincing as rock. "Choose this" unlocks once you have listened to that version.',
   promptCmpB:'You will hear the same line played three ways. Pick the one that sounds most like bossa nova. "Choose this" unlocks once you have listened to that version.',
+  promptCmpS:'You will hear the same melody sung three ways on the cello. Pick the one that sings most naturally. "Choose this" unlocks once you have listened to that version.',
   promptCmpC:'You will hear the same phrase shaped three ways. Pick the one that makes the most musical sense. "Choose this" unlocks once you have listened to that version.',
   plain:'Play without shaping', mine:'Play my marks', check:'Check', clear:'Clear', retry:'↻ Try again', listen:'Listen', choose:'Choose this',
   model:'Model', playModel:'Play the model', playModelJ:'Play the model', again:L=>`Play the model (${L}) again`,
@@ -622,8 +665,9 @@ const UI = {
  }
 };
 const GROUPS={
- c:[{ja:'フレーズの形',en:'Phrase shape',ks:[1,2,3,4]},{ja:'和声',en:'Harmony',ks:[5,6]},{ja:'拍とリズム',en:'Beat and rhythm',ks:[7,8]},{ja:'時間と音のつなぎ方',en:'Timing and connection',ks:[9,10,11]}],
+ c:[{ja:'フレーズの形',en:'Phrase shape',ks:[1,2,3,4]},{ja:'和声',en:'Harmony',ks:[5,6]},{ja:'拍とリズム',en:'Beat and rhythm',ks:[7,8]},{ja:'時間と音のつなぎ方',en:'Timing and connection',ks:[9,10]}],
  j:[{ja:'アクセント',en:'Accents',ks:[1,2,3,4,5]},{ja:'リズムの種類',en:'Rhythmic feels',ks:[6,7,8,9,10]},{ja:'タイム感',en:'Time feel',ks:[11,12]}],
+ s:[{ja:'音の形と流れ',en:'Shape and flow',ks:[1,2,3,4]},{ja:'音程の表現',en:'Pitch expression',ks:[5,6,7]},{ja:'様式による違い',en:'Style',ks:[8,9]}],
  r:[{ja:'アクセント',en:'Accents',ks:[1,2,3,4]},{ja:'タイミング',en:'Timing',ks:[5,6,7]},{ja:'構成',en:'Structure',ks:[8]}]
 };
 const U=()=>UI[LANG];
@@ -754,19 +798,7 @@ const CLASSICAL = [
   slurs:[[0,2],[3,5],[6,8]],
   peak:6, alt:{},
   why:'1小節ずつ3音のスラーでまとまっています。スラーの頭で重さを入れ、終わりで少し軽くすると、小節ごとのまとまりが聞こえます。全体の山は3小節目頭のF5で、ここもスラーの頭に当たります。',
-  dist:[{t:'noGroup'},{t:'slurEnd'}]},
- {id:'11-1',pr:11,cmpOnly:true,inst:'cello',envShape:true,ts:[4,4],bpm:66,pickup:0,key:'C',
-  bars:[[['G4',2],['C5',2]],[['E5',4]],[['D5',2],['C5',1],['B4',1]],[['C5',4]]],
-  chords:[[0,4,'I',['C2','G2','E3']],[4,4,'vi',['A1','E2','C3']],[8,4,'V',['G1','D2','B2']],[12,4,'I',['C2','G2','E3']]],
-  peak:2, alt:{},
-  why:'2小節目のE5を全音符で長く伸ばす旋律です（チェロで1オクターブ下で鳴らします）。ピアノの音は鳴った直後から減っていくだけですが、弦楽器や歌では、伸ばしている間の音量を自分で動かせます。頂点のE5は弓の速さと重さを保って少しふくらませ、次のD5へ渡す方向を作ってから自然に収めます。1音ずつ膨らませては縮めると、音がぶつ切れになり（「ソーセージ」と呼ばれる弾き方）、弓を抜いて音を減らしてしまうと、長い音が痩せて旋律が途切れて聞こえます。',
-  dist:[{t:'bulge'},{t:'dieAway'}]},
- {id:'11-2',pr:11,cmpOnly:true,inst:'cello',envShape:true,ts:[3,4],bpm:76,pickup:0,key:'G',
-  bars:[[['D4',1],['G4',2]],[['B4',3]],[['A4',1],['G4',1],['F#4',1]],[['G4',3]]],
-  chords:[[0,3,'I',['G1','D2','B2']],[3,3,'vi',['E1','B1','G2']],[6,3,'V⁷',['D2','A2','C3']],[9,3,'I',['G1','D2','B2']]],
-  peak:2, alt:{},
-  why:'3拍子の旋律で、2小節目のB4が付点2分音符で長く伸びる頂点です（チェロで1オクターブ下で鳴らします）。伸ばしている間に音を少しふくらませ、次の小節のA4へ向かって流れを作ると、長い音が「歌」になります。音量を一定のまま置いておくとオルガンのように静止して聞こえ、旋律がそこで止まってしまいます。',
-  dist:[{t:'flatHold'},{t:'bulge'}]}
+  dist:[{t:'noGroup'},{t:'slurEnd'}]}
 ];
 
 // jazz note: [name|'r', beats, flags]  A=アクセント, o=軽い持ち上げ（任意）, g=ゴースト, s=短く, t=タイ始点, c=タイの続き
@@ -1062,6 +1094,117 @@ const DISTS = {
  }
 };
 
+// strings & voice: bowed cello (an octave below the notation); every exercise is a comparison
+const STRINGS = [
+ {id:'S1-1',pr:1,ts:[4,4],bpm:66,pickup:0,key:'C',
+  bars:[[['G4',2],['C5',2]],[['E5',4]],[['D5',2],['C5',1],['B4',1]],[['C5',4]]],
+  chords:[[0,4,'I',['C2','G2','E3']],[4,4,'vi',['A1','E2','C3']],[8,4,'V',['G1','D2','B2']],[12,4,'I',['C2','G2','E3']]],
+  peak:2, alt:{},
+  why:'2小節目のE5を全音符で長く伸ばす旋律です（チェロで1オクターブ下で鳴らします）。ピアノの音は鳴った直後から減っていくだけですが、弦楽器や歌では、伸ばしている間の音量を自分で動かせます。頂点のE5は弓の速さと重さを保って少しふくらませ、次のD5へ渡す方向を作ってから自然に収めます。1音ずつ膨らませては縮めると、音がぶつ切れになり（「ソーセージ」と呼ばれる弾き方）、弓を抜いて音を減らしてしまうと、長い音が痩せて旋律が途切れて聞こえます。',
+  dist:[{t:'bulge'},{t:'dieAway'}]},
+ {id:'S1-2',pr:1,ts:[3,4],bpm:76,pickup:0,key:'G',
+  bars:[[['D4',1],['G4',2]],[['B4',3]],[['A4',1],['G4',1],['F#4',1]],[['G4',3]]],
+  chords:[[0,3,'I',['G1','D2','B2']],[3,3,'vi',['E1','B1','G2']],[6,3,'V⁷',['D2','A2','C3']],[9,3,'I',['G1','D2','B2']]],
+  peak:2, alt:{},
+  why:'3拍子の旋律で、2小節目のB4が付点2分音符で長く伸びる頂点です（チェロで1オクターブ下で鳴らします）。伸ばしている間に音を少しふくらませ、次の小節のA4へ向かって流れを作ると、長い音が「歌」になります。音量を一定のまま置いておくとオルガンのように静止して聞こえ、旋律がそこで止まってしまいます。',
+  dist:[{t:'flatHold'},{t:'bulge'}]},
+ {id:'S2-1',pr:2,ending:true,ts:[4,4],bpm:72,key:'Dm',
+  bars:[[['A4',1],['D5',1],['F5',2]],[['E5',1],['D5',1],['C#5',2]],[['D5',4]]],
+  chords:[[0,4,'i',['D2','A2','F3']],[4,4,'V',['A1','E2','C#3']],[8,4,'i',['D2','A2','F3']]],
+  peak:2,
+  why:'最後のD5は、フレーズを閉じる長い音です。弓の速さを少しずつ落として音量を下げ、響きを残したまま静かに離れると、終わりが「着地」して聞こえます。音量を保ったまま急に止めると、途中で打ち切られたように聞こえ、最後に向けて押し込むと、閉じるはずのフレーズが閉じません。',
+  dist:[{t:'cutOff'},{t:'pressEnd'}]},
+ {id:'S2-2',pr:2,ending:true,ts:[3,4],bpm:80,key:'G',
+  bars:[[['B4',1],['C5',1],['D5',1]],[['E5',2],['D5',1]],[['A4',1],['F#4',1],['A4',1]],[['G4',3]]],
+  chords:[[0,3,'I',['G1','D2','B2']],[3,3,'IV',['C2','G2','E3']],[6,3,'V⁷',['D2','A2','C3']],[9,3,'I',['G1','D2','B2']]],
+  peak:3,
+  why:'3拍子の短いフレーズで、最後のG4が主音に帰る終わりの音です。歌なら息を、弦楽器なら弓をゆるめながら音量を下げ、響きの中で終えます。ぶつっと切ると余韻がなくなり、最後で強めると、まだ続くように聞こえて落ち着きません。',
+  dist:[{t:'pressEnd'},{t:'cutOff'}]},
+ {id:'S3-1',pr:3,pass:true,ts:[4,4],bpm:63,key:'F',
+  bars:[[['C5',2],['A4',2]],[['Bb4',2],['D5',2]],[['C5',3],['Bb4',1]],[['A4',4]]],
+  chords:[[0,4,'I',['F2','C3','A3']],[4,4,'IV',['Bb1','F2','D3']],[8,4,'V⁷',['C2','G2','E3']],[12,4,'I',['F2','C3','A3']]],
+  peak:3,
+  why:'2分音符が続く旋律です。伸ばしている音の後半で、次の音へ向かってほんの少し音量を保つか増やすと、音と音が「受け渡されて」1本の線になります。各音の終わりで力が抜けると音のあいだに隙間ができ、平らに伸ばすだけだと音が置かれているだけで、前に進みません。',
+  dist:[{t:'gapBefore'},{t:'flatHold'}]},
+ {id:'S3-2',pr:3,pass:true,ts:[3,4],bpm:69,key:'Am',
+  bars:[[['E4',2],['A4',1]],[['C5',3]],[['B4',2],['G#4',1]],[['A4',3]]],
+  chords:[[0,3,'i',['A1','E2','C3']],[3,3,'VI',['F1','C2','A2']],[6,3,'V⁷',['E2','B2','D3']],[9,3,'i',['A1','E2','C3']]],
+  peak:2,
+  why:'付点2分音符のC5を頂点とする短調の旋律です。長い音を伸ばしながら次のB4へ向かう流れを保つと、音が途切れずにつながります。音の終わりで減ってしまうと1音ずつ切れて聞こえ、平らなままだと、長い音のところで旋律が止まります。',
+  dist:[{t:'flatHold'},{t:'gapBefore'}]},
+ {id:'S4-1',pr:4,breath:5,badBreath:7,ts:[4,4],bpm:84,key:'C',
+  bars:[[['E4',1],['F4',1],['G4',2]],[['A4',1],['G4',1],['E4',2]],[['F4',1],['G4',1],['A4',1],['B4',1]],[['C5',4]]],
+  chords:[[0,4,'I',['C2','G2','E3']],[4,4,'vi',['A1','E2','C3']],[8,4,'V',['G1','D2','B2']],[12,4,'I',['C2','G2','E3']]],
+  peak:10,
+  why:'2小節ずつの2つのフレーズでできています。2小節目の終わりのE4を少し短くして息を吸う（弓を返す）と、フレーズの区切りが自然に聞こえ、後半のC5へ向かう上行が新しい息で始まります。息継ぎがないと区切りが聞こえずに続いてしまい、上行の途中で息を継ぐと、いちばん大事な流れが断ち切られます。',
+  dist:[{t:'noBreath'},{t:'wrongBreath'}]},
+ {id:'S4-2',pr:4,breath:3,badBreath:9,ts:[3,4],bpm:92,key:'G',
+  bars:[[['D4',1],['G4',1],['B4',1]],[['A4',2],['D4',1]],[['E4',1],['F#4',1],['G4',1]],[['A4',1],['B4',1],['C5',1]],[['B4',2],['A4',1]],[['G4',3]]],
+  chords:[[0,3,'I',['G1','D2','B2']],[3,3,'V',['D2','A2','F#3']],[6,3,'IV',['C2','G2','E3']],[9,3,'ii',['A1','E2','C3']],[12,3,'V⁷',['D2','A2','C3']],[15,3,'I',['G1','D2','B2']]],
+  peak:10,
+  why:'2小節目のA4で最初のまとまりが終わり、次のD4から新しいフレーズが始まります。A4を少し短くしてそこで息を吸う（弓を返す）と、D4が次のフレーズの入りとして聞こえます。息継ぎがないと2つのフレーズが区切れずに続き、頂点のC5の手前で息を継ぐと、上っていく流れが途切れます。',
+  dist:[{t:'wrongBreath'},{t:'noBreath'}]},
+ {id:'S5-1',pr:5,lead:10,ts:[4,4],bpm:66,key:'C',
+  bars:[[['G4',1],['E4',1],['C4',1],['E4',1]],[['F4',1],['D4',1],['G4',1],['F4',1]],[['E4',1],['D4',1],['B3',2]],[['C4',4]]],
+  peak:6,
+  why:'伴奏のない旋律で、3小節目のB3（導音）が最後のC4（主音）へ解決します。弦楽器や歌では、導音をわずかに高めにとって主音へ引き寄せると、解決への向かう力が強く聞こえます。ここでは模範の導音を平均律より約16セント高くしています。平均律どおりでも誤りではありませんが、向かう力は弱まり、低めにとると主音へ届かずに沈んで聞こえます。',
+  dist:[{t:'etLead'},{t:'lowLead'}]},
+ {id:'S5-2',pr:5,lead:8,ts:[3,4],bpm:72,key:'Dm',
+  bars:[[['F4',1],['A4',1],['D5',1]],[['Bb4',1],['A4',1],['G4',1]],[['E5',1],['D5',1],['C#5',1]],[['D5',3]]],
+  peak:6,
+  why:'短調の旋律で、3小節目のC#5（短調で半音上げた導音）が最後のD5へ解決します。導音をわずかに高めにとると、主音との半音が狭くなり、解決が鋭く聞こえます。ここでは模範の導音を平均律より約16セント高くしています。平均律どおりでは引き寄せが弱く、低めにとると暗く沈んで、短調の導音らしさが失われます。',
+  dist:[{t:'lowLead'},{t:'etLead'}]},
+ {id:'S6-1',pr:6,slide:3,ts:[4,4],bpm:60,key:'D',
+  bars:[[['D4',1],['F#4',1],['A4',2]],[['F#5',3],['E5',1]],[['D5',2],['C#5',2]],[['D5',4]]],
+  chords:[[0,4,'I',['D2','A2','F#3']],[4,4,'vi',['B1','F#2','D3']],[8,4,'V⁷',['A1','E2','G2']],[12,4,'I',['D2','A2','F#3']]],
+  peak:3,
+  why:'A4からF#5への6度の跳躍が、旋律でいちばん表情のある場所です。ロマン派の弦楽器や歌では、ここだけ短く音をずり上げて（ポルタメント）つなぐと、跳躍が歌のように聞こえます。模範は跳躍の半分ほどを0.15秒ほどでずり上げています。ゆっくり大きくずり上げると感傷的に崩れ、どの音のつなぎでもずらすと、旋律全体がだらしなく聞こえます。',
+  dist:[{t:'overSlide'},{t:'slideEvery'}]},
+ {id:'S6-2',pr:6,slide:2,ts:[3,4],bpm:66,key:'G',
+  bars:[[['B4',2],['G4',1]],[['E5',3]],[['D5',1],['C5',1],['A4',1]],[['G4',3]]],
+  chords:[[0,3,'I',['G1','D2','B2']],[3,3,'IV',['C2','G2','E3']],[6,3,'V⁷',['D2','A2','C3']],[9,3,'I',['G1','D2','B2']]],
+  peak:2,
+  why:'G4からE5への6度の跳躍で、頂点の長い音に入ります。この1か所だけ、短く軽く音をずり上げて頂点へつなぐと、跳躍に気持ちがこもります。ずり上げが遅く大きいと音程がどこへ行くのか不安定に聞こえ、全部のつなぎでずらすと、表情ではなく癖に聞こえます。',
+  dist:[{t:'slideEvery'},{t:'overSlide'}]},
+ {id:'S7-1',pr:7,vib:true,ts:[4,4],bpm:60,key:'F',
+  bars:[[['F4',1],['A4',1],['C5',2]],[['F5',4]],[['E5',1],['D5',1],['C5',2]],[['A4',4]]],
+  chords:[[0,4,'I',['F2','C3','A3']],[4,4,'IV',['Bb1','F2','D3']],[8,4,'V⁷',['C2','G2','E3']],[12,4,'I',['F2','C3','A3']]],
+  peak:3,
+  why:'ビブラートは音を飾るためだけでなく、長い音に命を通わせる表現です。模範は、短い音にはほとんど足さず、長い音には音の入りから少し遅れてかけ、頂点の長いF5でいちばん深くしています。どの音にも速く同じビブラートをかけると落ち着きがなくなり、幅の広い遅いビブラートは音程が揺れて聞こえます。（録音にはもとから軽いビブラートがあり、その上に足しています）',
+  dist:[{t:'vibEvery'},{t:'vibWide'}]},
+ {id:'S7-2',pr:7,vib:true,ts:[3,4],bpm:66,key:'Em',
+  bars:[[['B4',1],['E5',2]],[['G5',3]],[['F#5',1],['E5',1],['D#5',1]],[['E5',3]]],
+  chords:[[0,3,'i',['E2','B2','G3']],[3,3,'iv',['A1','E2','C3']],[6,3,'V⁷',['B1','F#2','A2']],[9,3,'i',['E2','B2','G3']]],
+  peak:2,
+  why:'頂点のG5を付点2分音符で伸ばす短調の旋律です。ビブラートは長い音で、入りから少し遅れて深まっていくようにかけ、頂点で最も豊かにします。短い音まで同じようにかけると神経質に聞こえ、ゆっくり大きく揺らすと音程がぼやけます。（録音にはもとから軽いビブラートがあり、その上に足しています）',
+  dist:[{t:'vibWide'},{t:'vibEvery'}]},
+ {id:'S8-1',pr:8,baroque:true,ts:[3,4],bpm:60,key:'Dm',
+  bars:[[['D5',1],['A4',2]],[['Bb4',1],['A4',1],['G4',1]],[['F4',1],['E4',2]],[['D4',3]]],
+  chords:[[0,3,'i',['D2','A2','F3']],[3,3,'iv',['G1','D2','Bb2']],[6,3,'V',['A1','E2','C#3']],[9,3,'i',['D2','A2','F3']]],
+  peak:1,
+  why:'2拍目に長い音が来るサラバンド風の旋律です。バロックでは、長い音の1つずつを「弱く入って膨らみ、また弱まる」形（メッサ・ディ・ヴォーチェ）で弾くのが様式に合った表現で、18世紀の教本（ジェミニアーニなど）も長い音の装飾として説明しています。ロマン派では避ける「1音ずつの膨らみ」が、ここでは正解になります。フレーズ全体を大きな弧で歌い、ビブラートを足し続けると19世紀風に重くなり、平らに伸ばすと長い音が生きません。',
+  dist:[{t:'romantic'},{t:'flatHold'}]},
+ {id:'S8-2',pr:8,baroque:true,ts:[4,4],bpm:56,key:'G',
+  bars:[[['B4',2],['D5',2]],[['G5',3],['F#5',1]],[['E5',2],['D5',2]],[['D5',4]]],
+  chords:[[0,4,'I',['G1','D2','B2']],[4,4,'I',['G1','D2','B2']],[8,4,'ii',['A1','E2','C3']],[12,4,'V',['D2','A2','F#3']]],
+  peak:2,
+  why:'ラルゴの旋律で、2分音符以上の長い音が続きます。バロックの様式では、長い音をそれぞれ軽く膨らませて収め（メッサ・ディ・ヴォーチェ）、短い音は軽く扱います。大きな弧で押し続けてビブラートを重ねると後の時代の歌い方になり、平らに伸ばすと、長い音が並ぶだけの単調な旋律になります。',
+  dist:[{t:'flatHold'},{t:'romantic'}]},
+ {id:'S9-1',pr:9,ballad:true,scoop:2,ts:[4,4],bpm:60,
+  bars:[[['E4',1],['G4',1],['B4',2]],[['A4',4]],[['G4',1],['E4',1],['D4',2]],[['E4',4]]],
+  chords:[[0,4,'Cmaj7',['C2','G2','B2','E3']],[4,4,'Am7',['A1','E2','G2','C3']],[8,4,'D7',['D2','A2','C3','F#3']],[12,4,'Em7',['E2','B2','D3','G3']]],
+  peak:3,
+  why:'ジャズのバラードでは、長い音をまずまっすぐ伸ばし、後半からビブラートをかける（ディレイド・ビブラート）のが典型です。模範は長い音の後半からビブラートを始め、1小節目のB4だけ下から軽くすくい上げて（スクープ）入っています。クラシックのように最初からビブラートをかけると歌い方がクラシック寄りになり、どの音もすくい上げると、表情ではなく癖になります。',
+  dist:[{t:'vibFromStart'},{t:'scoopAll'}]},
+ {id:'S9-2',pr:9,ballad:true,scoop:0,ts:[4,4],bpm:56,
+  bars:[[['D5',2],['B4',2]],[['C5',1],['A4',1],['G4',2]],[['A4',4]]],
+  chords:[[0,4,'Gmaj7',['G1','D2','F#2','B2']],[4,2,'Am7',['A1','E2','G2','C3']],[6,2,'D7',['D2','A2','C3','F#3']],[8,4,'D7',['D2','A2','C3','F#3']]],
+  peak:0,
+  why:'ゆっくりしたバラードの3小節です。最初のD5を下からわずかにすくい上げて入り、長い音はまっすぐ伸ばしてから後半でビブラートを加えます。最初から最後まで同じビブラートをかけるとクラシックの歌い方に、どの音もすくい上げるとくどく聞こえます。',
+  dist:[{t:'scoopAll'},{t:'vibFromStart'}]}
+
+];
+
 /* ================= parsing ================= */
 const LET={C:0,D:1,E:2,F:3,G:4,A:5,B:6}, SEMI={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
 function parse(name){
@@ -1079,10 +1222,45 @@ function prep(ph,style){
     on+=d; pos+=d; }); });
   ph.total=on;
 }
-CLASSICAL.forEach(p=>prep(p,'c')); JAZZ.forEach(p=>prep(p,'j')); ROCK.forEach(p=>prep(p,'r'));
+CLASSICAL.forEach(p=>prep(p,'c')); STRINGS.forEach(p=>{ prep(p,'s'); p.cmpOnly=true; p.inst='cello'; p.envShape=true; });
+STRINGS.sort((a,b)=>a.pr-b.pr||a.id.localeCompare(b.id)); JAZZ.forEach(p=>prep(p,'j')); ROCK.forEach(p=>prep(p,'r'));
 JAZZ.sort((a,b)=>a.pr-b.pr||a.id.localeCompare(b.id));
 CLASSICAL.sort((a,b)=>a.pr-b.pr||a.id.localeCompare(b.id));
-const SETS={c:CLASSICAL,j:JAZZ,r:ROCK};
+const SETS={c:CLASSICAL,j:JAZZ,r:ROCK,s:STRINGS};
+DISTS.s={
+  bulge:DISTS.c.bulge, dieAway:DISTS.c.dieAway, flatHold:DISTS.c.flatHold,
+  cutOff:{name:'急に切る',text:'最後の長い音を、音量を保ったまま急に止めています。響きが残らず、フレーズが途中で打ち切られたように聞こえます。'},
+  pressEnd:{name:'最後で押し込む',text:'最後の長い音を、終わりに向かって強めています。閉じるはずのフレーズが閉じず、まだ続くように聞こえます。'},
+  gapBefore:{name:'音の終わりで抜ける',text:'長い音の後半で力が抜け、次の音の前に隙間ができています。1音ずつ切れて、線がつながりません。'},
+  noBreath:{name:'息継ぎなし',text:'フレーズの区切りでも時間を取らず、そのまま次へ続けています。2つのフレーズが1つに聞こえ、区切りがわかりません。'},
+  wrongBreath:{name:'途中で息継ぎ',text:'フレーズの区切りではなく、上っていく途中で息を継いで（弓を返して）います。いちばん大事な流れがそこで断ち切られます。'},
+  etLead:{name:'平均律どおり',text:'導音を平均律どおりの高さでとっています。誤りではありませんが、主音への引き寄せが弱く、解決があっさり聞こえます。'},
+  lowLead:{name:'導音が低め',text:'導音を平均律より低めにとっています。主音との半音が広がり、解決に届かずに沈んで聞こえます。'},
+  overSlide:{name:'ずり上げすぎ',text:'跳躍を、遅く大きくずり上げています。音程がどこへ行くのか不安定に聞こえ、感傷的に崩れます。'},
+  slideEvery:{name:'毎回ずり上げる',text:'跳躍だけでなく、どの音のつなぎでも音をずらしています。表情ではなく癖に聞こえ、旋律がだらしなくなります。'},
+  vibEvery:{name:'全部に速いビブラート',text:'短い音も含めて、すべての音に同じ速いビブラートを最初からかけています。落ち着きがなく、頂点も目立ちません。'},
+  vibWide:{name:'幅の広いビブラート',text:'長い音に、遅く幅の広いビブラートをかけています。音程が上下に揺れて聞こえ、旋律の線がぼやけます。'},
+  romantic:{name:'ロマン派風',text:'フレーズ全体を大きな弧で歌い、長い音を保ったままビブラートを重ねています。19世紀の歌い方で、バロックの軽さと1音ごとの呼吸が失われます。'},
+  vibFromStart:{name:'最初からビブラート',text:'長い音に最初からビブラートをかけています。クラシックの歌い方に近く、ジャズのバラードらしいまっすぐな伸ばしが失われます。'},
+  scoopAll:{name:'毎回すくい上げる',text:'どの音も下からすくい上げて入っています。要所の表情ではなく癖に聞こえ、くどくなります。'}
+};
+DISTS_EN.s={
+  bulge:DISTS_EN.c.bulge, dieAway:DISTS_EN.c.dieAway, flatHold:DISTS_EN.c.flatHold,
+  cutOff:{name:'Stopped short',text:'The last long note stops abruptly at full level. Nothing is left ringing, and the phrase sounds cut off.'},
+  pressEnd:{name:'Pushing the end',text:'The last long note grows toward its end. The phrase that should close stays open, as if it were going on.'},
+  gapBefore:{name:'Dying away',text:'Each long note loses energy in its second half and leaves a gap before the next. The notes come apart and the line breaks.'},
+  noBreath:{name:'No breath',text:'No time is taken between the phrases. The two phrases run into one, and the division cannot be heard.'},
+  wrongBreath:{name:'Breath in the wrong place',text:'The breath (bow change) comes in the middle of the rising line rather than between phrases. The most important part of the line is cut in two.'},
+  etLead:{name:'Equal temperament',text:'The leading note is taken at its equal-tempered pitch. Not wrong, but the pull toward the tonic is weaker and the resolution sounds plain.'},
+  lowLead:{name:'Low leading note',text:'The leading note is taken below equal temperament. The half step to the tonic widens, and the resolution sinks instead of arriving.'},
+  overSlide:{name:'Overdone slide',text:'The leap is taken with a slow, wide slide. The pitch seems unsure of where it is going, and the line turns sentimental.'},
+  slideEvery:{name:'Sliding everywhere',text:'The pitch slides into every note, not only the leap. It sounds like a habit rather than expression, and the line goes slack.'},
+  vibEvery:{name:'Fast vibrato everywhere',text:'Every note, short ones included, gets the same fast vibrato from its start. It sounds restless, and the peak no longer stands out.'},
+  vibWide:{name:'Wide vibrato',text:'Long notes get a slow, wide vibrato. The pitch seems to wobble up and down, and the line blurs.'},
+  romantic:{name:'Romantic style',text:'The whole phrase is sung in one big arc, with sustained long notes and vibrato added throughout. It is a 19th-century manner, and the lightness and note-by-note breathing of the Baroque are lost.'},
+  vibFromStart:{name:'Vibrato from the start',text:'Long notes get vibrato from their very start. It sounds close to classical singing, and the straight hold typical of a jazz ballad is lost.'},
+  scoopAll:{name:'Scooping every note',text:'Every note is scooped into from below. It sounds like a habit rather than a chosen expression, and becomes cloying.'}
+};
 DISTS.r=Object.assign({},DISTS.j,{
   jazzSwing:{name:'ジャズのスウィング',text:'ハネの比率はほぼ同じですが、ジャズのように裏拍に軽いアクセントを置き、レガートでつないでいます。軽やかにはなりますが、表拍に重みを置いて刻むシャッフルの重さと推進力が消えます。'},
   evenOnShuffle:{name:'イーブンになる',text:'リズム隊はシャッフルしているのに、旋律だけ8分音符を均等に弾いています。裏の音が早く出て、リズム隊とかみ合いません。'},
@@ -1192,6 +1370,39 @@ function envC(ph,d,dyn){
     return [[0,1],[.85,1+(r-1)*.6]];
   });
 }
+// strings & voice: the model and each wrong version as levels, lengths, level shapes and pitch moves
+function specS(ph,d){
+  const N=ph.notes, t=d&&d.t, L=N.length-1, long=i=>N[i].dur>=2;
+  let dyn=versionC(ph,null), len=N.map(()=>1), tm=tmC(ph,null), env=envC(ph,null,dyn);
+  const pitch=N.map(()=>({c:0}));
+  if(ph.ending) env[L]=[[0,1],[.4,.9],[1,.3]];
+  if(ph.pass) N.forEach((n,i)=>{ if(long(i)&&i<L) env[i]=[[0,.95],[.6,1],[1,1.12]]; });
+  if(ph.breath!=null){ len[ph.breath]=.7; env[ph.breath]=[[0,1],[1,.8]]; }
+  if(ph.lead!=null) pitch[ph.lead].c=16;
+  if(ph.slide!=null){ const i=ph.slide; pitch[i].gl=[-(N[i].midi-N[i-1].midi)*.55,.15]; }
+  if(ph.vib) N.forEach((n,i)=>{ if(long(i)) pitch[i].vib=[.2,i===ph.peak?16:10,5.4]; });
+  if(ph.baroque) N.forEach((n,i)=>{ env[i]=long(i)?[[0,.72],[.45,1.2],[1,.6]]:[[0,1],[1,.82]]; len[i]=long(i)?.97:.88; });
+  if(ph.ballad){ N.forEach((n,i)=>{ if(long(i)) pitch[i].vib=[.55,18,5]; }); if(ph.scoop!=null) pitch[ph.scoop].gl=[-.7,.12]; }
+  switch(t){
+    case 'bulge': case 'dieAway': env=envC(ph,d,dyn); break;
+    case 'flatHold': env=N.map(()=>[[0,1],[1,1]]); len=N.map(()=>1); break;
+    case 'cutOff': env[L]=[[0,1],[1,1]]; len[L]=.6; break;
+    case 'pressEnd': env[L]=[[0,.9],[1,1.4]]; break;
+    case 'gapBefore': N.forEach((n,i)=>{ if(i<L){ env[i]=[[0,1],[.55,.72],[.82,.22]]; len[i]=.84; } }); break;
+    case 'noBreath': len[ph.breath]=1; env[ph.breath]=envC(ph,null,dyn)[ph.breath]; break;
+    case 'wrongBreath': len[ph.breath]=1; env[ph.breath]=envC(ph,null,dyn)[ph.breath]; len[ph.badBreath]=.66; break;
+    case 'etLead': pitch[ph.lead].c=0; break;
+    case 'lowLead': pitch[ph.lead].c=-14; break;
+    case 'overSlide': { const i=ph.slide; pitch[i].gl=[-(N[i].midi-N[i-1].midi),.42]; break; }
+    case 'slideEvery': N.forEach((n,i)=>{ if(i>0&&n.midi!==N[i-1].midi) pitch[i].gl=[-(n.midi-N[i-1].midi)*.6,.16]; }); break;
+    case 'vibEvery': N.forEach((n,i)=>{ pitch[i].vib=[0,22,7.2]; }); break;
+    case 'vibWide': N.forEach((n,i)=>{ if(long(i)) pitch[i].vib=[0,45,4.2]; }); break;
+    case 'romantic': env=envC(ph,null,dyn); len=N.map(()=>1); N.forEach((n,i)=>{ if(long(i)) pitch[i].vib=[0,16,5.6]; }); break;
+    case 'vibFromStart': N.forEach((n,i)=>{ pitch[i]={c:0}; if(long(i)) pitch[i].vib=[0,16,5.8]; }); break;
+    case 'scoopAll': N.forEach((n,i)=>{ pitch[i].gl=[-1,.18]; }); break;
+  }
+  return {dyn,len,tm,env,pitch};
+}
 function lenC(ph,d){
   const N=ph.notes, len=N.map(()=>.97);
   if(ph.slurs&&!(d&&(d.t==='noGroup'||d.t==='flat'))) ph.slurs.forEach(([a,b,L])=>{ if(!L&&b<N.length-1) len[b]=.66; });
@@ -1292,7 +1503,8 @@ function artFromSel(ph,sel){
   ph.notes.forEach((n,i)=>{ if(sel[i][0]==='A') a.v[i]=.97; if(sel[i]==='As') a.len[i]='short'; if(sel[i]==='g'){ a.v[i]=ph.style==='r'?.42:.2; if(ph.style==='r') a.len[i]='mute'; } if(n.flag.includes('c')) a.v[i]=a.v[i-1]; });
   return a;
 }
-function version(ph,d){ return ph.style!=='c'?jart(ph,d).v:versionC(ph,d); }
+const isC=ph=>ph.style==='c'||ph.style==='s';
+function version(ph,d){ return !isC(ph)?jart(ph,d).v:ph.style==='s'?specS(ph,d).dyn:versionC(ph,d); }
 
 /* ================= audio ================= */
 let ctx=null, master=null, bus=null, timers=[], noiseBuf=null;
@@ -1420,9 +1632,10 @@ function loadInst(inst){
   return SB.load[inst]=Promise.all(jobs).then(()=>{ if(SB.buf[inst]){ SB.buf[inst].sort((a,b)=>a.m-b.m); SB.any=true; } SB.ok[inst]=true; });
 }
 // instruments a style can use with the current sound setting
-const celloFor=ph=>ph&&ph.style==='c'&&(ph.inst==='cello'||S.clead==='cello');
+const celloFor=ph=>ph&&(ph.style==='s'||(ph.style==='c'&&(ph.inst==='cello'||S.clead==='cello')));
 function instsFor(style,ph){
   const t=S.timbre, kb=t==='epiano'?'epiano':'piano';
+  if(style==='s') return [kb,'cello'];
   if(style==='c') return (ph?celloFor(ph):S.clead==='cello')?[kb,'cello']:[kb];
   if(style==='r') return [t==='pianoS'||t==='epiano'?kb:'odguitar','ebass','abass'];
   return [t==='pianoS'||t==='epiano'?kb:'vibes',kb,'abass','ebass','nylon','woodblock','agogo'];
@@ -1469,7 +1682,7 @@ function sampler(dest,inst,midi,t0,dur,v,mult,sus){
 let CURST='c';
 // bowed note: starts from the steady part of the stroke, loops it for long notes,
 // and follows a level shape inside the note (shape: [[fraction of the note, level multiplier], ...])
-function celloNote(dest,midi,t0,dur,v,shape){
+function celloNote(dest,midi,t0,dur,v,shape,pt){
   const L=SB.buf.cello; if(!L||!L.length) return pianoNote(dest,midi+12,t0,dur,v);
   let sm=L[0]; for(const x of L) if(Math.abs(x.m-midi)<Math.abs(sm.m-midi)) sm=x;
   const P=SAMP.cello, rate=Math.pow(2,(midi-sm.m)/12);
@@ -1481,6 +1694,16 @@ function celloNote(dest,midi,t0,dur,v,shape){
   g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(amp*sh[0][1],t0+P.att);
   sh.slice(1).forEach(([f,m])=>g.gain.linearRampToValueAtTime(amp*m,t0+Math.max(P.att+.01,f*dur)));
   g.gain.setTargetAtTime(0,t0+dur,P.rel);
+  // pitch: c = fixed offset (cents), gl = [semitones below, seconds] slide into the note,
+  // vib = [start as fraction of the note, depth in cents, rate in Hz] added vibrato
+  if(pt){
+    const c0=pt.c||0, dt=src.detune;
+    if(pt.gl){ dt.setValueAtTime(c0+pt.gl[0]*100,t0); dt.linearRampToValueAtTime(c0,t0+pt.gl[1]); }
+    else dt.setValueAtTime(c0,t0);
+    if(pt.vib){ const o=ctx.createOscillator(), vg=ctx.createGain(), ts=t0+pt.vib[0]*dur;
+      o.frequency.value=pt.vib[2]; vg.gain.setValueAtTime(0,t0); vg.gain.setValueAtTime(0,ts); vg.gain.linearRampToValueAtTime(pt.vib[1],ts+.3);
+      o.connect(vg); vg.connect(dt); o.start(t0); o.stop(t0+dur+P.rel*6); }
+  }
   src.connect(lp); lp.connect(g); g.connect(dest);
   src.start(t0,sm.o); src.stop(t0+dur+P.rel*6);
 }
@@ -1610,14 +1833,14 @@ function secC(ph,b,tm){
     s+=Math.min(step,b-x)*spb*r; }
   return s;
 }
-function playCRaw(ph,dyn,len,tm,env){
-  if(!whenReady(ph,()=>playCRaw(ph,dyn,len,tm,env))) return;
+function playCRaw(ph,dyn,len,tm,env,pitch){
+  if(!whenReady(ph,()=>playCRaw(ph,dyn,len,tm,env,pitch))) return;
   const vc=celloFor(ph)&&useS();
   ensureCtx(); stopAll(); CURST='c'; bus=ctx.createGain(); bus.connect(master);
   const t=ctx.currentTime+.08;
   ph.notes.forEach((n,i)=>{
     const s=secC(ph,n.on,tm), e=secC(ph,n.on+n.dur,tm), last=i===ph.notes.length-1;
-    if(vc) celloNote(bus,n.midi-12,t+s,(e-s)*Math.min(1.02,len[i]+.04),dyn[i],(env||envC(ph,null,dyn))[i]);
+    if(vc) celloNote(bus,n.midi-12,t+s,(e-s)*Math.min(1.02,len[i]+.04),dyn[i],(env||envC(ph,null,dyn))[i],pitch&&pitch[i]);
     else pianoNote(bus,n.midi,t+s,(e-s)*len[i]+(last?.6:0),dyn[i]);
     highlight(i,(s+.08)*1000);
   });
@@ -1758,8 +1981,8 @@ function playJ(ph,art){
   }
   timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(T(ph.total)+.4)*1000));
 }
-function play(ph,d){ if(ph.style!=='c') playJ(ph,jart(ph,d)); else { const v=versionC(ph,d); playCRaw(ph,v,lenC(ph,d),tmC(ph,d),envC(ph,d,v)); } }
-function playPlain(ph){ if(ph.style!=='c') playJ(ph,jart(ph,{t:'flat'})); else playCRaw(ph,ph.notes.map(()=>.6),ph.notes.map(()=>.97),{amp:0,rit:.24},ph.notes.map(()=>[[0,1],[1,1]])); }
+function play(ph,d){ if(ph.style==='s'){ const sp=specS(ph,d); playCRaw(ph,sp.dyn,sp.len,sp.tm,sp.env,sp.pitch); } else if(ph.style!=='c') playJ(ph,jart(ph,d)); else { const v=versionC(ph,d); playCRaw(ph,v,lenC(ph,d),tmC(ph,d),envC(ph,d,v)); } }
+function playPlain(ph){ if(!isC(ph)) playJ(ph,jart(ph,{t:'flat'})); else playCRaw(ph,ph.notes.map(()=>.6),ph.notes.map(()=>.97),{amp:0,rit:.24},ph.notes.map(()=>[[0,1],[1,1]])); }
 
 /* ================= staff ================= */
 const SVGNS='http://www.w3.org/2000/svg';
@@ -1904,8 +2127,8 @@ function drawStaff(ph){
   // chord labels
   (ph.chords||[]).forEach((ch,ci)=>{
     const b=ch[0]; const k=ph.items.findIndex(it=>it.on>=b-1e-9); const cx=itemX[k];
-    const lab=ph.style!=='c'?pretty(ch[2]):((ci===0&&ph.key?ph.key+': ':'')+ch[2]);
-    el('text',{x:cx-(ph.style==='c'&&ci===0&&ph.key?10:4),y:120,class:'chord'},svg,lab);
+    const lab=!isC(ph)?pretty(ch[2]):((ci===0&&ph.key?ph.key+': ':'')+ch[2]);
+    el('text',{x:cx-(isC(ph)&&ci===0&&ph.key?10:4),y:120,class:'chord'},svg,lab);
   });
   el('g',{id:'gmarks'},svg); el('g',{id:'marks'},svg);
   layout={W,xs,info,minW};
@@ -1956,7 +2179,7 @@ function drawCurves(ph,series,opts){
 
 /* ================= state & UI ================= */
 const S={style:'c',mode:'peak',filter:0,list:[],pos:0,answered:false,rhythm:true,order:null,sel:[],
-  score:{'c-peak':[0,0],'c-cmp':[0,0],'j-peak':[0,0],'j-cmp':[0,0],'r-peak':[0,0],'r-cmp':[0,0]}};
+  score:{'s-peak':[0,0],'s-cmp':[0,0],'c-peak':[0,0],'c-cmp':[0,0],'j-peak':[0,0],'j-cmp':[0,0],'r-peak':[0,0],'r-cmp':[0,0]}};
 const $=id=>document.getElementById(id);
 const set=()=>SETS[S.style];
 const cur=()=>set()[S.list[S.pos]];
@@ -1992,9 +2215,9 @@ function buildStatic(){
   $('pr-title').textContent=T.prTitle; $('foot').textContent=T.foot; $('mode-peak').textContent=T.modeA;
   $('keys').textContent=U().keys; $('row-clead').hidden=S.style!=='c'; $('lbl-clead').textContent=U().lblClead; $('clead-seg').setAttribute('aria-label',U().lblClead);
   document.querySelectorAll('[data-clead]').forEach(x=>{ x.textContent=x.dataset.clead==='cello'?U().cleadCello:U().cleadPiano; x.setAttribute('aria-selected',x.dataset.clead===(S.clead||'piano')); }); updRec(); $('lbl-rec').textContent=U().lblRec; $('rec-clear').textContent=U().recClear;
-  $('row-rhythm').hidden=S.style==='c'; $('rhythm').textContent=S.rhythm?U().rhythmOn:U().rhythmOff;
+  $('row-rhythm').hidden=S.style==='c'||S.style==='s'; $('rhythm').textContent=S.rhythm?U().rhythmOn:U().rhythmOff;
   const u=U(); $('h1').textContent=u.title; document.title=u.title; document.documentElement.lang=LANG;
-  $('style-c').textContent=u.classical; $('style-j').textContent=u.jazz; $('style-r').textContent=u.rock; $('mode-cmp').textContent=u.compare;
+  $('style-c').textContent=u.classical; $('style-j').textContent=u.jazz; $('style-r').textContent=u.rock; $('style-s').textContent=u.strings; $('mode-cmp').textContent=u.compare;
   document.querySelector('.seg.style').setAttribute('aria-label',u.aria.style); $('mode-seg').setAttribute('aria-label',u.aria.mode);
   $('filters').setAttribute('aria-label',u.aria.filters); $('gear-label').textContent=u.settings; $('lbl-lang').textContent=u.lblLang; $('lbl-speed').textContent=u.lblSpeed; $('lbl-timbre').textContent=u.lblTimbre; $('credit').innerHTML=u.credit; $('timbre-seg').setAttribute('aria-label',u.lblTimbre); document.querySelectorAll('[data-timbre]').forEach(x=>{ x.textContent={genre:u.timbreGenre,pianoS:u.timbrePiano,epiano:u.timbreEp,synth:u.timbreSynth}[x.dataset.timbre]; x.setAttribute('aria-selected',x.dataset.timbre===(S.timbre||'genre')); }); $('speed-seg').setAttribute('aria-label',u.lblSpeed); document.querySelectorAll('[data-speed]').forEach(x=>x.setAttribute('aria-selected',+x.dataset.speed===(S.speed||1))); $('lbl-theme').textContent=u.theme.label; $('lbl-rhythm').textContent=u.lblRhythm; $('staff').setAttribute('aria-label',u.aria.staff); $('curve').setAttribute('aria-label',u.aria.curve);
   document.querySelectorAll('[data-lang]').forEach(x=>x.setAttribute('aria-selected',x.dataset.lang===LANG));
@@ -2009,6 +2232,7 @@ function buildStatic(){
 function availPr(k){ return set().some(p=>p.pr===+k&&!(S.mode==='peak'&&p.cmpOnly)); }
 function prOrder(){ return GROUPS[S.style].flatMap(g=>g.ks).filter(availPr); }
 function refreshList(){
+  if(S.mode==='peak'&&!set().some(p=>!p.cmpOnly)) S.mode='cmp';
   if(!S.filter||!availPr(S.filter)) S.filter=prOrder()[0];
   const okMode=i=>!(S.mode==='peak'&&set()[i].cmpOnly);
   S.modes=null;
@@ -2079,7 +2303,7 @@ function load(){
     c.appendChild(btn(U().clear,()=>{ S.sel=ph.notes.map(()=>''); paintSel(ph); },'ghost'));
     $('staff').onclick=e=>{ const g=e.target.closest('.note'); if(!g||S.answered) return; let i=+g.dataset.i; if(ph.notes[i].flag.includes('c')) i--; if(S.given[i]) return; S.sel[i]={'':'A','A':'As','As':'g','g':''}[S.sel[i]]; paintSel(ph); };
   } else {
-    $('prompt').textContent=ph.feel==='bossa'?U().promptCmpB:ph.style==='r'?U().promptCmpR:ph.style==='j'?U().promptCmpJ:U().promptCmpC;
+    $('prompt').textContent=ph.feel==='bossa'?U().promptCmpB:ph.style==='r'?U().promptCmpR:ph.style==='j'?U().promptCmpJ:ph.style==='s'?U().promptCmpS:U().promptCmpC;
     const okey=o=>o.map(d=>d?(d.k||d.t)+(d.at??''):'M').join(',');
     let o=shuffle([null,...ph.dist]), tries=0;
     while(S.lastOrder&&S.lastOrder.id===ph.id&&(o.indexOf(null)===S.lastOrder.mi||okey(o)===S.lastOrder.key)&&tries++<30) o=shuffle([null,...ph.dist]);
@@ -2197,7 +2421,7 @@ function answerAcc(){
 function timingSeries(ph){
   const clip=x=>Math.max(0,Math.min(1,x));
   if(ph.style==='c'&&ph.timing) return d=>{ const tm=tmC(ph,d), spb=60/bpmOf(ph); return ph.notes.map(n=>clip(.5+((secC(ph,n.on+n.dur,tm)-secC(ph,n.on,tm))/(n.dur*spb)-1)*2)); };
-  if(ph.style!=='c'&&ph.timeFeel) return d=>{ const a=jart(ph,d), T=noteT(ph,a), spb=60/bpmOf(ph); const sc=240; return ph.notes.map(n=>{ const off=(isOff(n)?a.offOff:a.offOn)+(n.afterRest?a.entryOff||0:0); const dev=ph.chartRef?off:(T(n.on,n)-n.on*spb+off); return clip(.5+dev*1000/sc); }); };
+  if(!isC(ph)&&ph.timeFeel) return d=>{ const a=jart(ph,d), T=noteT(ph,a), spb=60/bpmOf(ph); const sc=240; return ph.notes.map(n=>{ const off=(isOff(n)?a.offOff:a.offOn)+(n.afterRest?a.entryOff||0:0); const dev=ph.chartRef?off:(T(n.on,n)-n.on*spb+off); return clip(.5+dev*1000/sc); }); };
   return null;
 }
 function timingGrid(ph){
@@ -2218,7 +2442,7 @@ function answerCmp(k){
     if(j===mi) o.classList.add('model'); else if(j===k) o.classList.add('picked');
     o.querySelector('.what').textContent=d?D[d.k||d.t].name:U().model;
   });
-  if(ph.style!=='c'){ $('gmarks').innerHTML=''; drawMarks(ph,modelMarks(ph),false); }
+  if(!isC(ph)){ $('gmarks').innerHTML=''; drawMarks(ph,modelMarks(ph),false); }
   const tv=timingSeries(ph);
   const dashes=[];{ let n=0; S.order.forEach((d,j)=>dashes[j]=d?['7 4','2 3'][n++]:''); }
   const mk=f=>S.order.map((d,j)=>({v:f(d),color:colorFor(j),label:'ABC'[j],dash:dashes[j]}));
@@ -2285,7 +2509,7 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('settings').hid
 $('prev').onclick=()=>{ if(S.pos>0) goPos(S.pos-1); else if(!S.all&&prOrder().indexOf(S.filter)>0) stepPr(-1); };
 $('next').onclick=()=>{ if(S.pos<S.list.length-1) goPos(S.pos+1); else if(S.all) goPos(0); else stepPr(1); };
 
-try{ const st=localStorage.getItem('yokuyo-style'); if(st==='j'||st==='c'||st==='r') S.style=st; }catch(e){}
+try{ const st=localStorage.getItem('yokuyo-style'); if(['c','j','r','s'].includes(st)) S.style=st; }catch(e){}
 const cap=s=>LANG==='en'?s.charAt(0).toUpperCase()+s.slice(1):s;
 var THEME='auto';
 const HOST_THEME=document.documentElement.getAttribute('data-theme');

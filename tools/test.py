@@ -26,9 +26,9 @@ def serve():
 
 async def walk(pg, style, mode, seen, problems):
     await pg.click('#style-' + style)
-    await pg.click('#mode-' + mode)
     if await pg.is_disabled('#mode-' + mode):
         return
+    await pg.click('#mode-' + mode)
     n = await pg.evaluate("set().filter(p=>S.mode==='cmp'||!p.cmpOnly).length")
     for _ in range(n):
         pid = await pg.evaluate('cur().id')
@@ -60,7 +60,7 @@ async def main(target):
             await pg.goto(url)
             await pg.wait_for_timeout(500)
             seen = set()
-            for st in 'cjr':
+            for st in 'cjrs':
                 for mode in ['peak', 'cmp']:
                     await walk(pg, st, mode, seen, problems)
             if loc == 'en-US':
@@ -68,7 +68,7 @@ async def main(target):
                 left = sorted(set(JP.findall(txt)))
                 if left:
                     problems.append('Japanese left in English UI: ' + ''.join(left[:40]))
-            total = await pg.evaluate("['c','j','r'].map(s=>SETS[s].length+SETS[s].filter(p=>!p.cmpOnly).length).reduce((a,b)=>a+b)")
+            total = await pg.evaluate("['c','j','r','s'].map(s=>SETS[s].length+SETS[s].filter(p=>!p.cmpOnly).length).reduce((a,b)=>a+b)")
             print(f'{loc}: visited {len(seen)} of {total} exercise views, errors {errs}')
             problems += [f'{loc} script error: {e}' for e in errs]
             await ctx.close()
@@ -79,9 +79,11 @@ async def main(target):
         ctx = await b.new_context(locale='ja-JP', viewport={'width': 360, 'height': 800})
         pg = await ctx.new_page()
         await pg.goto(url)
-        for st in 'cjr':
+        for st in 'cjrs':
             await pg.click('#style-' + st)
             for mode in ['peak', 'cmp']:
+                if await pg.is_disabled('#mode-' + mode):
+                    continue
                 await pg.click('#mode-' + mode)
                 w = await pg.evaluate('document.documentElement.scrollWidth-innerWidth')
                 if w > 1:
