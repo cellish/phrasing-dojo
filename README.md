@@ -25,20 +25,28 @@
 
 音は楽器の録音（サンプル）を使い、ジャズ編・ロック編ではリズム隊を重ねられます。右上の「設定」から、言語（日本語・英語）、テーマ（自動・ライト・ダーク）、再生テンポ（70〜120%）、音色（ジャンル別・ピアノ・エレピ）、クラシックの旋律（ピアノ・チェロ）を切り替えられます。成績は原則ごとにブラウザに保存され、原則一覧に表示されます。パソコンではキー操作（1・2・3で聴く、A・B・Cで選ぶ、← → で前後へ など）も使えます。
 
-## 音源のクレジット
+## 著作権・ライセンス
+
+Copyright (c) 2026 jun. All rights reserved.
+
+公開しているサイトでは、誰でも無料で使えます（個人の練習、授業やレッスンでの利用を含みます）。ソースコードは見られるように公開していますが、オープンソースではありません。複製・改変・再配布などの条件は [`LICENSE`](LICENSE) を見てください。
+
+課題の旋律は、このアプリのために作った作品で、他人の曲は収めていません。
+
+同梱している楽器の録音は、それぞれの権利者のライセンスに従います（一覧とライセンス文は [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) と `licenses/`）。
 
 - ピアノ：[Salamander Grand Piano](https://github.com/sfzinstruments/SalamanderGrandPiano)（Alexander Holm、[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）
-- エレクトリックピアノ：[jRhodes3](https://github.com/sfzinstruments/jlearman.jRhodes3d)（Jeff Learman、[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)）
+- エレクトリックピアノ：[jRhodes3](https://github.com/sfzinstruments/jlearman.jRhodes3d)（Jeff Learman、[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)。非営利の利用に限られます）
 - チェロ：Freesound の [flcellogrl](https://freesound.org/people/flcellogrl/packs/12408/) による録音（[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）
 - ベース：[Karoryfer Samples](https://shop.karoryfer.com/pages/free-samples)（[CC0](https://creativecommons.org/publicdomain/zero/1.0/)）
 - そのほかの楽器：FluidR3_GM サウンドフォント（Frank Wen）を [MIDI.js Soundfonts](https://github.com/gleitz/midi-js-soundfonts)（Benjamin Gleitzman）で変換したもの（[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）
-- 打楽器はブラウザ内で合成しています。
-
-エレクトリックピアノの音源は非営利の利用に限られます。
+- 打楽器はブラウザ内で合成しています。書体は Google Fonts（SIL Open Font License 1.1）から読み込んでいます。
 
 ## ファイル構成
 
 - `index.html`：ページ本体
+- `LICENSE`：著作権とこのアプリの利用条件
+- `THIRD_PARTY_NOTICES.md`、`licenses/`：同梱している他者の著作物の一覧とライセンス文
 - `samples/`：楽器の録音（楽器ごとのフォルダ）。選んだスタイルで使う楽器だけを読み込みます。
 - `tools/pages.py`：音源を埋め込んだ1ファイル版と、この構成とを相互に変換するスクリプト
 - `tools/test.py`：全課題を日英両方で通して動かし、エラーや翻訳漏れ、スマホ幅のはみ出しを調べるテスト
@@ -51,3 +59,5 @@ A browser drill for interpreting melodic phrasing and articulation in three styl
 Sounds are recorded instrument samples: piano from Salamander Grand Piano (Alexander Holm, CC BY 3.0), electric piano from jRhodes3 (Jeff Learman, CC BY-NC 4.0, noncommercial use only), cello recorded by flcellogrl on Freesound (CC BY 3.0), basses from Karoryfer Samples (CC0), and other instruments from the FluidR3_GM soundfont (Frank Wen) via MIDI.js Soundfonts (Benjamin Gleitzman, CC BY 3.0). Percussion is synthesized in the browser.
 
 The interface switches between Japanese and English and follows the browser language by default.
+
+Copyright (c) 2026 jun. All rights reserved. The app is free to use on the published site, including in classes and lessons. The source is published for reading but is not open source; see `LICENSE`. Bundled third-party recordings are listed in `THIRD_PARTY_NOTICES.md`.
