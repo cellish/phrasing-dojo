@@ -595,6 +595,7 @@ const UI = {
   prev:'← 前へ', next:'次へ →', restart:'最初に戻る ↺', allGroups:'全部', cmpTag:'聴き比べ', cmpOnlyTip:'このトピックは聴き比べで練習します', nextPr:'次の原則へ →', prevPr:'← 前の原則へ', rhythmOn:'リズム隊あり', rhythmOff:'リズム隊なし',
   score:(st,a,b)=>(st==='s'?'':`${st!=='c'?'アクセント':'山'} ${a[0]}/${a[1]}　`)+`聴き比べ ${b[0]}/${b[1]}`,
   loading:'音源を読み込み中…',
+  noCello:'チェロの音源を読み込めなかったため、ピアノで鳴らしています',
   promptPeak:'このフレーズの頂点（いちばん重みを置きたい音）をタップしてください。先に旋律だけを聴いて確かめてもかまいません。',
   givenNote:ks=>`灰色の印は、あとの原則（${[...new Set(ks)].sort().map(k=>'原則'+k+'「'+PRS.j[k].name+'」').join('、')}）で扱うもので、最初から付けてあります。採点には含めません。`,
   promptAcc:'アクセントを置く音を<b>すべて</b>選んでください。1回タップでアクセント（&gt;）、2回でアクセント＋短く（&gt;・）、3回でゴーストノート（ ）、4回で取り消しです。',
@@ -632,6 +633,7 @@ const UI = {
   prev:'← Prev', next:'Next →', restart:'Back to start ↺', allGroups:'All', cmpTag:'Compare', cmpOnlyTip:'This topic is practiced in Compare', nextPr:'Next principle →', prevPr:'← Previous principle', rhythmOn:'Rhythm section on', rhythmOff:'Rhythm section off',
   score:(st,a,b)=>(st==='s'?'':`${st!=='c'?'Accents':'Peaks'} ${a[0]}/${a[1]}　`)+`Compare ${b[0]}/${b[1]}`,
   loading:'Loading sounds…',
+  noCello:'The cello sounds could not be loaded, so the piano is playing instead',
   promptPeak:'Tap the peak of this phrase, the note you would lean on most. You can listen to the plain melody first.',
   givenNote:ks=>`Grey marks belong to later principles (${[...new Set(ks)].sort().map(k=>'principle '+k+', "'+PRS_EN.j[k].name+'"').join('; ')}) and are filled in for you. They are not scored.`,
   promptAcc:'Select <b>every</b> note you would accent. Tap once for an accent (&gt;), twice for accent + short (&gt;·), three times for a ghost note ( ), and a fourth time to clear.',
@@ -1684,8 +1686,11 @@ function sampler(dest,inst,midi,t0,dur,v,mult,sus){
 let CURST='c';
 // bowed note: starts from the steady part of the stroke, loops it for long notes,
 // and follows a level shape inside the note (shape: [[fraction of the note, level multiplier], ...])
+// tell the player once when the cello recordings could not be loaded (we fall back to piano)
+let celloWarned=false;
+function celloMissing(){ if(celloWarned) return; celloWarned=true; const t=$('toast'); t.textContent=U().noCello; t.hidden=false; setTimeout(()=>{ t.hidden=true; },6000); }
 function celloNote(dest,midi,t0,dur,v,shape,pt){
-  const L=SB.buf.cello; if(!L||!L.length) return pianoNote(dest,midi+12,t0,dur,v);
+  const L=SB.buf.cello; if(!L||!L.length){ celloMissing(); return pianoNote(dest,midi+12,t0,dur,v); }
   let sm=L[0]; for(const x of L) if(Math.abs(x.m-midi)<Math.abs(sm.m-midi)) sm=x;
   const P=SAMP.cello, rate=Math.pow(2,(midi-sm.m)/12);
   const src=ctx.createBufferSource(); src.buffer=sm.b; src.playbackRate.value=rate;
