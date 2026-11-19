@@ -109,6 +109,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .btn.ghost{border-color:transparent;color:var(--muted)}
 .btn:disabled{opacity:.45;cursor:default}
 .btn .tri{width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.btn.playing .tri{width:9px;height:9px;border:0;background:currentColor;border-radius:1px}
 .opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .opt{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:0}
 .opt .lbl{font-family:var(--f-display);font-weight:800;font-size:1.4rem;line-height:1;display:flex;align-items:center;gap:8px}
@@ -1658,7 +1659,7 @@ function whenReady(ph,fn){
   if(typeof SAMPLE_DATA==='undefined'||(instsFor(ph.style,ph).every(i=>SB.ok[i])&&(!celloFor(ph)||BOW.ok!==null))) return true;
   try{ ensureCtx(); }catch(e){}
   const t=$('toast'); t.textContent=U().loading; t.hidden=false;
-  loadFor(ph.style,ph).then(()=>{ t.hidden=true; fn(); }); return false;
+  const tok=playTok; loadFor(ph.style,ph).then(()=>{ t.hidden=true; if(tok===playTok) fn(); }); return false;
 }
 function initSamples(){
   if(SB.started||typeof SAMPLE_DATA==='undefined') return; SB.started=true;
@@ -1921,8 +1922,9 @@ function snare(dest,t0,v){
   const o=ctx.createOscillator(); o.frequency.setValueAtTime(230,t0); o.frequency.exponentialRampToValueAtTime(180,t0+.04); const g2=ctx.createGain(); g2.gain.setValueAtTime(0,t0); g2.gain.linearRampToValueAtTime(.3*v,t0+.002); g2.gain.setTargetAtTime(0,t0+.002,.045);
   o.connect(g2); g2.connect(dest); o.start(t0); o.stop(t0+.3);
 }
+let playTok=0;
 function stopAll(){
-  bowStop();
+  playTok++; bowStop();
   if(bus){ const b=bus; try{ b.gain.setTargetAtTime(0,ctx.currentTime,.03); }catch(e){} setTimeout(()=>{ try{b.disconnect();}catch(e){} },400); bus=null; }
   timers.forEach(clearTimeout); timers=[];
   document.querySelectorAll('.note.sounding').forEach(e=>e.classList.remove('sounding'));
@@ -1958,7 +1960,7 @@ function playCRaw(ph,dyn,len,tm,env,pitch){
   });
   // the strings tab keeps its levels lower inside the note shapes; lift the whole instrument a little
   if(model){ BOW.out.gain.setValueAtTime(BOW_GAIN*(ph.style==='s'?1.7:1),ctx.currentTime); BOW.node.port.postMessage({type:'score',notes:score}); }
-  timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(secC(ph,ph.total,tm)+.5)*1000));
+  timers.push(setTimeout(()=>{ document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')); playDone(); },(secC(ph,ph.total,tm)+.5)*1000));
 }
 // a cellist's ordinary vibrato on notes long enough to carry it, starting a little after the note
 function defaultVib(sec){ return sec>=.55?{c:0,vib:[.25,11,5.4]}:{c:0}; }
@@ -2091,7 +2093,7 @@ function playJ(ph,art){
       hits.forEach(h=>voicing.forEach(m=>pianoNote(bus,m,t+T(b+h),spb*.45,.32,.55)));
     });
   }
-  timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(T(ph.total)+.4)*1000));
+  timers.push(setTimeout(()=>{ document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')); playDone(); },(T(ph.total)+.4)*1000));
 }
 function play(ph,d){ if(ph.style==='s'){ const sp=specS(ph,d); playCRaw(ph,sp.dyn,sp.len,sp.tm,sp.env,sp.pitch); } else if(ph.style!=='c') playJ(ph,jart(ph,d)); else { const v=versionC(ph,d); playCRaw(ph,v,lenC(ph,d),tmC(ph,d),envC(ph,d,v)); } }
 function playPlain(ph){ if(!isC(ph)) playJ(ph,jart(ph,{t:'flat'})); else playCRaw(ph,ph.notes.map(()=>.6),ph.notes.map(()=>.97),{amp:0,rit:.24},ph.notes.map(()=>[[0,1],[1,1]])); }
@@ -2381,10 +2383,15 @@ function updRec(){ document.querySelectorAll('.pr[data-k]').forEach(d=>{ const k
 function updScore(){ const a=S.score[S.style+'-peak'],b=S.score[S.style+'-cmp']; $('score').textContent=U().score(S.style,a,b); }
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function colorFor(k){ return ['var(--accent)','var(--c2)','var(--c3)'][k]; }
-function btn(label,fn,cls,tri){ const b=document.createElement('button'); b.className='btn '+(cls||''); b.innerHTML=(tri?'<span class="tri"></span>':'')+label; b.onclick=fn; return b; }
+function btn(label,fn,cls,tri){ const b=document.createElement('button'); b.className='btn '+(cls||''); b.innerHTML=(tri?'<span class="tri"></span>':'')+label;
+  // play buttons toggle: pressing the one that is playing stops it
+  b.onclick=tri?()=>{ if(nowBtn===b){ stopAll(); playDone(); return; } fn(); setPlaying(b); }:fn; return b; }
+let nowBtn=null;
+function setPlaying(b){ playDone(); nowBtn=b; b.classList.add('playing'); b.setAttribute('aria-pressed','true'); }
+function playDone(){ if(nowBtn){ nowBtn.classList.remove('playing'); nowBtn.removeAttribute('aria-pressed'); } nowBtn=null; }
 
 function load(){
-  stopAll(); S.answered=false;
+  stopAll(); playDone(); S.answered=false;
   const ph=cur();
   const gpn=(GROUPS[ph.style].find(g=>g.ks.includes(ph.pr))||{}); $('tag').innerHTML=`<small><span class="gname">${EN_MODE()?gpn.en:gpn.ja} ›</span>${U().principle(ph.pr)}</small>${PR()[ph.pr].name}`+(ph.sub?`<span class="subt">${EN_MODE()?ph.sub.en:ph.sub.ja}</span>`:'');
   $('count').textContent=`${ph.id}　${S.pos+1} / ${S.list.length}`;
