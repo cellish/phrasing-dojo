@@ -378,7 +378,7 @@ const TEXT = {
  j:{sub:'ジャズ編｜スウィングの8分音符をどう弾き分けるか', modeA:'アクセントはどこ？', prTitle:'12の原則（ジャズ）',
     foot:'ジャズのアーティキュレーションは奏者やスタイルで大きく変わります。ここで扱うのは、スウィングやビバップの8分音符ラインを中心に、ボサノヴァ、ラテン、ダブルタイム、タイム感（ビートとの位置やハネの深さ）の基本的な型です。薄い「>」は、付けても付けなくてもよい軽い持ち上げを表し、採点には含めません。'},
  s:{sub:'', modeA:'山はどこ？', prTitle:'9つの原則（弦・歌）',
-    foot:'弦楽器（チェロ）の録音で、伸ばしている音の中の抑揚や、音程の動かし方を聴き比べます。旋律は楽譜より1オクターブ下で鳴ります。原則は歌にも共通しますが、いまは楽器の音で表しています。録音にはもとから軽いビブラートがあるため、「ビブラートなし」の例は作れません。'},
+    foot:'チェロの音は、弓と弦のこすれを計算で再現する物理モデル（Faust の violinModel をチェロの音域で使い、チェロの胴の響きを加えたもの）で鳴らしています。旋律は楽譜より1オクターブ下で鳴ります。原則は歌にも共通しますが、いまは楽器の音で表しています。'},
  r:{sub:'', modeA:'アクセントはどこ？', prTitle:'8つの原則（ロック）',
     foot:'ロックやポップスに共通するリズムの基本的な型を扱います。旋律は歪ませたエレキギターの音で、ミュートは「短く弱く」刻む音で表します。チョーキングのような音程を揺らす表現はまだ扱っていません。'}
 };
@@ -440,7 +440,7 @@ const TEXT_EN = {
  j:{sub:'Jazz | Shaping swing eighth notes', modeA:'Find the accents', prTitle:'Twelve principles (jazz)',
     foot:'Jazz articulation varies a lot between players and styles. This covers basic patterns centred on swing and bebop eighth-note lines, plus bossa nova, Latin, double time and time feel (placement on the beat and swing depth). A faint ">" marks an optional light lift on an offbeat and is not scored.'},
  s:{sub:'', modeA:'Find the peak', prTitle:'Nine principles (strings & voice)',
-    foot:'Recorded cello is used to compare shaping inside held notes and ways of moving the pitch. The melody sounds an octave below the notation. The principles apply to singing as well, but are played on the instrument for now. The recordings already carry a light vibrato, so a version with no vibrato at all cannot be made.'},
+    foot:'The cello is a physical model that computes the friction between bow and string (the Faust violinModel, used in the cello range with a cello body response added). The melody sounds an octave below the notation. The principles apply to singing as well, but are played on the instrument for now.'},
  r:{sub:'', modeA:'Find the accents', prTitle:'Eight principles (rock)',
     foot:'This covers basic rhythmic patterns shared by rock and pop. The melody uses an overdriven electric guitar, and palm muting is played as short, soft notes. Pitch bends such as string bending are not covered yet.'}
 };
@@ -539,8 +539,8 @@ const EN = {
  'S5-2':{why:"A minor-key melody in which C#5, the raised leading note, resolves to the final D5. Taking it slightly high narrows the half step to the tonic and sharpens the resolution. Here the model's leading note is about 16 cents above equal temperament. Equal temperament pulls less, and a low leading note sounds dark and loses its leading-note character."},
  'S6-1':{why:'The leap of a sixth from A4 to F#5 is the most expressive moment in the melody. In Romantic string playing and singing, a short slide (portamento) into this one note makes the leap sing. The model slides through about half the interval in about 0.15 seconds. A slow, wide slide turns sentimental, and sliding into every note makes the whole melody slack.'},
  'S6-2':{why:'The leap of a sixth from G4 to E5 enters the long peak note. A short, light slide in this one place gives the leap feeling. A slow, wide slide makes the pitch sound unsure, and sliding everywhere sounds like a habit rather than expression.'},
- 'S7-1':{why:'Vibrato is not just decoration; it brings long notes to life. The model adds almost none to short notes, starts it a little after the beginning of long notes and makes it deepest on the long peak F5. The same fast vibrato on every note sounds restless, and a slow, wide vibrato makes the pitch wobble. (The recordings already carry a light vibrato; the model adds to it.)'},
- 'S7-2':{why:'A minor-key melody holding its peak G5 for a dotted half. Vibrato goes on the long notes, deepening a little after they start and richest at the peak. The same vibrato on short notes too sounds nervous, and a slow, wide one blurs the pitch. (The recordings already carry a light vibrato; the model adds to it.)'},
+ 'S7-1':{why:'Vibrato is not just decoration; it brings long notes to life. The model adds almost none to short notes, starts it a little after the beginning of long notes and makes it deepest on the long peak F5. The same fast vibrato on every note sounds restless, and a slow, wide vibrato makes the pitch wobble.'},
+ 'S7-2':{why:'A minor-key melody holding its peak G5 for a dotted half. Vibrato goes on the long notes, deepening a little after they start and richest at the peak. The same vibrato on short notes too sounds nervous, and a slow, wide one blurs the pitch; with no vibrato at all, the long notes sound flat and lifeless.'},
  'S8-1':{why:"A sarabande-like melody with long notes on beat 2. In Baroque style each long note starts softly, swells and settles again (messa di voce), as 18th-century treatises such as Geminiani's describe it as an ornament for long notes. The note-by-note swell avoided in Romantic playing is right here. Singing the whole phrase in one big arc with vibrato added throughout makes it heavy and 19th-century, and holding the notes flat leaves them lifeless."},
  'S8-2':{why:'A largo melody of long notes. In Baroque style each long note swells lightly and settles (messa di voce) while short notes stay light. Pushing through in one big arc with layered vibrato belongs to a later era, and holding them flat makes a monotonous row of long notes.'},
  'S9-1':{why:'In a jazz ballad, long notes are typically held straight first and given vibrato in their second half (delayed vibrato). The model starts vibrato late in each long note and scoops lightly into the B4 in bar 1 only. Vibrato from the start of every note sounds classical, and scooping into every note becomes a habit rather than expression.'},
@@ -625,7 +625,7 @@ const UI = {
   lblClead:'クラシックの旋律', cleadPiano:'ピアノ', cleadCello:'チェロ',
   lblRec:'記録', recClear:'消す', recSure:'本当に消す', recLine:(a,an,b)=>[a?`${an} ${a[0]}/${a[1]}`:'',b?`聴き比べ ${b[0]}/${b[1]}`:''].filter(x=>x).join('　'),
   lblTimbre:'音色', timbreGenre:'ジャンル別', timbrePiano:'ピアノ', timbreEp:'エレピ', timbreSynth:'合成音',
-  credit:'楽器の音：ピアノは <a href="https://github.com/sfzinstruments/SalamanderGrandPiano" target="_blank" rel="noopener">Salamander Grand Piano</a>（Alexander Holm、<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>）。エレクトリックピアノは <a href="https://github.com/sfzinstruments/jlearman.jRhodes3d" target="_blank" rel="noopener">jRhodes3</a>（Jeff Learman、<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>）。チェロは Freesound の <a href="https://freesound.org/people/flcellogrl/packs/12408/" target="_blank" rel="noopener">flcellogrl</a> による録音（<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>）。ベースは <a href="https://shop.karoryfer.com/pages/free-samples" target="_blank" rel="noopener">Karoryfer Samples</a>（<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0</a>）。そのほかの楽器は FluidR3_GM サウンドフォント（Frank Wen）を <a href="https://github.com/gleitz/midi-js-soundfonts" target="_blank" rel="noopener">MIDI.js Soundfonts</a>（Benjamin Gleitzman）で変換したもの（<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>）。',
+  credit:'楽器の音：ピアノは <a href="https://github.com/sfzinstruments/SalamanderGrandPiano" target="_blank" rel="noopener">Salamander Grand Piano</a>（Alexander Holm、<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>）。エレクトリックピアノは <a href="https://github.com/sfzinstruments/jlearman.jRhodes3d" target="_blank" rel="noopener">jRhodes3</a>（Jeff Learman、<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>）。チェロは <a href="https://faust.grame.fr/" target="_blank" rel="noopener">Faust</a> の物理モデル violinModel（physmodels.lib、Romain Michon ほか、GRAME）をチェロの音域で鳴らしたもの。読み込めないときの予備として Freesound の <a href="https://freesound.org/people/flcellogrl/packs/12408/" target="_blank" rel="noopener">flcellogrl</a> による録音（<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>）を使います。ベースは <a href="https://shop.karoryfer.com/pages/free-samples" target="_blank" rel="noopener">Karoryfer Samples</a>（<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0</a>）。そのほかの楽器は FluidR3_GM サウンドフォント（Frank Wen）を <a href="https://github.com/gleitz/midi-js-soundfonts" target="_blank" rel="noopener">MIDI.js Soundfonts</a>（Benjamin Gleitzman）で変換したもの（<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>）。',
   lblSpeed:'再生テンポ', speedNote:'この課題はテンポそのものが課題の一部なので、元のテンポで再生します。',
   settings:'設定', lblLang:'言語', lblRhythm:'伴奏', principleSel:'原則',
   aria:{style:'スタイル',mode:'問題の形式',filters:'原則で絞り込む',staff:'楽譜',curve:'強弱の曲線'}
@@ -664,7 +664,7 @@ const UI = {
   lblClead:'Classical melody', cleadPiano:'Piano', cleadCello:'Cello',
   lblRec:'Record', recClear:'Clear', recSure:'Really clear', recLine:(a,an,b)=>[a?`${an} ${a[0]}/${a[1]}`:'',b?`Compare ${b[0]}/${b[1]}`:''].filter(x=>x).join('　'),
   lblTimbre:'Sound', timbreGenre:'By genre', timbrePiano:'Piano', timbreEp:'E. piano', timbreSynth:'Synth',
-  credit:'Instrument sounds: piano from <a href="https://github.com/sfzinstruments/SalamanderGrandPiano" target="_blank" rel="noopener">Salamander Grand Piano</a> (Alexander Holm, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>); electric piano from <a href="https://github.com/sfzinstruments/jlearman.jRhodes3d" target="_blank" rel="noopener">jRhodes3</a> (Jeff Learman, <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>); cello recorded by <a href="https://freesound.org/people/flcellogrl/packs/12408/" target="_blank" rel="noopener">flcellogrl</a> on Freesound (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>); basses from <a href="https://shop.karoryfer.com/pages/free-samples" target="_blank" rel="noopener">Karoryfer Samples</a> (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0</a>); other instruments from the FluidR3_GM soundfont (Frank Wen), converted by <a href="https://github.com/gleitz/midi-js-soundfonts" target="_blank" rel="noopener">MIDI.js Soundfonts</a> (Benjamin Gleitzman) (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>).',
+  credit:'Instrument sounds: piano from <a href="https://github.com/sfzinstruments/SalamanderGrandPiano" target="_blank" rel="noopener">Salamander Grand Piano</a> (Alexander Holm, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>); electric piano from <a href="https://github.com/sfzinstruments/jlearman.jRhodes3d" target="_blank" rel="noopener">jRhodes3</a> (Jeff Learman, <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>); cello from the <a href="https://faust.grame.fr/" target="_blank" rel="noopener">Faust</a> physical model violinModel (physmodels.lib, Romain Michon et al., GRAME) played in the cello range, with a recording by <a href="https://freesound.org/people/flcellogrl/packs/12408/" target="_blank" rel="noopener">flcellogrl</a> on Freesound (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>) as a fallback; basses from <a href="https://shop.karoryfer.com/pages/free-samples" target="_blank" rel="noopener">Karoryfer Samples</a> (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0</a>); other instruments from the FluidR3_GM soundfont (Frank Wen), converted by <a href="https://github.com/gleitz/midi-js-soundfonts" target="_blank" rel="noopener">MIDI.js Soundfonts</a> (Benjamin Gleitzman) (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>).',
   lblSpeed:'Playback tempo', speedNote:'Tempo is part of this exercise, so it plays at its original tempo.',
   settings:'Settings', lblLang:'Language', lblRhythm:'Backing', principleSel:'Principle',
   aria:{style:'Style',mode:'Exercise type',filters:'Filter by principle',staff:'Score',curve:'Dynamics curve'}
@@ -1176,14 +1176,14 @@ const STRINGS = [
   bars:[[['F4',1],['A4',1],['C5',2]],[['F5',4]],[['E5',1],['D5',1],['C5',2]],[['A4',4]]],
   chords:[[0,4,'I',['F2','C3','A3']],[4,4,'IV',['Bb1','F2','D3']],[8,4,'V⁷',['C2','G2','E3']],[12,4,'I',['F2','C3','A3']]],
   peak:3,
-  why:'ビブラートは音を飾るためだけでなく、長い音に命を通わせる表現です。模範は、短い音にはほとんど足さず、長い音には音の入りから少し遅れてかけ、頂点の長いF5でいちばん深くしています。どの音にも速く同じビブラートをかけると落ち着きがなくなり、幅の広い遅いビブラートは音程が揺れて聞こえます。（録音にはもとから軽いビブラートがあり、その上に足しています）',
+  why:'ビブラートは音を飾るためだけでなく、長い音に命を通わせる表現です。模範は、短い音にはほとんど足さず、長い音には音の入りから少し遅れてかけ、頂点の長いF5でいちばん深くしています。どの音にも速く同じビブラートをかけると落ち着きがなくなり、幅の広い遅いビブラートは音程が揺れて聞こえます。',
   dist:[{t:'vibEvery'},{t:'vibWide'}]},
  {id:'S7-2',pr:7,vib:true,ts:[3,4],bpm:66,key:'Em',
   bars:[[['B4',1],['E5',2]],[['G5',3]],[['F#5',1],['E5',1],['D#5',1]],[['E5',3]]],
   chords:[[0,3,'i',['E2','B2','G3']],[3,3,'iv',['A1','E2','C3']],[6,3,'V⁷',['B1','F#2','A2']],[9,3,'i',['E2','B2','G3']]],
   peak:2,
-  why:'頂点のG5を付点2分音符で伸ばす短調の旋律です。ビブラートは長い音で、入りから少し遅れて深まっていくようにかけ、頂点で最も豊かにします。短い音まで同じようにかけると神経質に聞こえ、ゆっくり大きく揺らすと音程がぼやけます。（録音にはもとから軽いビブラートがあり、その上に足しています）',
-  dist:[{t:'vibWide'},{t:'vibEvery'}]},
+  why:'頂点のG5を付点2分音符で伸ばす短調の旋律です。ビブラートは長い音で、入りから少し遅れて深まっていくようにかけ、頂点で最も豊かにします。短い音まで同じようにかけると神経質に聞こえ、ゆっくり大きく揺らすと音程がぼやけ、ビブラートをまったくかけないと、長い音が平たく生気なく聞こえます。',
+  dist:[{t:'vibWide'},{t:'noVib'}]},
  {id:'S8-1',pr:8,baroque:true,ts:[3,4],bpm:60,key:'Dm',
   bars:[[['D5',1],['A4',2]],[['Bb4',1],['A4',1],['G4',1]],[['F4',1],['E4',2]],[['D4',3]]],
   chords:[[0,3,'i',['D2','A2','F3']],[3,3,'iv',['G1','D2','Bb2']],[6,3,'V',['A1','E2','C#3']],[9,3,'i',['D2','A2','F3']]],
@@ -1245,6 +1245,7 @@ DISTS.s={
   overSlide:{name:'ずり上げすぎ',text:'跳躍を、遅く大きくずり上げています。音程がどこへ行くのか不安定に聞こえ、感傷的に崩れます。'},
   slideEvery:{name:'毎回ずり上げる',text:'跳躍だけでなく、どの音のつなぎでも音をずらしています。表情ではなく癖に聞こえ、旋律がだらしなくなります。'},
   vibEvery:{name:'全部に速いビブラート',text:'短い音も含めて、すべての音に同じ速いビブラートを最初からかけています。落ち着きがなく、頂点も目立ちません。'},
+  noVib:{name:'ビブラートなし',text:'どの音にもビブラートをかけていません。音程はまっすぐですが、長い音に生気がなく、頂点も平たく聞こえます。'},
   vibWide:{name:'幅の広いビブラート',text:'長い音に、遅く幅の広いビブラートをかけています。音程が上下に揺れて聞こえ、旋律の線がぼやけます。'},
   romantic:{name:'ロマン派風',text:'フレーズ全体を大きな弧で歌い、長い音を保ったままビブラートを重ねています。19世紀の歌い方で、バロックの軽さと1音ごとの呼吸が失われます。'},
   vibFromStart:{name:'最初からビブラート',text:'長い音に最初からビブラートをかけています。クラシックの歌い方に近く、ジャズのバラードらしいまっすぐな伸ばしが失われます。'},
@@ -1262,6 +1263,7 @@ DISTS_EN.s={
   overSlide:{name:'Overdone slide',text:'The leap is taken with a slow, wide slide. The pitch seems unsure of where it is going, and the line turns sentimental.'},
   slideEvery:{name:'Sliding everywhere',text:'The pitch slides into every note, not only the leap. It sounds like a habit rather than expression, and the line goes slack.'},
   vibEvery:{name:'Fast vibrato everywhere',text:'Every note, short ones included, gets the same fast vibrato from its start. It sounds restless, and the peak no longer stands out.'},
+  noVib:{name:'No vibrato',text:'No note has any vibrato. The pitch is straight, but the long notes lack life and the peak sounds flat.'},
   vibWide:{name:'Wide vibrato',text:'Long notes get a slow, wide vibrato. The pitch seems to wobble up and down, and the line blurs.'},
   romantic:{name:'Romantic style',text:'The whole phrase is sung in one big arc, with sustained long notes and vibrato added throughout. It is a 19th-century manner, and the lightness and note-by-note breathing of the Baroque are lost.'},
   vibFromStart:{name:'Vibrato from the start',text:'Long notes get vibrato from their very start. It sounds close to classical singing, and the straight hold typical of a jazz ballad is lost.'},
@@ -1384,6 +1386,7 @@ function specS(ph,d){
   if(ph.ending) env[L]=[[0,1],[.4,.9],[1,.3]];
   if(ph.pass) N.forEach((n,i)=>{ if(long(i)&&i<L) env[i]=[[0,.95],[.6,1],[1,1.12]]; });
   if(ph.breath!=null){ len[ph.breath]=.7; env[ph.breath]=[[0,1],[1,.8]]; }
+  if(!ph.vib&&!ph.ballad&&!ph.baroque) N.forEach((n,i)=>{ if(n.dur>=1) pitch[i].vib=[.3,11,5.4]; });
   if(ph.lead!=null) pitch[ph.lead].c=16;
   if(ph.slide!=null){ const i=ph.slide; pitch[i].gl=[-(N[i].midi-N[i-1].midi)*.55,.15]; }
   if(ph.vib) N.forEach((n,i)=>{ if(long(i)) pitch[i].vib=[.2,i===ph.peak?16:10,5.4]; });
@@ -1402,6 +1405,7 @@ function specS(ph,d){
     case 'overSlide': { const i=ph.slide; pitch[i].gl=[-(N[i].midi-N[i-1].midi),.42]; break; }
     case 'slideEvery': N.forEach((n,i)=>{ if(i>0&&n.midi!==N[i-1].midi) pitch[i].gl=[-(n.midi-N[i-1].midi)*.6,.16]; }); break;
     case 'vibEvery': N.forEach((n,i)=>{ pitch[i].vib=[0,22,7.2]; }); break;
+    case 'noVib': N.forEach((n,i)=>{ pitch[i].vib=null; }); break;
     case 'vibWide': N.forEach((n,i)=>{ if(long(i)) pitch[i].vib=[0,45,4.2]; }); break;
     case 'romantic': env=envC(ph,null,dyn); len=N.map(()=>1); N.forEach((n,i)=>{ if(long(i)) pitch[i].vib=[0,16,5.6]; }); break;
     case 'vibFromStart': N.forEach((n,i)=>{ pitch[i]={c:0}; if(long(i)) pitch[i].vib=[0,16,5.8]; }); break;
@@ -1641,15 +1645,17 @@ function loadInst(inst){
 const celloFor=ph=>ph&&(ph.style==='s'||(ph.style==='c'&&(ph.inst==='cello'||S.clead==='cello')));
 function instsFor(style,ph){
   const t=S.timbre, kb=t==='epiano'?'epiano':'piano';
-  if(style==='s') return [kb,'cello'];
-  if(style==='c') return (ph?celloFor(ph):S.clead==='cello')?[kb,'cello']:[kb];
+  const rec=BOW.ok===false;   // recordings only when the physical model cannot run
+  if(style==='s') return rec?[kb,'cello']:[kb];
+  if(style==='c') return rec&&(ph?celloFor(ph):S.clead==='cello')?[kb,'cello']:[kb];
   if(style==='r') return [t==='pianoS'||t==='epiano'?kb:'odguitar','ebass','abass'];
   return [t==='pianoS'||t==='epiano'?kb:'vibes',kb,'abass','ebass','nylon','woodblock','agogo'];
 }
-function loadFor(style,ph){ return Promise.all(instsFor(style,ph).map(loadInst)); }
+function loadFor(style,ph){ const need=ph?celloFor(ph):(style==='s'||(style==='c'&&S.clead==='cello'));
+  return (need?initBow():Promise.resolve()).then(()=>Promise.all(instsFor(style,ph).map(loadInst))); }
 // run fn now if this style's samples are in, otherwise once they arrive
 function whenReady(ph,fn){
-  if(typeof SAMPLE_DATA==='undefined'||instsFor(ph.style,ph).every(i=>SB.ok[i])) return true;
+  if(typeof SAMPLE_DATA==='undefined'||(instsFor(ph.style,ph).every(i=>SB.ok[i])&&(!celloFor(ph)||BOW.ok!==null))) return true;
   try{ ensureCtx(); }catch(e){}
   const t=$('toast'); t.textContent=U().loading; t.hidden=false;
   loadFor(ph.style,ph).then(()=>{ t.hidden=true; fn(); }); return false;
@@ -1690,6 +1696,92 @@ function sampler(dest,inst,midi,t0,dur,v,mult,sus){
 let CURST='c';
 // bowed note: starts from the steady part of the stroke, loops it for long notes,
 // and follows a level shape inside the note (shape: [[fraction of the note, level multiplier], ...])
+
+/* ================= bowed cello: Faust violinModel (physical model) ================= */
+// The string is the violinModel of the Faust physical-modeling library (R. Michon, GRAME),
+// compiled to WebAssembly (source: tools/faust/cello.dsp). It runs in an AudioWorklet and is
+// played from a score: bow level and its shape inside each note, pitch, slides and vibrato.
+// After it come a cello body response, faint open-string resonance and the room reverb.
+const BOW_WASM="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AWogAjgCAAsLj56AgAABAEEAC4geeyJuYW1lIjogInZpb2xpbiIsImZpbGVuYW1lIjogInZpb2xpbiIsInZlcnNpb24iOiAiMi45MC4xOSIsImNvbXBpbGVfb3B0aW9ucyI6ICItbGFuZyB3YXNtLWkgLWZwZ2EtbWVtLXRoIDQgLWN0IDEgLWVzIDEgLW1jZCAxNiAtbWRkIDEwMjQgLW1keSAzMyAtc2luZ2xlIC1mdHogMiIsImxpYnJhcnlfbGlzdCI6IFsiL3Vzci9zaGFyZS9mYXVzdC9zdGRmYXVzdC5saWIiLCIvdXNyL3NoYXJlL2ZhdXN0L3BoeXNtb2RlbHMubGliIiwiL3Vzci9zaGFyZS9mYXVzdC9yb3V0ZXMubGliIiwiL3Vzci9zaGFyZS9mYXVzdC9zaWduYWxzLmxpYiIsIi91c3Ivc2hhcmUvZmF1c3QvbWF0aHMubGliIiwiL3Vzci9zaGFyZS9mYXVzdC9wbGF0Zm9ybS5saWIiLCIvdXNyL3NoYXJlL2ZhdXN0L25vaXNlcy5saWIiLCIvdXNyL3NoYXJlL2ZhdXN0L2ZpbHRlcnMubGliIiwiL3Vzci9zaGFyZS9mYXVzdC9kZWxheXMubGliIl0sImluY2x1ZGVfcGF0aG5hbWVzIjogWyIvc2hhcmUvZmF1c3QiLCIvc2hhcmUvZmF1c3QiLCIvdXNyL2xvY2FsL3NoYXJlL2ZhdXN0IiwiL3Vzci9zaGFyZS9mYXVzdCIsIi4iXSwic2l6ZSI6IDY1ODEyLCJpbnB1dHMiOiAwLCJvdXRwdXRzIjogMiwibWV0YSI6IFsgeyAiY29tcGlsZV9vcHRpb25zIjogIi1sYW5nIHdhc20taSAtZnBnYS1tZW0tdGggNCAtY3QgMSAtZXMgMSAtbWNkIDE2IC1tZGQgMTAyNCAtbWR5IDMzIC1zaW5nbGUgLWZ0eiAyIiB9LHsgImRlbGF5cy5saWIvZmRlbGF5NDphdXRob3IiOiAiSnVsaXVzIE8uIFNtaXRoIElJSSIgfSx7ICJkZWxheXMubGliL2ZkZWxheWx0djphdXRob3IiOiAiSnVsaXVzIE8uIFNtaXRoIElJSSIgfSx7ICJkZWxheXMubGliL25hbWUiOiAiRmF1c3QgRGVsYXkgTGlicmFyeSIgfSx7ICJkZWxheXMubGliL3ZlcnNpb24iOiAiMS4zLjMiIH0seyAiZmlsZW5hbWUiOiAidmlvbGluIiB9LHsgImZpbHRlcnMubGliL190YW5oYWxmOmF1dGhvciI6ICJKdWxpdXMgTy4gU21pdGggSUlJIiB9LHsgImZpbHRlcnMubGliL190YW5oYWxmOmxpY2Vuc2UiOiAiTUlUIiB9LHsgImZpbHRlcnMubGliL2xvd3Bhc3MwX2hpZ2hwYXNzMTphdXRob3IiOiAiSnVsaXVzIE8uIFNtaXRoIElJSSIgfSx7ICJmaWx0ZXJzLmxpYi9sb3dwYXNzMF9oaWdocGFzczE6Y29weXJpZ2h0IjogIkNvcHlyaWdodCAoQykgMjAwMy0yMDE5IGJ5IEp1bGl1cyBPLiBTbWl0aCBJSUkgPGpvc0BjY3JtYS5zdGFuZm9yZC5lZHU+IiB9LHsgImZpbHRlcnMubGliL2xvd3Bhc3MwX2hpZ2hwYXNzMTpsaWNlbnNlIjogIkxpY2Vuc2VSZWYtU1RLLTQuMyIgfSx7ICJmaWx0ZXJzLmxpYi9sb3dwYXNzOmF1dGhvciI6ICJKdWxpdXMgTy4gU21pdGggSUlJIiB9LHsgImZpbHRlcnMubGliL2xvd3Bhc3M6Y29weXJpZ2h0IjogIkNvcHlyaWdodCAoQykgMjAwMy0yMDE5IGJ5IEp1bGl1cyBPLiBTbWl0aCBJSUkgPGpvc0BjY3JtYS5zdGFuZm9yZC5lZHU+IiB9LHsgImZpbHRlcnMubGliL2xvd3Bhc3M6bGljZW5zZSI6ICJMaWNlbnNlUmVmLVNUSy00LjMiIH0seyAiZmlsdGVycy5saWIvbmFtZSI6ICJGYXVzdCBGaWx0ZXJzIExpYnJhcnkiIH0seyAiZmlsdGVycy5saWIvcmVzb25icDphdXRob3IiOiAiSnVsaXVzIE8uIFNtaXRoIElJSSIgfSx7ICJmaWx0ZXJzLmxpYi9yZXNvbmJwOmNvcHlyaWdodCI6ICJDb3B5cmlnaHQgKEMpIDIwMDMtMjAxOSBieSBKdWxpdXMgTy4gU21pdGggSUlJIDxqb3NAY2NybWEuc3RhbmZvcmQuZWR1PiIgfSx7ICJmaWx0ZXJzLmxpYi9yZXNvbmJwOmxpY2Vuc2UiOiAiTGljZW5zZVJlZi1TVEstNC4zIiB9LHsgImZpbHRlcnMubGliL3RmMXM6YXV0aG9yIjogIkp1bGl1cyBPLiBTbWl0aCBJSUkiIH0seyAiZmlsdGVycy5saWIvdGYxczpjb3B5cmlnaHQiOiAiQ29weXJpZ2h0IChDKSAyMDAzLTIwMTkgYnkgSnVsaXVzIE8uIFNtaXRoIElJSSA8am9zQGNjcm1hLnN0YW5mb3JkLmVkdT4iIH0seyAiZmlsdGVycy5saWIvdGYxczpsaWNlbnNlIjogIkxpY2Vuc2VSZWYtU1RLLTQuMyIgfSx7ICJmaWx0ZXJzLmxpYi90ZjJzOmF1dGhvciI6ICJKdWxpdXMgTy4gU21pdGggSUlJIiB9LHsgImZpbHRlcnMubGliL3RmMnM6Y29weXJpZ2h0IjogIkNvcHlyaWdodCAoQykgMjAwMy0yMDE5IGJ5IEp1bGl1cyBPLiBTbWl0aCBJSUkgPGpvc0BjY3JtYS5zdGFuZm9yZC5lZHU+IiB9LHsgImZpbHRlcnMubGliL3RmMnM6bGljZW5zZSI6ICJMaWNlbnNlUmVmLVNUSy00LjMiIH0seyAiZmlsdGVycy5saWIvdmVyc2lvbiI6ICIxLjEzLjQiIH0seyAibWF0aHMubGliL2F1dGhvciI6ICJHUkFNRSIgfSx7ICJtYXRocy5saWIvY29weXJpZ2h0IjogIkdSQU1FIiB9LHsgIm1hdGhzLmxpYi9saWNlbnNlIjogIkxpY2Vuc2VSZWYtTEdQTC0yLjEtb3ItbGF0ZXItd2l0aC1GYXVzdC1leGNlcHRpb24iIH0seyAibWF0aHMubGliL25hbWUiOiAiRmF1c3QgTWF0aCBMaWJyYXJ5IiB9LHsgIm1hdGhzLmxpYi92ZXJzaW9uIjogIjIuOS4zIiB9LHsgIm5hbWUiOiAidmlvbGluIiB9LHsgIm5vaXNlcy5saWIvbmFtZSI6ICJGYXVzdCBOb2lzZSBHZW5lcmF0b3IgTGlicmFyeSIgfSx7ICJub2lzZXMubGliL3ZlcnNpb24iOiAiMS45LjAiIH0seyAicGh5c21vZGVscy5saWIvbmFtZSI6ICJGYXVzdCBQaHlzaWNhbCBNb2RlbHMgTGlicmFyeSIgfSx7ICJwaHlzbW9kZWxzLmxpYi92ZXJzaW9uIjogIjEuMi41IiB9LHsgInBsYXRmb3JtLmxpYi9uYW1lIjogIkdlbmVyaWMgUGxhdGZvcm0gTGlicmFyeSIgfSx7ICJwbGF0Zm9ybS5saWIvdmVyc2lvbiI6ICIxLjMuMSIgfSx7ICJyb3V0ZXMubGliL25hbWUiOiAiRmF1c3QgU2lnbmFsIFJvdXRpbmcgTGlicmFyeSIgfSx7ICJyb3V0ZXMubGliL3ZlcnNpb24iOiAiMS40LjEiIH0seyAic2lnbmFscy5saWIvbmFtZSI6ICJGYXVzdCBSb3V0aW5nIExpYnJhcnkiIH0seyAic2lnbmFscy5saWIvdmVyc2lvbiI6ICIxLjguMCIgfV0sInVpIjogWyB7InR5cGUiOiAidmdyb3VwIiwibGFiZWwiOiAidmlvbGluIiwiaXRlbXMiOiBbIHsidHlwZSI6ICJoc2xpZGVyIiwibGFiZWwiOiAiZnJlcSIsInZhcm5hbWUiOiAiZkhzbGlkZXIwIiwic2hvcnRuYW1lIjogImZyZXEiLCJhZGRyZXNzIjogIi92aW9saW4vZnJlcSIsImluZGV4IjogODIxMiwiaW5pdCI6IDEzMC44LCJtaW4iOiAzMCwibWF4IjogMTAwMCwic3RlcCI6IDAuMDF9LHsidHlwZSI6ICJoc2xpZGVyIiwibGFiZWwiOiAibm9pc2UiLCJ2YXJuYW1lIjogImZIc2xpZGVyMyIsInNob3J0bmFtZSI6ICJub2lzZSIsImFkZHJlc3MiOiAiL3Zpb2xpbi9ub2lzZSIsImluZGV4IjogMTY0ODQsImluaXQiOiAwLCJtaW4iOiAwLCJtYXgiOiAxLCJzdGVwIjogMC4wMDF9LHsidHlwZSI6ICJoc2xpZGVyIiwibGFiZWwiOiAicG9zaXRpb24iLCJ2YXJuYW1lIjogImZIc2xpZGVyMSIsInNob3J0bmFtZSI6ICJwb3NpdGlvbiIsImFkZHJlc3MiOiAiL3Zpb2xpbi9wb3NpdGlvbiIsImluZGV4IjogODIzMiwiaW5pdCI6IDAuODUsIm1pbiI6IDAsIm1heCI6IDEsInN0ZXAiOiAwLjAwMX0seyJ0eXBlIjogImhzbGlkZXIiLCJsYWJlbCI6ICJwcmVzc3VyZSIsInZhcm5hbWUiOiAiZkhzbGlkZXI0Iiwic2hvcnRuYW1lIjogInByZXNzdXJlIiwiYWRkcmVzcyI6ICIvdmlvbGluL3ByZXNzdXJlIiwiaW5kZXgiOiAxNjUzMiwiaW5pdCI6IDAuOCwibWluIjogMCwibWF4IjogMSwic3RlcCI6IDAuMDAxfSx7InR5cGUiOiAiaHNsaWRlciIsImxhYmVsIjogInZlbG9jaXR5IiwidmFybmFtZSI6ICJmSHNsaWRlcjIiLCJzaG9ydG5hbWUiOiAidmVsb2NpdHkiLCJhZGRyZXNzIjogIi92aW9saW4vdmVsb2NpdHkiLCJpbmRleCI6IDE2NDcyLCJpbml0IjogMCwibWluIjogMCwibWF4IjogMSwic3RlcCI6IDAuMDAxfV19XX0=";
+const BOW_META={size:65812,idx:{"freq": 8212, "noise": 16484, "position": 8232, "pressure": 16532, "velocity": 16472}};
+const BOW_WORKLET=`
+function ctrlAt(S,n){ let k=-1; for(let i=0;i<S.length;i++){ if(n>=S[i].s&&n<S[i].e){ k=i; break; } }
+  const last=S[S.length-1];
+  if(k<0) return {lvl:0,f:(n>=last.e?last:S[0]).f,vd:0,vr:5.5,done:n>last.e+3*sampleRate};
+  const N=S[k], u=(n-N.s)/(N.e-N.s); let m=N.sh[0][1];
+  for(let j=1;j<N.sh.length;j++){ const [a,ma]=N.sh[j-1],[b,mb]=N.sh[j]; if(u>=a&&u<=b){ m=ma+(mb-ma)*(u-a)/Math.max(1e-6,b-a); break; } if(u>b) m=mb; }
+  let lvl=Math.max(.02,Math.min(1.1,(N.v*m-.35)/.55)); const t=(n-N.s)/sampleRate;
+  if(N.bc&&t<.05) lvl*=.25+.75*t/.05;
+  let cents=N.c||0; if(N.gl&&t<N.gl[1]) cents+=N.gl[0]*(1-t/N.gl[1]);
+  let vd=0; if(N.vib){ const ts=N.vib[0]*(N.e-N.s)/sampleRate; if(t>ts) vd=N.vib[1]*Math.min(1,(t-ts)/.3); }
+  return {lvl,f:N.f*Math.pow(2,cents/1200),vd,vr:N.vib?N.vib[2]:5.5};
+}
+class Drift{ constructor(){ this.x=0; this.v=0; } tick(){ this.v+=(Math.random()-.5)*.0009; this.v*=.9995; this.x+=this.v*.02; this.x*=.99995; return Math.max(-5,Math.min(5,this.x)); } }
+const M=Math, ENV={memoryBase:0,tableBase:0,_abs:M.abs,_fmodf:(x,y)=>x%y,_fmod:(x,y)=>x%y,_max_f:M.max,_min_f:M.min,_max_:M.max,_min_:M.min,
+  _remainderf:(x,y)=>x-M.round(x/y)*y,_remainder:(x,y)=>x-M.round(x/y)*y,_isnanf:Number.isNaN,_isinff:x=>!isFinite(x),_isnan:Number.isNaN,_isinf:x=>!isFinite(x),
+  _copysignf:(x,y)=>M.sign(x)===M.sign(y)?x:-x,_copysign:(x,y)=>M.sign(x)===M.sign(y)?x:-x};
+['acos','asin','atan','atan2','ceil','cos','exp','floor','log','log10','pow','round','sin','sqrt','tan','acosh','asinh','atanh','cosh','sinh','tanh'].forEach(k=>{ ENV['_'+k+'f']=M[k]; ENV['_'+k]=M[k]; });
+class FaustBow extends AudioWorkletProcessor{
+  constructor(opt){ super(); const o=opt.processorOptions;
+    this.E=new WebAssembly.Instance(o.mod,{env:ENV}).exports; this.E.init(0,sampleRate); this.idx=o.idx;
+    const base=Math.ceil(o.size/16)*16; this.ptrs=base; this.b0=base+16; this.b1=this.b0+512;
+    new Int32Array(this.E.memory.buffer,this.ptrs,2).set([this.b0,this.b1]);
+    this.score=null; this.drift=new Drift(); this.ph=0; this.vd=0; this.lastF=130.8; this.g=1;
+    this.port.onmessage=e=>{ const m=e.data; if(m.type==='score') this.score=m.notes; if(m.type==='stop') this.score=null; }; }
+  set(k,v){ this.E.setParamValue(0,this.idx[k],v); }
+  process(_,outs){ const out=outs[0][0], N=out.length;
+    let c={lvl:0,f:this.lastF,vd:0,vr:5.5};
+    if(this.score){ c=ctrlAt(this.score,currentFrame); if(c.done) this.score=null; }
+    this.lastF=c.f; this.vd+=((c.vd||0)-this.vd)*.3;
+    this.ph+=2*Math.PI*(c.vr||5.5)*N/sampleRate; if(this.ph>6.2832) this.ph-=6.2832;
+    let dr=0; for(let i=0;i<N;i++) dr=this.drift.tick();
+    this.set('freq',c.f*Math.pow(2,(this.vd*Math.sin(this.ph)+dr)/1200));
+    this.set('velocity',c.lvl>0?.08+.55*c.lvl:0); this.set('pressure',.8); this.set('position',.86); this.set('noise',.12);
+    this.E.compute(0,N,0,this.ptrs);
+    const src=new Float32Array(this.E.memory.buffer,this.b0,N);
+    const gt=.55*Math.pow(10,7*Math.max(0,Math.log2(c.f/131))/20), dg=(gt-this.g)/N; // the body favours the low register: lift higher notes ~7 dB/oct
+    for(let i=0;i<N;i++){ this.g+=dg; out[i]=src[i]*this.g; }
+    return true; } }
+registerProcessor('faust-bow',FaustBow);`;
+const BOW={node:null,ready:null,ok:null};
+function rng(seed){ let s=seed>>>0; return ()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; }; }
+// cello body: decaying air and plate resonances plus the bridge hill, a little different per ear
+function celloBodyIR(){
+  const sr=ctx.sampleRate, n=Math.floor(sr*.35), b=ctx.createBuffer(2,n,sr);
+  const low=[[98,14,0],[148,14,-4],[176,15,-1],[204,15,0],[236,15,-2],[262,14,-4],[290,15,-3],[322,15,-5],[355,16,-4],[388,16,-6],[420,17,-4],[462,17,-6],[515,18,-5],[565,18,-7]];
+  for(let ch=0;ch<2;ch++){ const d=b.getChannelData(ch), r=rng(11+ch*97);
+    const modes=low.map(([f,q,g])=>[f*(1+(r()-.5)*.02),q,g]);
+    for(let i=0;i<34;i++){ const f=600*Math.pow(7,r()); const hill=Math.exp(-Math.pow(Math.log(f/1600)/.45,2))*7; modes.push([f,30+r()*30,-12-14*Math.log2(f/600)/2.8+hill+(r()-.5)*6]); }
+    for(const [f,q,g] of modes){ const a=Math.pow(10,g/20), tau=q/(Math.PI*f), ph=r()*6.283;
+      for(let i=0;i<n;i++){ const t=i/sr; d[i]+=a*Math.exp(-t/tau)*Math.sin(2*Math.PI*f*t+ph); } }
+    d[0]+=.4; let e=0; for(let i=0;i<n;i++) e+=d[i]*d[i]; const k=1/Math.sqrt(e); for(let i=0;i<n;i++) d[i]*=k; }
+  return b;
+}
+// open strings (C, G, D, A) that ring along quietly
+function openStrings(input,dest){
+  [65.41,98,146.83,220].forEach(f=>{ const dl=ctx.createDelay(1); dl.delayTime.value=1/f; const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=2600; lp.Q.value=-6;
+    const fb=ctx.createGain(); fb.gain.value=.975; const inG=ctx.createGain(); inG.gain.value=.018; const o=ctx.createGain(); o.gain.value=.5;
+    input.connect(inG); inG.connect(dl); dl.connect(lp); lp.connect(fb); fb.connect(dl); lp.connect(o); o.connect(dest); });
+}
+function initBow(){
+  if(BOW.ready) return BOW.ready;
+  buildCtx();
+  if(!ctx.audioWorklet||typeof WebAssembly==='undefined'){ BOW.ok=false; return BOW.ready=Promise.resolve(false); }
+  const url=URL.createObjectURL(new Blob([BOW_WORKLET],{type:'application/javascript'}));
+  const bin=atob(BOW_WASM), wa=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) wa[i]=bin.charCodeAt(i);
+  return BOW.ready=ctx.audioWorklet.addModule(url).then(()=>WebAssembly.compile(wa)).then(mod=>{
+    const node=new AudioWorkletNode(ctx,'faust-bow',{outputChannelCount:[1],processorOptions:{mod,size:BOW_META.size,idx:BOW_META.idx}});
+    const hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=50;
+    const body=ctx.createConvolver(); body.normalize=false; body.buffer=celloBodyIR();
+    const out=ctx.createGain(); out.gain.value=BOW_GAIN;
+    node.connect(hp); hp.connect(body); body.connect(out); out.connect(master); openStrings(out,master);
+    BOW.node=node; BOW.out=out; BOW.ok=true; return true;
+  }).catch(()=>{ BOW.ok=false; return false; });
+}
+const BOW_GAIN=.020;
+const bowOn=()=>BOW.ok===true&&BOW.node;
+function bowStop(){ if(BOW.node) BOW.node.port.postMessage({type:'stop'}); }
+
 // tell the player once when the cello recordings could not be loaded (we fall back to piano)
 let celloWarned=false;
 function celloMissing(){ if(celloWarned) return; celloWarned=true; const t=$('toast'); t.textContent=U().noCello; t.hidden=false; setTimeout(()=>{ t.hidden=true; },6000); }
@@ -1830,6 +1922,7 @@ function snare(dest,t0,v){
   o.connect(g2); g2.connect(dest); o.start(t0); o.stop(t0+.3);
 }
 function stopAll(){
+  bowStop();
   if(bus){ const b=bus; try{ b.gain.setTargetAtTime(0,ctx.currentTime,.03); }catch(e){} setTimeout(()=>{ try{b.disconnect();}catch(e){} },400); bus=null; }
   timers.forEach(clearTimeout); timers=[];
   document.querySelectorAll('.note.sounding').forEach(e=>e.classList.remove('sounding'));
@@ -1846,12 +1939,16 @@ function secC(ph,b,tm){
 }
 function playCRaw(ph,dyn,len,tm,env,pitch){
   if(!whenReady(ph,()=>playCRaw(ph,dyn,len,tm,env,pitch))) return;
-  const vc=celloFor(ph)&&useS();
+  const vc=celloFor(ph)&&useS(), model=vc&&bowOn(), score=[];
   ensureCtx(); stopAll(); CURST='c'; bus=ctx.createGain(); bus.connect(master);
-  const t=ctx.currentTime+.08;
+  const t=ctx.currentTime+.08, sr=ctx.sampleRate, shapes=env||envC(ph,null,dyn);
   ph.notes.forEach((n,i)=>{
     const s=secC(ph,n.on,tm), e=secC(ph,n.on+n.dur,tm), last=i===ph.notes.length-1;
-    if(vc) celloNote(bus,n.midi-12,t+s,(e-s)*Math.min(1.02,len[i]+.04),dyn[i],(env||envC(ph,null,dyn))[i],pitch&&pitch[i]);
+    const dur=(e-s)*Math.min(1.02,len[i]+.04);
+    if(model){ const pt=(pitch&&pitch[i])||defaultVib(e-s), prev=score[score.length-1];
+      score.push({f:440*Math.pow(2,(n.midi-12-69)/12),s:Math.round((t+s)*sr),e:Math.round((t+s+dur)*sr),v:dyn[i],sh:shapes[i],
+        bc:!!prev&&(t+s)*sr-prev.e>.01*sr,c:pt.c||0,gl:pt.gl?[pt.gl[0]*100,pt.gl[1]]:null,vib:pt.vib||null}); }
+    else if(vc) celloNote(bus,n.midi-12,t+s,dur,dyn[i],shapes[i],pitch&&pitch[i]);
     else pianoNote(bus,n.midi,t+s,(e-s)*len[i]+(last?.6:0),dyn[i]);
     highlight(i,(s+.08)*1000);
   });
@@ -1859,8 +1956,12 @@ function playCRaw(ph,dyn,len,tm,env,pitch){
     const s=secC(ph,b,tm), e=secC(ph,b+d,tm), last=b+d>=ph.total;
     notes.forEach(nm=>pianoNote(bus,parse(nm).midi,t+s,(e-s)*.98+(last?.6:0),.34,.75));
   });
+  // the strings tab keeps its levels lower inside the note shapes; lift the whole instrument a little
+  if(model){ BOW.out.gain.setValueAtTime(BOW_GAIN*(ph.style==='s'?1.7:1),ctx.currentTime); BOW.node.port.postMessage({type:'score',notes:score}); }
   timers.push(setTimeout(()=>document.querySelectorAll('.note.sounding').forEach(x=>x.classList.remove('sounding')),(secC(ph,ph.total,tm)+.5)*1000));
 }
+// a cellist's ordinary vibrato on notes long enough to carry it, starting a little after the note
+function defaultVib(sec){ return sec>=.55?{c:0,vib:[.25,11,5.4]}:{c:0}; }
 const QUAL={maj7:[0,4,7,11],m7:[0,3,7,10],'7':[0,4,7,10],'6':[0,4,7,9],m7b5:[0,3,6,10],'':[0,4,7,12],m:[0,3,7,12],'5':[0,7,12,19]};
 function chordInfo(sym){
   const m=/^([A-G][#b]?)(maj7|m7b5|m7|7|6|m|5)?$/.exec(sym);

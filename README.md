@@ -16,14 +16,14 @@
   - タイミング：キメ、ノリの位置、シャッフル
   - 構成：セクションの盛り上がり
 
-- **弦・歌**：チェロの録音で、伸ばしている音の中の抑揚や音程の動かし方を聴き比べます（すべて「聴き比べ」）。9の原則を3つの種類に分けています。
+- **弦・歌**：チェロの物理モデルで、伸ばしている音の中の抑揚や音程の動かし方を聴き比べます（すべて「聴き比べ」）。9の原則を3つの種類に分けています。
   - 音の形と流れ：長い音の歌わせ方、音の終わり方、次の音への受け渡し、息継ぎと弓の返し
   - 音程の表現：表現的な音程（導音）、ポルタメント、ビブラートの配分
   - 様式による違い：バロックの長い音（メッサ・ディ・ヴォーチェ）、ジャズのバラード
 
 「全部」を選ぶと、そのスタイルの課題を両方の形式で通して練習できます。
 
-音は楽器の録音（サンプル）を使い、ジャズ編・ロック編ではリズム隊を重ねられます。右上の「設定」から、言語（日本語・英語）、テーマ（自動・ライト・ダーク）、再生テンポ（70〜120%）、音色（ジャンル別・ピアノ・エレピ）、クラシックの旋律（ピアノ・チェロ）を切り替えられます。成績は原則ごとにブラウザに保存され、原則一覧に表示されます。パソコンではキー操作（1・2・3で聴く、A・B・Cで選ぶ、← → で前後へ など）も使えます。
+音は楽器の録音（サンプル）を使い（チェロだけは物理モデルでブラウザ内で計算）、ジャズ編・ロック編ではリズム隊を重ねられます。右上の「設定」から、言語（日本語・英語）、テーマ（自動・ライト・ダーク）、再生テンポ（70〜120%）、音色（ジャンル別・ピアノ・エレピ）、クラシックの旋律（ピアノ・チェロ）を切り替えられます。成績は原則ごとにブラウザに保存され、原則一覧に表示されます。パソコンではキー操作（1・2・3で聴く、A・B・Cで選ぶ、← → で前後へ など）も使えます。
 
 ## 著作権・ライセンス
 
@@ -33,11 +33,11 @@ Copyright (c) 2026 jun. All rights reserved.
 
 課題の旋律は、このアプリのために作った作品で、他人の曲は収めていません。
 
-同梱している楽器の録音は、それぞれの権利者のライセンスに従います（一覧とライセンス文は [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) と `licenses/`）。
+同梱している楽器の録音と物理モデルは、それぞれの権利者のライセンスに従います（一覧とライセンス文は [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) と `licenses/`）。
 
 - ピアノ：[Salamander Grand Piano](https://github.com/sfzinstruments/SalamanderGrandPiano)（Alexander Holm、[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）
 - エレクトリックピアノ：[jRhodes3](https://github.com/sfzinstruments/jlearman.jRhodes3d)（Jeff Learman、[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)。非営利の利用に限られます）
-- チェロ：Freesound の [flcellogrl](https://freesound.org/people/flcellogrl/packs/12408/) による録音（[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）
+- チェロ：[Faust](https://faust.grame.fr/) の物理モデル violinModel（[physmodels.lib](https://github.com/grame-cncm/faustlibraries/blob/master/physmodels.lib)、Romain Michon ほか、GRAME）をチェロの音域で鳴らし、胴の響きと開放弦の共鳴を加えたもの。ライブラリは LGPL 2.1 ですが、Faust コンパイラが生成したコードは例外として自由なライセンスで配れます。読み込めないときの予備として Freesound の [flcellogrl](https://freesound.org/people/flcellogrl/packs/12408/) による録音（[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）を使います。
 - ベース：[Karoryfer Samples](https://shop.karoryfer.com/pages/free-samples)（[CC0](https://creativecommons.org/publicdomain/zero/1.0/)）
 - そのほかの楽器：FluidR3_GM サウンドフォント（Frank Wen）を [MIDI.js Soundfonts](https://github.com/gleitz/midi-js-soundfonts)（Benjamin Gleitzman）で変換したもの（[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）
 - 打楽器はブラウザ内で合成しています。書体は Google Fonts（SIL Open Font License 1.1）から読み込んでいます。
@@ -50,13 +50,14 @@ Copyright (c) 2026 jun. All rights reserved.
 - `samples/`：楽器の録音（楽器ごとのフォルダ）。選んだスタイルで使う楽器だけを読み込みます。
 - `tools/pages.py`：音源を埋め込んだ1ファイル版と、この構成とを相互に変換するスクリプト
 - `tools/test.py`：全課題を日英両方で通して動かし、エラーや翻訳漏れ、スマホ幅のはみ出しを調べるテスト
-- `tools/add_cello.py`：チェロの録音を取り込み、ループ位置と音量をそろえて登録するスクリプト
+- `tools/add_cello.py`：予備のチェロの録音を取り込み、ループ位置と音量をそろえて登録するスクリプト
+- `tools/faust/`：チェロの物理モデルの Faust ソース（`cello.dsp`）と、WebAssembly への変換手順
 
 ## English
 
-A browser drill for interpreting melodic phrasing and articulation in three styles. The classical edition (10 principles) asks you to find the peak of a phrase and compare three shaped versions. The jazz edition (12 principles) asks you to mark accents and ghost notes and compare articulations, triplets, bossa nova, Latin clave, double time and time feel. The rock edition (8 principles) covers anticipations, 3+3+2 groupings, riffs, 16th-note grooves, kicks, time feel, shuffle and section dynamics. The strings & voice tab (9 principles) uses recorded cello to compare shaping inside held notes, note endings, breaths and bow changes, expressive intonation, portamento, vibrato, Baroque messa di voce and jazz-ballad phrasing.
+A browser drill for interpreting melodic phrasing and articulation in four tabs. The classical edition (10 principles) asks you to find the peak of a phrase and compare three shaped versions. The jazz edition (12 principles) asks you to mark accents and ghost notes and compare articulations, triplets, bossa nova, Latin clave, double time and time feel. The rock edition (8 principles) covers anticipations, 3+3+2 groupings, riffs, 16th-note grooves, kicks, time feel, shuffle and section dynamics. The strings & voice tab (9 principles) uses a physically modeled cello to compare shaping inside held notes, note endings, breaths and bow changes, expressive intonation, portamento, vibrato, Baroque messa di voce and jazz-ballad phrasing.
 
-Sounds are recorded instrument samples: piano from Salamander Grand Piano (Alexander Holm, CC BY 3.0), electric piano from jRhodes3 (Jeff Learman, CC BY-NC 4.0, noncommercial use only), cello recorded by flcellogrl on Freesound (CC BY 3.0), basses from Karoryfer Samples (CC0), and other instruments from the FluidR3_GM soundfont (Frank Wen) via MIDI.js Soundfonts (Benjamin Gleitzman, CC BY 3.0). Percussion is synthesized in the browser.
+Sounds are recorded instrument samples (the cello is a physical model computed in the browser): piano from Salamander Grand Piano (Alexander Holm, CC BY 3.0), electric piano from jRhodes3 (Jeff Learman, CC BY-NC 4.0, noncommercial use only), cello from the Faust physical model violinModel (physmodels.lib by Romain Michon et al., GRAME; LGPL 2.1 with an exception that lets compiler-generated code be distributed under any license) with a cello body and open-string resonance, falling back to a recording by flcellogrl on Freesound (CC BY 3.0), basses from Karoryfer Samples (CC0), and other instruments from the FluidR3_GM soundfont (Frank Wen) via MIDI.js Soundfonts (Benjamin Gleitzman, CC BY 3.0). Percussion is synthesized in the browser.
 
 The interface switches between Japanese and English and follows the browser language by default.
 
