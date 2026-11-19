@@ -596,6 +596,7 @@ const UI = {
   score:(st,a,b)=>(st==='s'?'':`${st!=='c'?'アクセント':'山'} ${a[0]}/${a[1]}　`)+`聴き比べ ${b[0]}/${b[1]}`,
   loading:'音源を読み込み中…',
   noCello:'チェロの音源を読み込めなかったため、ピアノで鳴らしています',
+  fileProto:'ファイルを直接開いているため、楽器の録音を読み込めません（合成音で鳴ります）。公開サイトか、ローカルのサーバー（python3 -m http.server など）で開いてください',
   promptPeak:'このフレーズの頂点（いちばん重みを置きたい音）をタップしてください。先に旋律だけを聴いて確かめてもかまいません。',
   givenNote:ks=>`灰色の印は、あとの原則（${[...new Set(ks)].sort().map(k=>'原則'+k+'「'+PRS.j[k].name+'」').join('、')}）で扱うもので、最初から付けてあります。採点には含めません。`,
   promptAcc:'アクセントを置く音を<b>すべて</b>選んでください。1回タップでアクセント（&gt;）、2回でアクセント＋短く（&gt;・）、3回でゴーストノート（ ）、4回で取り消しです。',
@@ -634,6 +635,7 @@ const UI = {
   score:(st,a,b)=>(st==='s'?'':`${st!=='c'?'Accents':'Peaks'} ${a[0]}/${a[1]}　`)+`Compare ${b[0]}/${b[1]}`,
   loading:'Loading sounds…',
   noCello:'The cello sounds could not be loaded, so the piano is playing instead',
+  fileProto:'This page was opened straight from a file, so the instrument recordings cannot load (synthesized sounds are used). Open the published site, or serve the folder locally (for example with python3 -m http.server).',
   promptPeak:'Tap the peak of this phrase, the note you would lean on most. You can listen to the plain melody first.',
   givenNote:ks=>`Grey marks belong to later principles (${[...new Set(ks)].sort().map(k=>'principle '+k+', "'+PRS_EN.j[k].name+'"').join('; ')}) and are filled in for you. They are not scored.`,
   promptAcc:'Select <b>every</b> note you would accent. Tap once for an accent (&gt;), twice for accent + short (&gt;·), three times for a ghost note ( ), and a fourth time to clear.',
@@ -1654,6 +1656,8 @@ function whenReady(ph,fn){
 }
 function initSamples(){
   if(SB.started||typeof SAMPLE_DATA==='undefined') return; SB.started=true;
+  // a page opened straight from disk cannot fetch its sample files: say so instead of silently using the synthesized fallback
+  if(SAMPLE_BASE&&location.protocol==='file:'){ const t=$('toast'); t.textContent=U().fileProto; t.hidden=false; setTimeout(()=>{ t.hidden=true; },12000); }
   // embedded: decode everything now; separate files: only what the current style needs
   const all=SAMPLE_BASE?instsFor(S.style||'c'):Object.keys(SAMPLE_DATA);
   Promise.all(all.map(loadInst)).then(()=>{ SB.ready=true; });
