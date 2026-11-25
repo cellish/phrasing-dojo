@@ -29,4 +29,5 @@
 ## ドキュメント更新
 - 作業の終わりに STATUS.md を上書き更新（50行以内）
 - 完了した作業は PLAN.md から削除
-- 詳細方針は道場シリーズ親フォルダの CLAUDE.md を参照
+- 外部素材を追加・削除したら THIRD_PARTY_NOTICES.md を更新
+- 詳細方針は道場シリーズ親フォルダの CLAUDE.md（DOCS-POLICY.md）を参照
