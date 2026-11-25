@@ -24,3 +24,8 @@ updated: 2026-11-26
 - 楽譜表示(自前の SVG): 独自実装
 - 音の再生(サンプル・物理モデル): 独自実装
 - 課題・問題データ、成績の保存: 独自実装
+## OS対応状況
+- macOS: 対応(Chromium で全課題を自動テスト `tools/test.py`)
+- iOS / iPadOS: 未確認(チェロの物理モデルは AudioWorklet + WebAssembly を使う。スマホ幅の表示は自動テストで見ているが、実機の記録なし)
+- Windows: 未確認
+- Android: 未確認
