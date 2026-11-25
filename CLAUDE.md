@@ -1,12 +1,12 @@
 # CLAUDE.md — フレージング道場
 
-旋律の抑揚とアーティキュレーションを聴き分けるブラウザ用ドリル。素の HTML/CSS/JS で、ライブラリもビルドもない。中身の詳しい一覧は `docs/INVENTORY.md`。
+旋律の抑揚とアーティキュレーションを聴き分けるブラウザ用ドリル。素の HTML/CSS/JS で、ライブラリもビルドもない。中身の詳しい一覧は `docs/INVENTORY.md`。現状は `STATUS.md`、未完了の作業は `PLAN.md`。
 
 ## 決まり
 - 利用者への返事と報告は日本語。UI の文言は必ず日本語と英語の両方を書く（`UI.ja`/`UI.en`、`PRS`/`PRS_EN`、`TEXT`/`TEXT_EN`、`DISTS`/`DISTS_EN`、課題の英語は `EN`）。
 - **push は利用者が言ったときだけ。** コミットは日本語で書く（1行目に要約、本文に箇条書き）。
 - コミットの作者は `cellish <9362763+cellish@users.noreply.github.com>` にする。
-- 著作権は「All rights reserved」で、オープンソースのライセンスは付けない。音源などを加えたら `THIRD_PARTY_NOTICES.md`、`licenses/`、README、画面下のクレジット（`UI.*.credit`）をそろえて更新する。
+- 著作権は「All rights reserved」で、オープンソースのライセンスは付けない。音源などを加えたら `THIRD_PARTY_NOTICES.md`、`licenses/`、画面下のクレジット（`UI.*.credit`）をそろえて更新する。
 
 ## 構成
 - `index.html`：アプリ全体。データ → i18n → 課題（`CLASSICAL`/`JAZZ`/`ROCK`/`STRINGS`）→ `prep` → 抑揚の生成 → 音 → 五線（自前の SVG）→ UI の順に並んでいる。
@@ -25,3 +25,8 @@
 - フラグの意味はスタイルで違う。クラシックは `a` 倚音、`r` 解決音、`p` 弱起。ジャズとロックは `A` アクセント、`o` 軽いアクセント、`g` ゴースト、`s` 短く、`t`/`c` タイ、`T` 3連符。
 - 誤答は `dist:[{t:'flat'},…]` の形で書き、`t` の名前は `versionC`、`jart`、`specS` の分岐に合わせる。原則を足したときは `GROUPS` にも入れる。
 - 小節内の拍数が拍子と合っているかはコードで検査していないので、自分で確かめる。
+
+## ドキュメント更新
+- 作業の終わりに STATUS.md を上書き更新（50行以内）
+- 完了した作業は PLAN.md から削除
+- 詳細方針は道場シリーズ親フォルダの CLAUDE.md を参照

@@ -27,20 +27,7 @@
 
 ## 著作権・ライセンス
 
-Copyright (c) 2026 jun. All rights reserved.
-
-公開しているサイトでは、誰でも無料で使えます（個人の練習、授業やレッスンでの利用を含みます）。ソースコードは見られるように公開していますが、オープンソースではありません。複製・改変・再配布などの条件は [`LICENSE`](LICENSE) を見てください。
-
-課題の旋律は、このアプリのために作った作品で、他人の曲は収めていません。
-
-同梱している楽器の録音と物理モデルは、それぞれの権利者のライセンスに従います（一覧とライセンス文は [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) と `licenses/`）。
-
-- ピアノ：[Salamander Grand Piano](https://github.com/sfzinstruments/SalamanderGrandPiano)（Alexander Holm、[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）
-- エレクトリックピアノ：[jRhodes3](https://github.com/sfzinstruments/jlearman.jRhodes3d)（Jeff Learman、[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)。非営利の利用に限られます）
-- チェロ：[Faust](https://faust.grame.fr/) の物理モデル violinModel（[physmodels.lib](https://github.com/grame-cncm/faustlibraries/blob/master/physmodels.lib)、Romain Michon ほか、GRAME）をチェロの音域で鳴らし、胴の響きと開放弦の共鳴を加えたもの。ライブラリは LGPL 2.1 ですが、Faust コンパイラが生成したコードは例外として自由なライセンスで配れます。読み込めないときの予備として Freesound の [flcellogrl](https://freesound.org/people/flcellogrl/packs/12408/) による録音（[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）を使います。
-- ベース：[Karoryfer Samples](https://shop.karoryfer.com/pages/free-samples)（[CC0](https://creativecommons.org/publicdomain/zero/1.0/)）
-- そのほかの楽器：FluidR3_GM サウンドフォント（Frank Wen）を [MIDI.js Soundfonts](https://github.com/gleitz/midi-js-soundfonts)（Benjamin Gleitzman）で変換したもの（[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)）
-- 打楽器はブラウザ内で合成しています。書体は Google Fonts（SIL Open Font License 1.1）から読み込んでいます。
+ライセンスは [`LICENSE`](LICENSE)、同梱している他者の著作物(楽器の録音・物理モデル・書体)は [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) を参照してください。
 
 ## ファイル構成
 
@@ -57,8 +44,8 @@ Copyright (c) 2026 jun. All rights reserved.
 
 A browser drill for interpreting melodic phrasing and articulation in four tabs. The classical edition (10 principles) asks you to find the peak of a phrase and compare three shaped versions. The jazz edition (12 principles) asks you to mark accents and ghost notes and compare articulations, triplets, bossa nova, Latin clave, double time and time feel. The rock edition (8 principles) covers anticipations, 3+3+2 groupings, riffs, 16th-note grooves, kicks, time feel, shuffle and section dynamics. The strings & voice tab (9 principles) uses a physically modeled cello to compare shaping inside held notes, note endings, breaths and bow changes, expressive intonation, portamento, vibrato, Baroque messa di voce and jazz-ballad phrasing.
 
-Sounds are recorded instrument samples (the cello is a physical model computed in the browser): piano from Salamander Grand Piano (Alexander Holm, CC BY 3.0), electric piano from jRhodes3 (Jeff Learman, CC BY-NC 4.0, noncommercial use only), cello from the Faust physical model violinModel (physmodels.lib by Romain Michon et al., GRAME; LGPL 2.1 with an exception that lets compiler-generated code be distributed under any license) with a cello body and open-string resonance, falling back to a recording by flcellogrl on Freesound (CC BY 3.0), basses from Karoryfer Samples (CC0), and other instruments from the FluidR3_GM soundfont (Frank Wen) via MIDI.js Soundfonts (Benjamin Gleitzman, CC BY 3.0). Percussion is synthesized in the browser.
+Sounds are recorded instrument samples (the cello is a physical model computed in the browser); percussion is synthesized in the browser. Credits and licenses are in `THIRD_PARTY_NOTICES.md`.
 
 The interface switches between Japanese and English and follows the browser language by default.
 
-Copyright (c) 2026 jun. All rights reserved. The app is free to use on the published site, including in classes and lessons. The source is published for reading but is not open source; see `LICENSE`. Bundled third-party recordings are listed in `THIRD_PARTY_NOTICES.md`.
+See `LICENSE` for the license and `THIRD_PARTY_NOTICES.md` for third-party works.
