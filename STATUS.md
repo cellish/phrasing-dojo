@@ -3,6 +3,11 @@ app: フレージング道場(Phrasing Dojo)
 stage: 公開中          # 構想 / 試作 / 公開中 / 保守
 url: https://cellish.github.io/phrasing-dojo/
 updated: 2026-11-26
+os:                  # 対応 / 一部制限 / 非対応 / 未確認
+  macos: 対応
+  ios: 未確認        # iPadOS を含む
+  windows: 未確認
+  android: 未確認
 ---
 ## 実装済み（要約）
 - 旋律の抑揚とアーティキュレーションを聴き分けるブラウザ用ドリル。4つのタブ(クラシック・ジャズ・ロック・弦と歌)、原則39、課題79(画面の数は 123)
@@ -24,8 +29,8 @@ updated: 2026-11-26
 - 楽譜表示(自前の SVG): 独自実装
 - 音の再生(サンプル・物理モデル): 独自実装
 - 課題・問題データ、成績の保存: 独自実装
-## OS対応状況
-- macOS: 対応(Chromium で全課題を自動テスト `tools/test.py`)
-- iOS / iPadOS: 未確認(チェロの物理モデルは AudioWorklet + WebAssembly を使う。スマホ幅の表示は自動テストで見ているが、実機の記録なし)
-- Windows: 未確認
-- Android: 未確認
+## OS / ブラウザ対応状況
+- macOS: Chrome 対応(Chromium で全課題を日英・スマホ幅まで自動テスト `tools/test.py`。2026-11 確認) / Safari 未確認
+- iOS / iPadOS: 未確認(チェロの物理モデルは AudioWorklet + WebAssembly を使う。スマホ幅の表示は自動テストで確認しているが、実機の記録なし)
+- Windows: Chrome / Edge 未確認
+- Android: Chrome 未確認
