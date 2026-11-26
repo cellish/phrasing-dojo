@@ -5,7 +5,7 @@
 ## 決まり
 - 利用者への返事と報告は日本語。UI の文言は必ず日本語と英語の両方を書く（`UI.ja`/`UI.en`、`PRS`/`PRS_EN`、`TEXT`/`TEXT_EN`、`DISTS`/`DISTS_EN`、課題の英語は `EN`）。
 - **push は利用者が言ったときだけ。** コミットは日本語で書く（1行目に要約、本文に箇条書き）。
-- コミットの作者は `cellish <9362763+cellish@users.noreply.github.com>` にする。
+- コミットの作者は `cellish <9362763+cellish@users.noreply.github.com>` にする(GitHub の noreply アドレス。本物のメールアドレスは履歴に出さない。リポジトリ内の git 設定で指定済み)。
 - 著作権は「All rights reserved」で、オープンソースのライセンスは付けない。音源などを加えたら `THIRD_PARTY_NOTICES.md`、`licenses/`、画面下のクレジット（`UI.*.credit`）をそろえて更新する。
 
 ## 構成
