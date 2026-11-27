@@ -2,7 +2,7 @@
 app: フレージング道場(Phrasing Dojo)
 stage: 公開中          # 構想 / 試作 / 公開中 / 保守
 url: https://cellish.github.io/phrasing-dojo/
-updated: 2026-11-26
+updated: 2026-11-27
 os:                  # 対応 / 一部制限 / 非対応 / 未確認
   macos: 未確認
   ios: 未確認        # iPadOS を含む
@@ -29,6 +29,8 @@ os:                  # 対応 / 一部制限 / 非対応 / 未確認
 - 楽譜表示(自前の SVG): 独自実装
 - 音の再生(サンプル・物理モデル): 独自実装
 - 課題・問題データ、成績の保存: 独自実装
+- コード名の解析(`chordInfo`・`QUAL`): 独自実装(8種のみ)
+- リズム隊(`playJ` の後半): 独自実装
 ## OS / ブラウザ対応状況
 - macOS: Chrome 対応(Chromium で全課題を日英・スマホ幅まで自動テスト `tools/test.py`。2026-11 確認) / Safari 未確認
 - iOS / iPadOS: 未確認(チェロの物理モデルは AudioWorklet + WebAssembly を使う。スマホ幅の表示は自動テストで確認しているが、実機の記録なし)
